@@ -2414,14 +2414,17 @@ function renderMsg(msg) {
 
   // Actions hover
   const safeText = (msg.text||'').substring(0,50).replace(/'/g, '&#39;');
-  const actionsHtml = `<div class="msg-actions">
-    <button class="msg-action-btn" onclick="addReaction('${msgId}','👍')" title="J'aime">👍</button>
-    <button class="msg-action-btn" onclick="addReaction('${msgId}','❤️')" title="Amour">❤️</button>
-    <button class="msg-action-btn" onclick="addReaction('${msgId}','😂')" title="Haha">😂</button>
-    <button class="msg-action-btn" onclick="startReply('${escHtml(msg.pseudo)}','${safeText}')">↩️</button>
-    ${isMe ? `<button class="msg-action-btn" onclick="deleteMsg('${msgId}','${msg.fbKey||''}')" title="Supprimer" style="color:#f87171">🗑️</button>` : `<button class="msg-action-btn" onclick="reportMsg('${escHtml(msg.pseudo)}','${safeText}')" title="Signaler" style="color:#fb923c">🚨</button>`}
-    <button class="msg-action-btn" onclick="startPin('${safeText}')" title="Épingler">📌</button>
-  </div>`;
+  const delBtn = isMe
+    ? '<button class="msg-action-btn" onclick="deleteMsg('' + msgId + '','' + (msg.fbKey||'') + '')" title="Supprimer" style="color:#f87171">🗑️</button>'
+    : '<button class="msg-action-btn" onclick="reportMsg('' + escHtml(msg.pseudo) + '','' + safeText + '')" title="Signaler" style="color:#fb923c">🚨</button>';
+  const actionsHtml = '<div class="msg-actions">'
+    + '<button class="msg-action-btn" onclick="addReaction('' + msgId + '','👍')" title="J'aime">👍</button>'
+    + '<button class="msg-action-btn" onclick="addReaction('' + msgId + '','❤️')" title="Amour">❤️</button>'
+    + '<button class="msg-action-btn" onclick="addReaction('' + msgId + '','😂')" title="Haha">😂</button>'
+    + '<button class="msg-action-btn" onclick="startReply('' + escHtml(msg.pseudo) + '','' + safeText + '')">↩️</button>'
+    + delBtn
+    + '<button class="msg-action-btn" onclick="startPin('' + safeText + '')" title="Épingler">📌</button>'
+    + '</div>';
 
   const authorLabel = isMe
     ? (currentUser?.isAdmin ? '👑 Admin · Toi' : 'Toi')
