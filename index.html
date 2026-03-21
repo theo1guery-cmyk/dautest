@@ -26,7 +26,7 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); height: 100vh; display: flex; overflow: hidden; }
- 
+
   /* ══ AUTH ══ */
   #auth-overlay {
     position: fixed; inset: 0; z-index: 200;
@@ -96,7 +96,7 @@
     transition: background .2s, transform .1s; box-shadow: 0 4px 16px rgba(79,127,255,.35);
   }
   .login-btn:hover { background: var(--accent-h); transform: translateY(-1px); }
- 
+
   /* ══ SIDEBAR ══ */
   #sidebar {
     width: 240px; flex-shrink: 0; background: var(--bg2);
@@ -150,7 +150,7 @@
     font-family: 'Outfit', sans-serif; font-size: 13px; cursor: pointer; transition: all .2s;
   }
   .logout-btn:hover { border-color: var(--accent); color: var(--accent); }
- 
+
   /* ══ MAIN ══ */
   #main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
   .chat-header {
@@ -172,7 +172,7 @@
     content: ''; width: 7px; height: 7px; background: var(--green);
     border-radius: 50%; box-shadow: 0 0 6px var(--green); display: block;
   }
- 
+
   /* ══ MESSAGES ══ */
   #messages {
     flex: 1; overflow-y: auto; padding: 20px 22px;
@@ -220,7 +220,7 @@
   }
   .empty-state .big-ic { font-size: 44px; opacity: .3; }
   .empty-state p { font-size: 14px; line-height: 1.6; max-width: 260px; font-weight: 500; }
- 
+
   /* ══ INPUT ══ */
   .chat-input-wrap {
     padding: 16px 22px; border-top: 1px solid var(--border);
@@ -242,7 +242,7 @@
   }
   #send-btn:hover { background: var(--accent-h); transform: scale(1.05); }
   #send-btn:active { transform: scale(.95); }
- 
+
   /* ══ MODALS ══ */
   .modal-overlay {
     position: fixed; inset: 0; z-index: 150;
@@ -286,7 +286,7 @@
     font-size: 14px; font-weight: 600; cursor: pointer; transition: all .2s;
   }
   .btn-cancel:hover { border-color: #f87171; color: #f87171; }
- 
+
   /* fichier joint */
   .msg-file {
     display: flex; align-items: center; gap: 10px;
@@ -299,7 +299,7 @@
   .msg-file-ic { font-size: 22px; flex-shrink: 0; }
   .msg-file-name { font-size: 13px; font-weight: 600; color: var(--white); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 180px; }
   .msg-file-size { font-size: 11px; color: var(--muted); }
- 
+
   /* input row */
   .input-row { display: flex; gap: 10px; align-items: flex-end; width: 100%; }
   .attach-btn {
@@ -309,7 +309,7 @@
     transition: background .2s, transform .1s;
   }
   .attach-btn:hover { background: var(--surface); transform: scale(1.05); }
- 
+
   /* file preview */
   .file-preview {
     display: none; align-items: center; gap: 10px;
@@ -319,7 +319,7 @@
   .file-preview.show { display: flex; }
   .fp-name { font-size: 13px; font-weight: 600; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .fp-remove { cursor: pointer; color: #f87171; font-size: 16px; background: none; border: none; padding: 0; }
- 
+
   .code-display {
     font-size: 36px; font-weight: 800; letter-spacing: .25em;
     color: var(--white); background: var(--bg2); border-radius: 14px;
@@ -338,7 +338,7 @@
     background: rgba(251,146,60,.15); color: #fb923c;
   }
   .salon-item.active .prive-badge { background: rgba(255,255,255,.2); color: #fff; }
- 
+
   /* ── Réactions ── */
   .msg-reactions {
     display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px;
@@ -352,7 +352,7 @@
   .reaction-btn:hover { background: rgba(255,255,255,.15); }
   .reaction-btn.mine { background: rgba(79,127,255,.2); border-color: var(--accent); }
   .reaction-count { font-size: 11px; font-weight: 700; color: var(--muted); }
- 
+
   /* ── Actions message (hover) ── */
   .msg-group { position: relative; }
   .msg-actions {
@@ -370,7 +370,7 @@
     color: var(--muted); transition: all .15s;
   }
   .msg-action-btn:hover { background: var(--surface); color: var(--text); }
- 
+
   /* ── Reply preview ── */
   .reply-preview {
     display: none; align-items: center; gap: 10px;
@@ -381,7 +381,7 @@
   .reply-preview.show { display: flex; }
   .reply-preview-text { font-size: 13px; color: var(--muted); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .reply-preview-close { cursor: pointer; color: var(--muted); background: none; border: none; font-size: 16px; }
- 
+
   /* ── Message répondu ── */
   .msg-reply-ref {
     background: rgba(255,255,255,.05); border-left: 3px solid var(--accent);
@@ -391,10 +391,10 @@
     cursor: pointer;
   }
   .msg-group.me .msg-reply-ref { border-left-color: rgba(255,255,255,.4); }
- 
+
   /* ── Mention ── */
   .mention { color: var(--accent-h); font-weight: 700; }
- 
+
   /* ── Statut en ligne ── */
   .online-count {
     font-size: 11px; color: var(--green); font-weight: 600;
@@ -409,7 +409,7 @@
     width:6px; height:6px; background:var(--green);
     border-radius:50%; display:inline-block;
   }
- 
+
   /* ── Typing ── */
   .typing-bar {
     padding: 6px 22px; font-size: 12px; color: var(--muted);
@@ -425,7 +425,7 @@
   @keyframes typingBounce {
     0%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-5px)}
   }
- 
+
   /* ── Message épinglé ── */
   .pinned-bar {
     display:none; padding:10px 22px; background:rgba(79,127,255,.1);
@@ -443,7 +443,7 @@
     border-radius: 6px; transition: background .15s; white-space: nowrap;
   }
   .pin-action-btn:hover { background: rgba(79,127,255,.2); }
- 
+
   /* ── Recherche ── */
   .search-bar {
     display:none; padding:10px 22px; background:var(--bg2);
@@ -459,7 +459,7 @@
   .search-input:focus { border-color:var(--accent); }
   .search-input::placeholder { color:var(--muted2); }
   .msg-highlight { background:rgba(255,200,0,.25); border-radius:3px; }
- 
+
   /* ── Badge non lus ── */
   .unread-badge {
     background:var(--accent); color:#fff;
@@ -468,7 +468,7 @@
   }
   .unread-badge.show { display:block; }
   .salon-item.active .unread-badge { background:rgba(255,255,255,.3); }
- 
+
   /* ── Header actions ── */
   .ch-actions { margin-left:auto; display:flex; align-items:center; gap:8px; }
   .ch-action-btn {
@@ -477,7 +477,7 @@
     cursor:pointer; transition:all .15s;
   }
   .ch-action-btn:hover { background:var(--surface2); color:var(--text); }
- 
+
   /* ══ SONDAGE ══ */
   .msg-poll {
     background: var(--surface2); border: 1px solid var(--border2);
@@ -503,7 +503,7 @@
   .poll-option-text { font-size: 13px; font-weight: 500; }
   .poll-option-pct  { font-size: 12px; font-weight: 700; color: var(--accent-h); }
   .poll-meta { font-size: 11px; color: var(--muted); margin-top: 10px; }
- 
+
   /* ══ ÉVÉNEMENT ══ */
   .msg-event {
     background: linear-gradient(135deg, rgba(79,127,255,.15), rgba(52,211,153,.08));
@@ -523,7 +523,7 @@
   .event-join-btn:hover { background: var(--accent-h); }
   .event-join-btn.joined { background: var(--green); cursor: default; }
   .event-participants { font-size: 11px; color: var(--muted); margin-top: 8px; text-align: center; }
- 
+
   /* ══ WIKI ══ */
   #wiki-panel {
     display: none; position: fixed; inset: 0; z-index: 180;
@@ -570,7 +570,7 @@
   }
   .wiki-save-btn:hover { background: var(--accent-h); }
   .wiki-last-edit { font-size: 11px; color: var(--muted); text-align: right; }
- 
+
   /* ══ ADMIN ══ */
   #admin-panel {
     display: none; position: fixed; inset: 0; z-index: 180;
@@ -611,7 +611,7 @@
   .banned-name { flex: 1; font-size: 14px; font-weight: 600; }
   .unban-btn { background: transparent; border: 1px solid var(--border2); border-radius: 7px; padding: 5px 10px; color: var(--muted); font-size: 12px; cursor: pointer; }
   .unban-btn:hover { border-color: var(--green); color: var(--green); }
- 
+
   /* ══ ONGLET FICHIERS ══ */
   .chat-tabs {
     display: flex; border-bottom: 1px solid var(--border);
@@ -624,7 +624,7 @@
   }
   .chat-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
   .chat-tab:hover { color: var(--text); }
- 
+
   /* Panel fichiers */
   #files-panel {
     display: none; flex: 1; overflow-y: auto;
@@ -633,7 +633,7 @@
   }
   #files-panel.show { display: flex; }
   #messages.hide { display: none; }
- 
+
   .file-history-item {
     display: flex; align-items: center; gap: 12px;
     background: var(--surface); border: 1px solid var(--border2);
@@ -646,7 +646,7 @@
   .fhi-name { font-size: 13px; font-weight: 600; color: var(--white); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .fhi-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
   .fhi-link { font-size: 12px; color: var(--accent); font-weight: 600; flex-shrink: 0; }
- 
+
   /* ══ COMPTE ══ */
   #compte-panel {
     display: none; position: fixed; inset: 0; z-index: 180;
@@ -710,7 +710,7 @@
   }
   .compte-danger-btn:hover { background: rgba(248,113,113,.1); }
   .compte-success { font-size: 13px; color: var(--green); text-align: center; margin-top: 8px; min-height: 20px; }
- 
+
   /* ══ NOTIF ══ */
   .notif-toast {
     position: fixed; bottom: 24px; right: 24px; z-index: 300;
@@ -726,7 +726,7 @@
     from { opacity:0; transform: translateX(20px) }
     to   { opacity:1; transform: none }
   }
- 
+
   /* ── Mobile ── */
   .burger {
     display: none; background: transparent; border: none;
@@ -734,7 +734,7 @@
     padding: 4px 8px; border-radius: 8px; transition: background .15s;
   }
   .burger:hover { background: var(--surface2); }
- 
+
   @media (max-width: 768px) {
     body { position: relative; }
     #sidebar {
@@ -760,7 +760,7 @@
     .msg-actions { display: none !important; }
     .login-box { width: 92vw; padding: 28px 20px; }
   }
- 
+
   @keyframes popIn {
     from { opacity:0; transform: scale(.94) translateY(4px) }
     to   { opacity:1; transform: none }
@@ -768,7 +768,7 @@
 </style>
 </head>
 <body>
- 
+
 <!-- ══ AUTH ══ -->
 <div id="auth-overlay">
   <div class="login-box">
@@ -776,13 +776,13 @@
       <div class="d-icon">D</div>
       <div><div class="d-title">DauphineGuide</div><div class="d-sub">Chat étudiant</div></div>
     </div>
- 
+
     <!-- Tabs -->
     <div class="auth-tabs">
       <button class="auth-tab active" onclick="switchTab('login')">Connexion</button>
       <button class="auth-tab" onclick="switchTab('register')">Inscription</button>
     </div>
- 
+
     <!-- Login -->
     <div id="tab-login">
       <label class="login-label">Email @dauphine.eu</label>
@@ -797,7 +797,7 @@
       </button>
       <div class="auth-forgot" onclick="doReset()">Mot de passe oublié ?</div>
     </div>
- 
+
     <!-- Register -->
     <div id="tab-register" style="display:none">
       <label class="login-label">Email @dauphine.eu</label>
@@ -823,7 +823,7 @@
         Continuer avec Google
       </button>
     </div>
- 
+
     <!-- Compléter profil (Google) -->
     <div id="tab-complete-profile" style="display:none">
       <div class="login-heading">Finalise ton profil</div>
@@ -843,7 +843,7 @@
       <div id="cp-error" class="auth-error"></div>
       <button class="login-btn" onclick="completeProfile()">Accéder au chat →</button>
     </div>
- 
+
     <!-- Vérification email -->
     <div id="tab-verify" style="display:none;text-align:center">
       <div style="font-size:48px;margin-bottom:16px">📬</div>
@@ -852,10 +852,10 @@
       <button class="login-btn" onclick="checkVerified()" style="margin-bottom:12px">J'ai confirmé →</button>
       <button class="google-btn" onclick="resendVerif()">Renvoyer l'email</button>
     </div>
- 
+
   </div>
 </div>
- 
+
 <!-- ══ MODAL : Groupe privé ══ -->
 <div class="modal-overlay" id="modal-prive">
   <div class="modal">
@@ -871,7 +871,7 @@
     </div>
   </div>
 </div>
- 
+
 <!-- ══ MODAL : Code généré ══ -->
 <div class="modal-overlay" id="modal-code">
   <div class="modal" style="text-align:center">
@@ -885,7 +885,7 @@
     </div>
   </div>
 </div>
- 
+
 <!-- ══ MODAL : Rejoindre avec un code ══ -->
 <div class="modal-overlay" id="modal-rejoindre">
   <div class="modal">
@@ -900,7 +900,7 @@
     </div>
   </div>
 </div>
- 
+
 <!-- ══ COMPTE PANEL ══ -->
 <div id="compte-panel">
   <div class="compte-header">
@@ -909,14 +909,14 @@
     <button class="compte-close" onclick="closeCompte()">✕</button>
   </div>
   <div class="compte-body">
- 
+
     <!-- Avatar -->
     <div class="compte-avatar" id="compte-avatar" onclick="changeAvatar()">
       <span id="compte-avatar-letter">T</span>
       <div class="compte-avatar-edit">✏️</div>
     </div>
     <input type="file" id="avatar-input" accept="image/*" style="display:none" onchange="uploadAvatar(this)">
- 
+
     <!-- Infos -->
     <div class="compte-section">
       <div class="compte-section-title">Informations</div>
@@ -943,19 +943,19 @@
         <input class="compte-input" id="cp-email-display" type="text" readonly>
       </div>
     </div>
- 
+
     <button class="compte-save-btn" onclick="saveCompte()">💾 Sauvegarder</button>
     <div class="compte-success" id="compte-success"></div>
- 
+
     <!-- Danger zone -->
     <div class="compte-section" style="margin-top:32px">
       <div class="compte-section-title" style="color:#f87171">Zone danger</div>
       <button class="compte-danger-btn" onclick="deconnexion()">👋 Se déconnecter</button>
     </div>
- 
+
   </div>
 </div>
- 
+
 <!-- ══ WIKI PANEL ══ -->
 <div id="wiki-panel">
   <div class="wiki-header">
@@ -972,7 +972,7 @@
     <button class="wiki-save-btn" onclick="saveWikiPage()">💾 Sauvegarder</button>
   </div>
 </div>
- 
+
 <!-- ══ ADMIN PANEL ══ -->
 <div id="admin-panel">
   <div class="admin-header">
@@ -984,7 +984,7 @@
     <div style="font-size:13px;color:var(--muted);text-align:center;padding:20px">Chargement des signalements…</div>
   </div>
 </div>
- 
+
 <!-- ══ MODAL : Sondage ══ -->
 <div class="modal-overlay" id="modal-poll">
   <div class="modal">
@@ -1004,7 +1004,7 @@
     </div>
   </div>
 </div>
- 
+
 <!-- ══ MODAL : Événement ══ -->
 <div class="modal-overlay" id="modal-event">
   <div class="modal">
@@ -1026,7 +1026,7 @@
     </div>
   </div>
 </div>
- 
+
 <!-- ══ MODAL : Signalement ══ -->
 <div class="modal-overlay" id="modal-report">
   <div class="modal">
@@ -1047,7 +1047,7 @@
     </div>
   </div>
 </div>
- 
+
 <!-- ══ MODAL : Matière ══ -->
 <div class="modal-overlay" id="modal-matiere">
   <div class="modal">
@@ -1068,7 +1068,7 @@
     </div>
   </div>
 </div>
- 
+
 <!-- ══ MODAL : Groupe révision ══ -->
 <div class="modal-overlay" id="modal-groupe">
   <div class="modal">
@@ -1087,7 +1087,7 @@
     </div>
   </div>
 </div>
- 
+
 <!-- ══ MODAL : Ticket ══ -->
 <div class="modal-overlay" id="modal-ticket">
   <div class="modal">
@@ -1110,9 +1110,9 @@
     </div>
   </div>
 </div>
- 
+
 <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="toggleSidebar()"></div>
- 
+
 <!-- ══ SIDEBAR ══ -->
 <div id="sidebar">
   <div class="sb-header">
@@ -1120,7 +1120,7 @@
     <div><div class="sb-title">Chat</div><div class="sb-user" id="user-display">—</div></div>
   </div>
   <div class="sb-body">
- 
+
     <div class="sb-section"><span>Général</span></div>
     <div class="salon-item active" onclick="switchSalon('general',this,'🏠','Général','Salon ouvert à tous')">
       <span class="salon-ic">🏠</span><span class="salon-name">Général</span>
@@ -1130,17 +1130,17 @@
       <span class="salon-ic">📢</span><span class="salon-name">Annonces</span>
       <span class="unread-badge" id="unread-annonces"></span>
     </div>
- 
- 
- 
+
+
+
     <div class="sb-section">
       <span>Matières</span>
       <span class="sb-add" onclick="openModal('modal-matiere')">+</span>
     </div>
     <div id="salons-matieres"></div>
- 
- 
- 
+
+
+
     <div class="sb-section"><span>Ma promo</span></div>
     <div id="salon-ma-promo"></div>
     <div class="sb-section">
@@ -1148,7 +1148,7 @@
       <span class="sb-add" id="btn-add-subchat" onclick="openModal('modal-groupe')" style="display:none">+</span>
     </div>
     <div id="salons-groupes-promo"></div>
- 
+
     <div class="sb-section">
       <span>Groupes privés</span>
       <span class="sb-add" onclick="openModal('modal-prive')">+</span>
@@ -1157,16 +1157,16 @@
     <div style="padding:4px 16px 8px">
       <button class="join-btn" onclick="openModal('modal-rejoindre')">🔑 Rejoindre avec un code</button>
     </div>
- 
- 
- 
+
+
+
   </div>
   <div class="sb-footer">
     <button class="logout-btn" onclick="openCompte()" style="margin-bottom:8px;border-color:var(--accent);color:var(--accent)">👤 Mon compte</button>
     <button class="logout-btn" onclick="logout()">👋 Se déconnecter</button>
   </div>
 </div>
- 
+
 <!-- ══ MAIN ══ -->
 <div id="main">
   <div class="chat-header">
@@ -1186,39 +1186,39 @@
       <button class="ch-action-btn" id="pin-btn" onclick="pinCurrentMsg()" title="Épingler" style="display:none">📌</button>
     </div>
   </div>
- 
+
   <div class="pinned-bar" id="pinned-bar" onclick="scrollToPinned()">
     <span>📌</span>
     <span class="pinned-text" id="pinned-text">—</span>
     <button class="pin-action-btn" onclick="event.stopPropagation();unpin()">✕</button>
   </div>
- 
+
   <div class="search-bar" id="search-bar">
     <input class="search-input" id="search-input" placeholder="Rechercher dans les messages…"
       oninput="searchMessages(this.value)">
   </div>
- 
+
   <div class="typing-bar" id="typing-bar"></div>
- 
+
   <div class="chat-tabs">
     <div class="chat-tab active" onclick="switchChatTab('messages', this)">💬 Messages</div>
     <div class="chat-tab" onclick="switchChatTab('files', this)">📎 Fichiers & Liens</div>
   </div>
- 
+
   <div id="files-panel">
     <div class="empty-state" id="files-empty">
       <div class="big-ic">📎</div>
       <p>Aucun fichier partagé dans ce salon.</p>
     </div>
   </div>
- 
+
   <div id="messages">
     <div class="empty-state" id="empty-state">
       <div class="big-ic">💬</div>
       <p>Aucun message pour l'instant.<br>Sois le premier à écrire !</p>
     </div>
   </div>
- 
+
   <div class="chat-input-wrap">
     <div class="reply-preview" id="reply-preview">
       <span style="font-size:12px;color:var(--accent)">↩️ Réponse à</span>
@@ -1239,7 +1239,7 @@
     </div>
   </div>
 </div>
- 
+
 <script type="module">
 const firebaseConfig = {
   apiKey: "AIzaSyA57gXb38f4ZCH3nmxgWjw0HlQIbGAEYXg",
@@ -1250,7 +1250,7 @@ const firebaseConfig = {
   messagingSenderId: "188304367032",
   appId: "1:188304367032:web:df48b3408a30799327034d"
 };
- 
+
 let currentUser  = null;
 let currentSalon = 'general';
 let db = null, auth = null, firebaseOk = false;
@@ -1258,7 +1258,7 @@ let localMessages = {};
 let ticketType = 'vente';
 let selectedFile = null;
 let replyTo = null; // { pseudo, text, msgId }
- 
+
 // ── Uploadcare ──
 const UC_KEY = '65403977ff8c3071fada';
 async function uploadFile(file) {
@@ -1271,7 +1271,7 @@ async function uploadFile(file) {
   if (!data.file) throw new Error('Upload échoué: ' + JSON.stringify(data));
   return { url: `https://33so06ntxg.ucarecd.net/${data.file}/${encodeURIComponent(file.name)}`, name: file.name, size: formatSize(file.size), type: file.type };
 }
- 
+
 // ── Init Firebase ──
 const { initializeApp }   = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
 const { getDatabase, ref, push, onChildAdded, serverTimestamp, get, set, remove } =
@@ -1280,13 +1280,13 @@ const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   signInWithPopup, GoogleAuthProvider, onAuthStateChanged,
   sendEmailVerification, sendPasswordResetEmail, signOut } =
   await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js');
- 
+
 const app  = initializeApp(firebaseConfig);
 db   = getDatabase(app);
 auth = getAuth(app);
 firebaseOk = true;
 window._fb = { db, ref, push, onChildAdded, serverTimestamp, get, set, remove };
- 
+
 // ── Auth state ──
 onAuthStateChanged(auth, async fbUser => {
   if (fbUser) {
@@ -1310,7 +1310,7 @@ onAuthStateChanged(auth, async fbUser => {
     document.getElementById('auth-overlay').style.display = 'flex';
   }
 });
- 
+
 // ── Salons dynamiques ──
 function loadDynamicSalons() {
   const { db, ref, onChildAdded } = window._fb;
@@ -1319,7 +1319,7 @@ function loadDynamicSalons() {
     addSalon('salons-matieres', snap.key, '📖', s.name, `${s.promo} · ${s.name}`, s.promo);
   });
 }
- 
+
 function loadSubchatsPromo(promo) {
   if (!firebaseOk) return;
   const { db, ref, onChildAdded } = window._fb;
@@ -1332,7 +1332,7 @@ function loadSubchatsPromo(promo) {
     addSalon('salons-groupes-promo', snap.key, '👥', s.name, `${s.matiere}`, null);
   });
 }
- 
+
 function addSalon(containerId, id, ic, name, desc, tag) {
   if (document.getElementById('sb-' + id)) return;
   const el = document.createElement('div');
@@ -1341,7 +1341,7 @@ function addSalon(containerId, id, ic, name, desc, tag) {
   el.onclick = () => switchSalon(id, el, ic, name, desc);
   document.getElementById(containerId).appendChild(el);
 }
- 
+
 // ── Auth functions ──
 window.switchTab = function(tab) {
   ['login','register','verify','complete-profile'].forEach(t => {
@@ -1353,30 +1353,30 @@ window.switchTab = function(tab) {
     t.classList.toggle('active', (i===0 && tab==='login') || (i===1 && tab==='register'));
   });
 };
- 
+
 function showTab(tab) { window.switchTab(tab); }
 function showAuthError(id, msg) {
   const el = document.getElementById(id);
   if (el) el.textContent = msg;
 }
- 
+
 window.doLogin = async function() {
   const email = document.getElementById('login-email').value.trim();
   const pass  = document.getElementById('login-password').value;
- 
+
   try {
     await signInWithEmailAndPassword(auth, email, pass);
   } catch(e) {
     showAuthError('login-error', errMsg(e.code));
   }
 };
- 
+
 window.doRegister = async function() {
   const email  = document.getElementById('reg-email').value.trim();
   const pseudo = document.getElementById('reg-pseudo').value.trim();
   const promo  = document.getElementById('reg-promo').value;
   const pass   = document.getElementById('reg-password').value;
- 
+
   if (!pseudo) { showAuthError('reg-error','Choisis un pseudo.'); return; }
   if (!promo)  { showAuthError('reg-error','Sélectionne ta promo.'); return; }
   if (pass.length < 6) { showAuthError('reg-error','Mot de passe trop court (6 car. min).'); return; }
@@ -1389,17 +1389,17 @@ window.doRegister = async function() {
     showAuthError('reg-error', errMsg(e.code));
   }
 };
- 
+
 window.doGoogle = async function() {
   const provider = new GoogleAuthProvider();
- 
+
   try {
     await signInWithPopup(auth, provider);
   } catch(e) {
     showAuthError('login-error', errMsg(e.code));
   }
 };
- 
+
 window.doReset = async function() {
   const email = document.getElementById('login-email').value.trim();
   if (!email) { showAuthError('login-error','Entre ton email avant.'); return; }
@@ -1410,7 +1410,7 @@ window.doReset = async function() {
     showAuthError('login-error', errMsg(e.code));
   }
 };
- 
+
 window.checkVerified = async function() {
   await auth.currentUser?.reload();
   if (auth.currentUser?.emailVerified) {
@@ -1420,12 +1420,12 @@ window.checkVerified = async function() {
     alert('Email pas encore confirmé. Vérifie ta boîte mail.');
   }
 };
- 
+
 window.resendVerif = async function() {
   await sendEmailVerification(auth.currentUser);
   alert('Email renvoyé !');
 };
- 
+
 window.completeProfile = async function() {
   const pseudo = document.getElementById('cp-pseudo').value.trim();
   const promo  = document.getElementById('cp-promo').value;
@@ -1436,24 +1436,41 @@ window.completeProfile = async function() {
   currentUser = { uid: fbUser.uid, pseudo, promo, email: fbUser.email, photo: null };
   enterChat();
 };
- 
+
 function enterChat() {
   document.getElementById('auth-overlay').style.display = 'none';
   document.getElementById('user-display').textContent = `${currentUser.pseudo} · ${currentUser.promo}`;
- 
+
   const promoMeta = {
     L1:{ic:'📘',name:'Licence 1'}, L2:{ic:'📗',name:'Licence 2'},
     L3:{ic:'📙',name:'Licence 3'}, M1:{ic:'📕',name:'Master 1'}, M2:{ic:'📔',name:'Master 2'}
   };
-  const pm = promoMeta[currentUser.promo];
+  // Définir isAdmin en premier
+  if (currentUser.pseudo === ADMIN_PSEUDO) {
+    currentUser.isAdmin = true;
+    document.getElementById('admin-btn').style.display = 'block';
+  }
+
   const promoContainer = document.getElementById('salon-ma-promo');
   promoContainer.innerHTML = '';
-  const el = document.createElement('div');
-  el.className = 'salon-item'; el.id = 'sb-promo-' + currentUser.promo;
-  el.innerHTML = `<span class="salon-ic">${pm.ic}</span><span class="salon-name">${pm.name}</span>`;
-  el.onclick = () => switchSalon('promo-' + currentUser.promo, el, pm.ic, pm.name, `Salon réservé aux ${currentUser.promo}`);
-  promoContainer.appendChild(el);
- 
+
+  if (currentUser.isAdmin) {
+    Object.entries(promoMeta).forEach(([key, pm]) => {
+      const elP = document.createElement('div');
+      elP.className = 'salon-item'; elP.id = 'sb-promo-' + key;
+      elP.innerHTML = '<span class="salon-ic">' + pm.ic + '</span><span class="salon-name">' + pm.name + '</span>';
+      elP.onclick = () => switchSalon('promo-' + key, elP, pm.ic, pm.name, 'Salon ' + key);
+      promoContainer.appendChild(elP);
+    });
+  } else {
+    const pm = promoMeta[currentUser.promo];
+    const el = document.createElement('div');
+    el.className = 'salon-item'; el.id = 'sb-promo-' + currentUser.promo;
+    el.innerHTML = '<span class="salon-ic">' + pm.ic + '</span><span class="salon-name">' + pm.name + '</span>';
+    el.onclick = () => switchSalon('promo-' + currentUser.promo, el, pm.ic, pm.name, 'Salon réservé aux ' + currentUser.promo);
+    promoContainer.appendChild(el);
+  }
+
   document.getElementById('btn-add-subchat').style.display = 'flex';
   loadDynamicSalons();
   loadSubchatsPromo(currentUser.promo);
@@ -1464,15 +1481,10 @@ function enterChat() {
   watchTyping();
   MAIN_SALONS.forEach(id => trackUnread(id));
   initNotifications();
-  // Afficher bouton admin si c'est l'admin
-  if (currentUser.pseudo === ADMIN_PSEUDO) {
-    document.getElementById('admin-btn').style.display = 'block';
-    currentUser.isAdmin = true;
-  }
-  addSystemMsg(`Bienvenue ${currentUser.pseudo} ! 👋`);
+    addSystemMsg(`Bienvenue ${currentUser.pseudo} ! 👋`);
   loadSalon('general');
 }
- 
+
 window.logout = async function() {
   await signOut(auth);
   currentUser = null;
@@ -1482,7 +1494,7 @@ window.logout = async function() {
   document.getElementById('salons-prives').innerHTML = '';
   document.getElementById('salons-matieres').innerHTML = '';
 };
- 
+
 function errMsg(code) {
   const msgs = {
     'auth/user-not-found': 'Aucun compte avec cet email.',
@@ -1495,7 +1507,7 @@ function errMsg(code) {
   };
   return msgs[code] || 'Une erreur est survenue.';
 }
- 
+
 // ── Switch salon ──
 window.switchSalon = function(id, el, ic, name, desc) {
   document.querySelectorAll('.salon-item').forEach(s => s.classList.remove('active'));
@@ -1505,52 +1517,78 @@ window.switchSalon = function(id, el, ic, name, desc) {
   document.getElementById('ch-name').textContent = name;
   document.getElementById('ch-desc').textContent = desc;
   resetMessages();
-  loadSalon(id);
-};
- 
-function loadSalon(id) {
-  if (firebaseOk) {
-    import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js').then(({ query, limitToLast, onChildAdded: oCA }) => {
-      const msgsQuery = query(ref(db, `salons/${id}/messages`), limitToLast(50));
-      oCA(msgsQuery, snap => {
-        const msg = snap.val();
-        msg.fbKey = snap.key;
-        renderMsg(msg);
-        // Notif si message d'un autre dans salon non actif
-        if (msg.pseudo !== currentUser?.pseudo && id !== currentSalon) {
-          const salonName = document.querySelector(`[id="sb-${id}"] .salon-name`)?.textContent || id;
-          showNotif(salonName, msg.pseudo, msg.text || '📎 Fichier');
+  // Si salon déjà chargé, recharger depuis Firebase pour afficher les messages
+  if (loadedSalons.has(id) && firebaseOk) {
+    import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js').then(({ query, limitToLast, get: fbGet }) => {
+      fbGet(query(ref(db, 'salons/' + id + '/messages'), limitToLast(50))).then(snap => {
+        resetMessages();
+        if (snap.exists()) {
+          Object.entries(snap.val()).forEach(([key, msg]) => {
+            msg.fbKey = key;
+            renderMsg(msg);
+          });
         }
       });
+    });
+  } else {
+    loadSalon(id);
+  }
+};
+
+// Garder une trace des salons déjà chargés pour éviter les doublons
+const loadedSalons = new Set();
+const salonUnsubscribers = {};
+
+function loadSalon(id) {
+  if (firebaseOk) {
+    // Si déjà chargé, ne pas re-attacher le listener
+    if (loadedSalons.has(id)) return;
+    loadedSalons.add(id);
+
+    import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js').then(({ query, limitToLast, onChildAdded: oCA }) => {
+      const msgsQuery = query(ref(db, `salons/${id}/messages`), limitToLast(50));
+      const unsub = oCA(msgsQuery, snap => {
+        const msg = snap.val();
+        msg.fbKey = snap.key;
+        // N'afficher que si c'est le salon actif
+        if (id === currentSalon) renderMsg(msg);
+        // Notif si message d'un autre dans salon non actif
+        if (msg.pseudo !== currentUser?.pseudo && id !== currentSalon) {
+          const salonName = document.querySelector('[id="sb-' + id + '"] .salon-name')?.textContent || id;
+          showNotif(salonName, msg.pseudo, msg.text || '📎 Fichier');
+          trackUnread(id);
+        }
+      });
+      salonUnsubscribers[id] = unsub;
     });
   } else {
     (localMessages[id] || []).forEach(m => renderMsg(m));
     if (!(localMessages[id] || []).length) resetMessages(true);
   }
 }
- 
+
 // ── Send ──
 window.sendMessage = async function() {
   const input = document.getElementById('msg-input');
   const text  = input.value.trim();
   if (!text && !selectedFile) return;
   if (!currentUser) return;
- 
+
   // Vérif banni
   if (await isBanned()) {
     alert('Ton compte a été suspendu. Contacte un modérateur.');
     return;
   }
- 
+
   const btn = document.getElementById('send-btn');
   btn.textContent = '⏳'; btn.disabled = true;
- 
+
   let fileData = null;
   if (selectedFile) {
     try { fileData = await uploadFile(selectedFile); }
     catch(e) { console.error('Upload échoué', e); }
   }
- 
+
   const msg = {
     pseudo: currentUser.pseudo, promo: currentUser.promo,
     text: text || null, file: fileData || null,
@@ -1559,7 +1597,7 @@ window.sendMessage = async function() {
     photo: currentUser.photo || null,
     ts: Date.now()
   };
- 
+
   if (firebaseOk) {
     const { db, ref, push, serverTimestamp } = window._fb;
     push(ref(db, `salons/${currentSalon}/messages`), { ...msg, ts: serverTimestamp() });
@@ -1572,7 +1610,7 @@ window.sendMessage = async function() {
   clearFile(); cancelReply();
   btn.textContent = '➤'; btn.disabled = false;
 };
- 
+
 // ── Mobile sidebar ──
 window.toggleSidebar = function() {
   const sidebar  = document.getElementById('sidebar');
@@ -1580,7 +1618,7 @@ window.toggleSidebar = function() {
   sidebar.classList.toggle('open');
   backdrop.classList.toggle('show');
 };
- 
+
 // Fermer sidebar quand on change de salon sur mobile
 const origSwitch = window.switchSalon;
 window.switchSalon = function(id, el, ic, name, desc) {
@@ -1600,7 +1638,7 @@ window.switchSalon = function(id, el, ic, name, desc) {
     document.getElementById('sidebar-backdrop').classList.remove('show');
   }
 };
- 
+
 // ── Supprimer message ──
 window.deleteMsg = function(msgId, fbKey) {
   if (!confirm('Supprimer ce message ?')) return;
@@ -1612,23 +1650,23 @@ window.deleteMsg = function(msgId, fbKey) {
     });
   }
 };
- 
+
 // ── Signaler message ──
 let reportData = null;
 let reportReason = 'inapproprie';
- 
+
 window.reportMsg = function(pseudo, text) {
   reportData = { pseudo, text };
   openModal('modal-report');
 };
- 
+
 document.querySelectorAll('#report-tags .modal-tag').forEach(t => {
   t.onclick = () => {
     document.querySelectorAll('#report-tags .modal-tag').forEach(x => x.classList.remove('selected'));
     t.classList.add('selected'); reportReason = t.dataset.val;
   };
 });
- 
+
 window.submitReport = function() {
   if (!reportData || !firebaseOk) { closeModal('modal-report'); return; }
   const detail = document.getElementById('report-detail').value.trim();
@@ -1641,7 +1679,7 @@ window.submitReport = function() {
   closeModal('modal-report');
   alert('Signalement envoyé, merci !');
 };
- 
+
 // ══ SONDAGE ══
 window.addPollOption = function() {
   const opts = document.getElementById('poll-options');
@@ -1652,7 +1690,7 @@ window.addPollOption = function() {
   inp.style.marginBottom = '8px';
   opts.appendChild(inp);
 };
- 
+
 window.createPoll = function() {
   const question = document.getElementById('poll-question').value.trim();
   const opts = [...document.querySelectorAll('.poll-opt-input')]
@@ -1670,17 +1708,17 @@ window.createPoll = function() {
   document.querySelectorAll('.poll-opt-input').forEach(i => i.value = '');
   closeModal('modal-poll');
 };
- 
+
 window.votePoll = function(fbKey, optIdx) {
   if (!currentUser || !firebaseOk) return;
   set(ref(db, `salons/${currentSalon}/messages/${fbKey}/votes/${currentUser.pseudo}`), optIdx);
 };
- 
+
 function renderPoll(msg, isMe) {
   const total = msg.votes ? Object.keys(msg.votes).length : 0;
   const myVote = msg.votes?.[currentUser?.pseudo];
   const hasVoted = myVote !== undefined;
- 
+
   const optionsHtml = (msg.options || []).map((opt, i) => {
     const count = msg.votes ? Object.values(msg.votes).filter(v => v === i).length : 0;
     const pct = total > 0 ? Math.round(count / total * 100) : 0;
@@ -1693,14 +1731,14 @@ function renderPoll(msg, isMe) {
       </div>
     </div>`;
   }).join('');
- 
+
   return `<div class="msg-poll">
     <div class="poll-question">📊 ${escHtml(msg.question)}</div>
     ${optionsHtml}
     <div class="poll-meta">${total} vote${total > 1 ? 's' : ''} · ${hasVoted ? 'Tu as voté' : 'Clique pour voter'}</div>
   </div>`;
 }
- 
+
 // ══ ÉVÉNEMENT ══
 window.creerEvent = function() {
   const title  = document.getElementById('event-title').value.trim();
@@ -1709,12 +1747,12 @@ window.creerEvent = function() {
   const places = document.getElementById('event-places').value;
   const desc   = document.getElementById('event-desc').value.trim();
   if (!title || !date || !currentUser) return;
- 
+
   const event = {
     type: 'event', title, date, lieu, places: places || null, desc,
     participants: {}, pseudo: currentUser.pseudo, promo: currentUser.promo, ts: Date.now()
   };
- 
+
   if (firebaseOk) {
     const { db, ref, push, serverTimestamp } = window._fb;
     // Toujours dans le salon annonces
@@ -1728,12 +1766,12 @@ window.creerEvent = function() {
   const annEl = document.querySelector('[onclick*="annonces"]');
   if (annEl) annEl.click();
 };
- 
+
 window.joinEvent = function(fbKey) {
   if (!currentUser || !firebaseOk) return;
   set(ref(db, `salons/annonces/messages/${fbKey}/participants/${currentUser.pseudo}`), true);
 };
- 
+
 function renderEvent(msg) {
   const pCount = msg.participants ? Object.keys(msg.participants).length : 0;
   const joined = msg.participants?.[currentUser?.pseudo];
@@ -1755,10 +1793,10 @@ function renderEvent(msg) {
     <div class="event-participants">${pCount} participant${pCount > 1 ? 's' : ''}</div>
   </div>`;
 }
- 
+
 // ══ WIKI ══
 let currentWikiPage = null;
- 
+
 window.openWiki = function() {
   document.getElementById('wiki-panel').classList.add('show');
   document.getElementById('wiki-promo-title').textContent = currentUser?.promo || 'Ma promo';
@@ -1767,7 +1805,7 @@ window.openWiki = function() {
 window.closeWiki = function() {
   document.getElementById('wiki-panel').classList.remove('show');
 };
- 
+
 function loadWikiPages() {
   if (!firebaseOk || !currentUser) return;
   get(ref(db, `wiki/${currentUser.promo}`)).then(snap => {
@@ -1783,7 +1821,7 @@ function loadWikiPages() {
     }
   });
 }
- 
+
 function addWikiTabEl(key, title) {
   const tabsEl = document.getElementById('wiki-tabs');
   const btn = document.createElement('button');
@@ -1798,7 +1836,7 @@ function addWikiTabEl(key, title) {
   };
   tabsEl.insertBefore(btn, tabsEl.lastChild);
 }
- 
+
 function loadWikiPage(key, page) {
   currentWikiPage = key;
   document.getElementById('wiki-editor').value = page.content || '';
@@ -1808,7 +1846,7 @@ function loadWikiPage(key, page) {
     t.classList.toggle('active', t.textContent === page.title);
   });
 }
- 
+
 window.addWikiPage = function() {
   const title = prompt('Nom de la page :');
   if (!title || !currentUser || !firebaseOk) return;
@@ -1818,7 +1856,7 @@ window.addWikiPage = function() {
   addWikiTabEl(key, title);
   loadWikiPage(key, page);
 };
- 
+
 window.saveWikiPage = function() {
   if (!currentWikiPage || !currentUser || !firebaseOk) return;
   const content = document.getElementById('wiki-editor').value;
@@ -1828,10 +1866,10 @@ window.saveWikiPage = function() {
   document.getElementById('wiki-last-edit').textContent =
     `Dernière modif : ${currentUser.pseudo} · maintenant`;
 };
- 
+
 // ══ ADMIN ══
 const ADMIN_PSEUDO = 'Théo91140';
- 
+
 window.openAdmin = function() {
   document.getElementById('admin-panel').classList.add('show');
   loadReports();
@@ -1839,7 +1877,7 @@ window.openAdmin = function() {
 window.closeAdmin = function() {
   document.getElementById('admin-panel').classList.remove('show');
 };
- 
+
 function loadReports() {
   if (!firebaseOk) return;
   const body = document.getElementById('admin-body');
@@ -1883,35 +1921,35 @@ function loadReports() {
     });
   });
 }
- 
+
 window.dismissReport = function(key) {
   remove(ref(db, `reports/${key}`));
   document.getElementById('report-' + key)?.remove();
 };
- 
+
 window.banUser = function(pseudo, reportKey) {
   if (!confirm(`Bannir ${pseudo} ? Il ne pourra plus envoyer de messages.`)) return;
   set(ref(db, `banned/${pseudo}`), { bannedBy: currentUser.pseudo, ts: Date.now() });
   if (reportKey) remove(ref(db, `reports/${reportKey}`));
   loadReports();
 };
- 
+
 window.unbanUser = function(pseudo) {
   remove(ref(db, `banned/${pseudo}`));
   loadReports();
 };
- 
+
 // Vérifier si banni avant d'envoyer
 async function isBanned() {
   if (!currentUser || !firebaseOk) return false;
   const snap = await get(ref(db, `banned/${currentUser.pseudo}`));
   return snap.exists();
 }
- 
+
 // ══ NOTIFICATIONS ══
 let notifEnabled = false;
 let notifSound = null;
- 
+
 async function initNotifications() {
   if (!('Notification' in window)) return;
   if (Notification.permission === 'granted') {
@@ -1933,7 +1971,7 @@ async function initNotifications() {
     };
   } catch(e) {}
 }
- 
+
 function showNotif(salonName, pseudo, text) {
   // Toast in-app
   const old = document.querySelector('.notif-toast');
@@ -1945,7 +1983,7 @@ function showNotif(salonName, pseudo, text) {
   toast.onclick = () => toast.remove();
   document.body.appendChild(toast);
   setTimeout(() => toast.remove(), 4000);
- 
+
   // Notif navigateur
   if (notifEnabled && document.hidden) {
     new Notification(`DauphineGuide · ${salonName}`, {
@@ -1956,11 +1994,11 @@ function showNotif(salonName, pseudo, text) {
   // Son
   if (notifSound) try { notifSound(); } catch(e) {}
 }
- 
+
 // ══ ONGLET FICHIERS ══
 let currentTab = 'messages';
 const filesHistory = {}; // salonId -> [fichiers]
- 
+
 window.switchChatTab = function(tab, el) {
   currentTab = tab;
   document.querySelectorAll('.chat-tab').forEach(t => t.classList.remove('active'));
@@ -1976,7 +2014,7 @@ window.switchChatTab = function(tab, el) {
     renderFilesPanel();
   }
 };
- 
+
 function renderFilesPanel() {
   const panel = document.getElementById('files-panel');
   const files = filesHistory[currentSalon] || [];
@@ -2008,7 +2046,7 @@ function renderFilesPanel() {
     panel.appendChild(item);
   });
 }
- 
+
 function trackFile(salonId, msg) {
   if (!msg.file) return;
   if (!filesHistory[salonId]) filesHistory[salonId] = [];
@@ -2020,16 +2058,16 @@ function trackFile(salonId, msg) {
     ts: msg.ts || Date.now()
   });
 }
- 
+
 // ══ COMPTE ══
 const AVATAR_COLORS = ['#4f7fff','#34d399','#fb923c','#f472b6','#a78bfa','#60a5fa','#facc15','#f87171'];
- 
+
 function getAvatarColor(pseudo) {
   let hash = 0;
   for (let c of (pseudo||'')) hash = c.charCodeAt(0) + ((hash << 5) - hash);
   return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length];
 }
- 
+
 function updateAvatarDisplay() {
   const el = document.getElementById('compte-avatar');
   const letter = document.getElementById('compte-avatar-letter');
@@ -2046,7 +2084,7 @@ function updateAvatarDisplay() {
     letter.textContent = (currentUser.pseudo || '?')[0].toUpperCase();
   }
 }
- 
+
 window.openCompte = function() {
   if (!currentUser) return;
   document.getElementById('cp-pseudo-edit').value = currentUser.pseudo || '';
@@ -2057,43 +2095,43 @@ window.openCompte = function() {
   updateAvatarDisplay();
   document.getElementById('compte-panel').classList.add('show');
 };
- 
+
 window.closeCompte = function() {
   document.getElementById('compte-panel').classList.remove('show');
 };
- 
+
 window.saveCompte = async function() {
   const pseudo = document.getElementById('cp-pseudo-edit').value.trim();
   const promo  = document.getElementById('cp-promo-edit').value;
   const bio    = document.getElementById('cp-bio-edit').value.trim();
   if (!pseudo) return;
- 
+
   currentUser.pseudo = pseudo;
   currentUser.promo  = promo;
   currentUser.bio    = bio;
   currentUser.isAdmin = pseudo === ADMIN_PSEUDO;
- 
+
   if (firebaseOk) {
     await set(ref(db, `users/${currentUser.uid}`), {
       pseudo, promo, bio, email: currentUser.email,
       photo: currentUser.photo || null, updatedAt: Date.now()
     });
   }
- 
+
   // Mettre à jour la sidebar
   document.getElementById('user-display').textContent = `${pseudo} · ${promo}`;
   // Mettre à jour bouton admin
   const adminBtn = document.getElementById('admin-btn');
   if (adminBtn) adminBtn.style.display = currentUser.isAdmin ? 'block' : 'none';
- 
+
   document.getElementById('compte-success').textContent = '✅ Profil mis à jour !';
   setTimeout(() => document.getElementById('compte-success').textContent = '', 3000);
 };
- 
+
 window.changeAvatar = function() {
   document.getElementById('avatar-input').click();
 };
- 
+
 window.uploadAvatar = async function(input) {
   if (!input.files[0]) return;
   const file = input.files[0];
@@ -2112,12 +2150,12 @@ window.uploadAvatar = async function(input) {
     }
   } catch(e) { console.error('Avatar upload failed', e); }
 };
- 
+
 window.deconnexion = function() {
   closeCompte();
   logout();
 };
- 
+
 // Avatar inline dans les messages
 function getAvatarHtml(pseudo, photo, size = 28) {
   const color = getAvatarColor(pseudo);
@@ -2127,7 +2165,7 @@ function getAvatarHtml(pseudo, photo, size = 28) {
   }
   return `<div style="width:${size}px;height:${size}px;border-radius:50%;background:${color};display:flex;align-items:center;justify-content:center;font-size:${size*0.45}px;font-weight:800;color:#fff;flex-shrink:0">${letter}</div>`;
 }
- 
+
 // ══ STATUT EN LIGNE ══
 function updatePresence() {
   if (!currentUser || !firebaseOk) return;
@@ -2138,7 +2176,7 @@ function updatePresence() {
     onDisconnect(presRef).remove();
   });
 }
- 
+
 function watchOnline() {
   if (!firebaseOk) return;
   onChildAdded(ref(db, 'presence'), snap => updateOnlineCount());
@@ -2151,7 +2189,7 @@ function watchOnline() {
     });
   });
 }
- 
+
 function updateOnlineCount() {
   if (!firebaseOk) return;
   get(ref(db, 'presence')).then(snap => {
@@ -2160,7 +2198,7 @@ function updateOnlineCount() {
     if (el) el.textContent = `${count} en ligne`;
   });
 }
- 
+
 // ══ TYPING ══
 let typingTimeout = null;
 function watchTyping() {
@@ -2177,7 +2215,7 @@ function watchTyping() {
     });
   });
 }
- 
+
 document.getElementById('msg-input').addEventListener('input', () => {
   if (!currentUser || !firebaseOk) return;
   set(ref(db, `typing/${currentSalon}/${currentUser.pseudo}`), { pseudo: currentUser.pseudo, ts: Date.now() });
@@ -2188,10 +2226,10 @@ document.getElementById('msg-input').addEventListener('input', () => {
     });
   }, 3000);
 });
- 
+
 // ══ ÉPINGLER ══
 let pinnedMsg = null;
- 
+
 window.pinCurrentMsg = function() {
   // Épingler le dernier message du salon
   const lastMsg = document.querySelector('#messages .msg-group:last-child');
@@ -2203,14 +2241,14 @@ window.pinCurrentMsg = function() {
   if (firebaseOk) set(ref(db, `pinned/${currentSalon}`), pinnedMsg);
   showPinned(text);
 };
- 
+
 function showPinned(text) {
   const bar = document.getElementById('pinned-bar');
   const textEl = document.getElementById('pinned-text');
   textEl.textContent = text;
   bar.classList.add('show');
 }
- 
+
 window.unpin = function() {
   document.getElementById('pinned-bar').classList.remove('show');
   if (firebaseOk) {
@@ -2219,14 +2257,14 @@ window.unpin = function() {
     });
   }
 };
- 
+
 window.scrollToPinned = function() {
   // Scroller vers le premier message visible qui correspond
   const bar = document.getElementById('pinned-bar');
   bar.style.opacity = '.6';
   setTimeout(() => bar.style.opacity = '1', 500);
 };
- 
+
 function loadPinned(salonId) {
   if (!firebaseOk) return;
   get(ref(db, `pinned/${salonId}`)).then(snap => {
@@ -2234,14 +2272,14 @@ function loadPinned(salonId) {
     else document.getElementById('pinned-bar').classList.remove('show');
   });
 }
- 
+
 // Bouton épingler dans les actions message
 window.startPin = function(text) {
   if (!currentUser || !firebaseOk) return;
   set(ref(db, `pinned/${currentSalon}`), { text, salonId: currentSalon });
   showPinned(text);
 };
- 
+
 // ══ RECHERCHE ══
 let searchOpen = false;
 window.toggleSearch = function() {
@@ -2258,7 +2296,7 @@ window.toggleSearch = function() {
     document.getElementById('search-input').value = '';
   }
 };
- 
+
 window.searchMessages = function(query) {
   // Enlever anciens highlights
   document.querySelectorAll('#messages .msg-bubble, #messages .msg-file-name').forEach(el => {
@@ -2282,11 +2320,11 @@ window.searchMessages = function(query) {
   const input = document.getElementById('search-input');
   input.style.borderColor = found > 0 ? 'var(--green)' : 'var(--red, #f87171)';
 };
- 
+
 // ══ MESSAGES NON LUS ══
 const unreadCounts = {};
 const lastSeenTs = {};
- 
+
 function trackUnread(salonId) {
   if (!firebaseOk) return;
   onChildAdded(ref(db, `salons/${salonId}/messages`), snap => {
@@ -2299,7 +2337,7 @@ function trackUnread(salonId) {
     }
   });
 }
- 
+
 function updateUnreadBadge(salonId) {
   const badge = document.getElementById('unread-' + salonId);
   if (!badge) return;
@@ -2311,16 +2349,16 @@ function updateUnreadBadge(salonId) {
     badge.classList.remove('show');
   }
 }
- 
+
 function clearUnread(salonId) {
   unreadCounts[salonId] = 0;
   lastSeenTs[salonId] = Date.now();
   updateUnreadBadge(salonId);
 }
- 
+
 // Tracker les salons principaux
 const MAIN_SALONS = ['general','annonces','tickets','echange-cours','coloc','annales'];
- 
+
 // ── Event delegation pour les actions messages ──
 document.getElementById('messages').addEventListener('click', function(e) {
   const btn = e.target.closest('button');
@@ -2337,20 +2375,20 @@ document.getElementById('messages').addEventListener('click', function(e) {
     startPin(btn.dataset.text);
   }
 });
- 
+
 window.cancelReply = function() {
   replyTo = null;
   document.getElementById('reply-preview').classList.remove('show');
   document.getElementById('reply-preview-text').textContent = '—';
 };
- 
+
 window.startReply = function(pseudo, text) {
   replyTo = { pseudo, text };
   document.getElementById('reply-preview-text').textContent = `${pseudo} : ${text}`;
   document.getElementById('reply-preview').classList.add('show');
   document.getElementById('msg-input').focus();
 };
- 
+
 // ── Render ──
 function renderMsg(msg) {
   const msgs  = document.getElementById('messages');
@@ -2360,7 +2398,7 @@ function renderMsg(msg) {
   const time = new Date(msg.ts).toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
   const g = document.createElement('div');
   g.className = `msg-group ${isMe ? 'me' : 'other'}`;
- 
+
   // Types spéciaux
   if (msg.type === 'poll') {
     msg.fbKey = msg.fbKey || '';
@@ -2399,18 +2437,18 @@ function renderMsg(msg) {
     msgs.scrollTop = msgs.scrollHeight;
     return;
   }
- 
+
   // Highlight mentions
   const processText = t => {
     if (!t) return '';
     return escHtml(t).replace(/@(\w+)/g, '<span class="mention">@$1</span>');
   };
- 
+
   // Reply ref
   const replyHtml = msg.reply
     ? '<div class="msg-reply-ref">↩️ <strong>' + escHtml(msg.reply.pseudo) + '</strong> : ' + escHtml((msg.reply.text||'').substring(0,60)) + ((msg.reply.text||'').length > 60 ? '…' : '') + '</div>'
     : '';
- 
+
   // Recalcul content avec mentions
   let contentFinal = '';
   if (msg.annonce) {
@@ -2430,13 +2468,14 @@ function renderMsg(msg) {
       </a>`;
     }
   }
- 
+
   const msgId = 'msg-' + msg.ts + '-' + Math.random().toString(36).substr(2,5);
   g.id = msgId;
- 
+
   // Actions hover
   const safeText = (msg.text||'').substring(0,50).replace(/'/g, '&#39;');
-  const delBtn = isMe
+  const canDelMsg = isMe || currentUser?.isAdmin;
+  const delBtn = canDelMsg
     ? '<button class="msg-action-btn del-btn" data-msgid="' + msgId + '" data-fbkey="' + (msg.fbKey||'') + '" title="Supprimer" style="color:#f87171">🗑️</button>'
     : '<button class="msg-action-btn rep-btn" data-pseudo="' + escHtml(msg.pseudo) + '" data-text="' + safeText + '" title="Signaler" style="color:#fb923c">🚨</button>';
   const actionsHtml = '<div class="msg-actions">'
@@ -2450,9 +2489,9 @@ function renderMsg(msg) {
   const authorLabel = isMe
     ? (currentUser?.isAdmin ? '👑 Admin · Toi' : 'Toi')
     : (msg.isAdmin ? '👑 Admin · ' + msg.pseudo : msg.pseudo + ' · ' + msg.promo);
- 
+
   const avatarHtml = getAvatarHtml(msg.pseudo, msg.photo || null, 26);
- 
+
   g.innerHTML = `
     ${actionsHtml}
     <div style="display:flex;align-items:center;gap:7px;margin-bottom:4px;${isMe ? 'flex-direction:row-reverse' : ''}">
@@ -2465,11 +2504,11 @@ function renderMsg(msg) {
     <div class="msg-time">${time}</div>`;
   msgs.appendChild(g);
   msgs.scrollTop = msgs.scrollHeight;
- 
+
   // Tracker les fichiers pour l'historique
   trackFile(currentSalon, msg);
 }
- 
+
 // ── Réactions ──
 const localReactions = {}; // msgId -> { emoji: count }
 window.addReaction = function(msgId, emoji) {
@@ -2480,7 +2519,7 @@ window.addReaction = function(msgId, emoji) {
   localReactions[msgId][emoji]++;
   renderReactions(msgId, container);
 };
- 
+
 function renderReactions(msgId, container) {
   const reactions = localReactions[msgId] || {};
   container.innerHTML = Object.entries(reactions)
@@ -2490,18 +2529,18 @@ function renderReactions(msgId, container) {
         ${emoji} <span class="reaction-count">${count}</span>
       </button>`).join('');
 }
- 
+
 // ── Modals ──
 window.openModal  = id => document.getElementById(id).classList.add('show');
 window.closeModal = id => document.getElementById(id).classList.remove('show');
- 
+
 document.querySelectorAll('#ticket-tags .modal-tag').forEach(t => {
   t.onclick = () => {
     document.querySelectorAll('#ticket-tags .modal-tag').forEach(x => x.classList.remove('selected'));
     t.classList.add('selected'); ticketType = t.dataset.val;
   };
 });
- 
+
 window.createMatiere = function() {
   const name  = document.getElementById('matiere-name').value.trim();
   const promo = document.getElementById('matiere-promo').value;
@@ -2517,7 +2556,7 @@ window.createMatiere = function() {
   document.getElementById('matiere-promo').value = '';
   closeModal('modal-matiere');
 };
- 
+
 window.createGroupe = function() {
   const name    = document.getElementById('groupe-name').value.trim();
   const matiere = document.getElementById('groupe-matiere').value.trim();
@@ -2534,7 +2573,7 @@ window.createGroupe = function() {
   document.getElementById('groupe-matiere').value = '';
   closeModal('modal-groupe');
 };
- 
+
 window.postTicket = function() {
   const desc = document.getElementById('ticket-desc').value.trim();
   const prix = document.getElementById('ticket-prix').value.trim();
@@ -2560,7 +2599,7 @@ window.postTicket = function() {
   document.getElementById('ticket-prix').value = '';
   closeModal('modal-ticket');
 };
- 
+
 // ── Utils ──
 function resetMessages(showEmpty = true) {
   document.getElementById('messages').innerHTML = showEmpty ? `
@@ -2615,19 +2654,19 @@ function fileIcon(type) {
 document.querySelectorAll('.modal-overlay').forEach(o => {
   o.addEventListener('click', e => { if (e.target === o) o.classList.remove('show'); });
 });
- 
+
 // ══ GROUPES PRIVÉS ══
 let currentCode = null;
- 
+
 function genCode() {
   return Math.random().toString(36).substring(2, 8).toUpperCase();
 }
- 
+
 window.createGroupePrive = function() {
   const name = document.getElementById('prive-name').value.trim();
   const desc = document.getElementById('prive-desc').value.trim();
   if (!name || !currentUser) return;
- 
+
   const code = genCode();
   currentCode = code;
   const salonId = 'prive-' + code;
@@ -2637,7 +2676,7 @@ window.createGroupePrive = function() {
     promo: currentUser.promo,
     ts: Date.now()
   };
- 
+
   if (firebaseOk) {
     const { db, ref, push } = window._fb;
     // Stocker le groupe avec son code comme clé
@@ -2647,23 +2686,23 @@ window.createGroupePrive = function() {
       set(ref(db, `membres-prives/${currentUser.pseudo}/${code}`), true);
     });
   }
- 
+
   // Ajouter dans la sidebar
   addGroupePrive(code, name);
- 
+
   document.getElementById('prive-name').value = '';
   document.getElementById('prive-desc').value = '';
   document.getElementById('code-display').textContent = code;
   closeModal('modal-prive');
   openModal('modal-code');
 };
- 
+
 window.rejoindreGroupe = function() {
   const code = document.getElementById('code-input').value.trim().toUpperCase();
   if (!code || code.length !== 6) return;
   const errEl = document.getElementById('code-error');
   errEl.style.display = 'none';
- 
+
   if (firebaseOk) {
     const { db, ref } = window._fb;
     import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js').then(({ get, set }) => {
@@ -2682,7 +2721,7 @@ window.rejoindreGroupe = function() {
     });
   }
 };
- 
+
 function addGroupePrive(code, name) {
   const salonId = 'prive-' + code;
   if (document.getElementById('sb-' + salonId)) return;
@@ -2692,24 +2731,31 @@ function addGroupePrive(code, name) {
   el.onclick = () => switchSalon(salonId, el, '🔒', name, `Groupe privé · ${code}`);
   document.getElementById('salons-prives').appendChild(el);
 }
- 
+
 // Charger les groupes privés rejoints au login
 function loadGroupesPrives() {
   if (!firebaseOk || !currentUser) return;
-  const { db, ref } = window._fb;
   import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js').then(({ get }) => {
-    get(ref(db, `membres-prives/${currentUser.pseudo}`)).then(snap => {
-      if (!snap.exists()) return;
-      const codes = Object.keys(snap.val());
-      codes.forEach(code => {
-        get(ref(db, `groupes-prives/${code}`)).then(gSnap => {
-          if (gSnap.exists()) addGroupePrive(code, gSnap.val().name);
+    if (currentUser.isAdmin) {
+      // Admin voit TOUS les groupes privés
+      get(ref(db, 'groupes-prives')).then(snap => {
+        if (!snap.exists()) return;
+        Object.entries(snap.val()).forEach(([code, g]) => addGroupePrive(code, g.name));
+      });
+    } else {
+      // Utilisateur normal - seulement ses groupes
+      get(ref(db, 'membres-prives/' + currentUser.pseudo)).then(snap => {
+        if (!snap.exists()) return;
+        Object.keys(snap.val()).forEach(code => {
+          get(ref(db, 'groupes-prives/' + code)).then(gSnap => {
+            if (gSnap.exists()) addGroupePrive(code, gSnap.val().name);
+          });
         });
       });
-    });
+    }
   });
 }
- 
+
 window.copyCode = function() {
   navigator.clipboard.writeText(currentCode).then(() => {
     const btn = document.querySelector('#modal-code .btn-cancel');
@@ -2717,7 +2763,7 @@ window.copyCode = function() {
     setTimeout(() => btn.textContent = '📋 Copier le code', 2000);
   });
 };
- 
+
 // ── Vider le salon ──
 window.clearSalon = function() {
   if (!confirm(`Vider tous les messages de ce salon ? Cette action est irréversible.`)) return;
