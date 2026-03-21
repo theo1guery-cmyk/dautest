@@ -395,6 +395,40 @@
   /* ── Mention ── */
   .mention { color: var(--accent-h); font-weight: 700; }
  
+  /* ── Mobile ── */
+  .burger {
+    display: none; background: transparent; border: none;
+    color: var(--text); font-size: 22px; cursor: pointer;
+    padding: 4px 8px; border-radius: 8px; transition: background .15s;
+  }
+  .burger:hover { background: var(--surface2); }
+ 
+  @media (max-width: 768px) {
+    body { position: relative; }
+    #sidebar {
+      position: fixed; left: -260px; top: 0; bottom: 0; z-index: 100;
+      width: 260px; transition: left .25s ease;
+      box-shadow: 4px 0 24px rgba(0,0,0,.4);
+    }
+    #sidebar.open { left: 0; }
+    .sidebar-backdrop {
+      display: none; position: fixed; inset: 0; z-index: 99;
+      background: rgba(0,0,0,.5); backdrop-filter: blur(2px);
+    }
+    .sidebar-backdrop.show { display: block; }
+    .burger { display: block; }
+    .chat-header { padding: 12px 16px; gap: 8px; }
+    .ch-name { font-size: 15px; }
+    .ch-dot { display: none; }
+    #messages { padding: 14px 14px; }
+    .chat-input-wrap { padding: 10px 14px; }
+    .msg-bubble { max-width: 85%; }
+    .msg-file { max-width: 85%; }
+    .msg-reply-ref { max-width: 85%; }
+    .msg-actions { display: none !important; }
+    .login-box { width: 92vw; padding: 28px 20px; }
+  }
+ 
   @keyframes popIn {
     from { opacity:0; transform: scale(.94) translateY(4px) }
     to   { opacity:1; transform: none }
@@ -535,6 +569,27 @@
   </div>
 </div>
  
+<!-- ══ MODAL : Signalement ══ -->
+<div class="modal-overlay" id="modal-report">
+  <div class="modal">
+    <h3>🚨 Signaler un message</h3>
+    <p>Ce message sera transmis aux modérateurs</p>
+    <label class="modal-label">Raison</label>
+    <div class="modal-tags" id="report-tags">
+      <span class="modal-tag selected" data-val="inapproprie">🤬 Inapproprié</span>
+      <span class="modal-tag" data-val="spam">📢 Spam</span>
+      <span class="modal-tag" data-val="harcelement">😰 Harcèlement</span>
+      <span class="modal-tag" data-val="autre">❓ Autre</span>
+    </div>
+    <label class="modal-label">Précisions (optionnel)</label>
+    <textarea id="report-detail" rows="2" placeholder="Décris le problème…"></textarea>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-report')">Annuler</button>
+      <button class="btn-primary" onclick="submitReport()">Envoyer le signalement</button>
+    </div>
+  </div>
+</div>
+ 
 <!-- ══ MODAL : Matière ══ -->
 <div class="modal-overlay" id="modal-matiere">
   <div class="modal">
@@ -597,6 +652,8 @@
     </div>
   </div>
 </div>
+ 
+<div class="sidebar-backdrop" id="sidebar-backdrop" onclick="toggleSidebar()"></div>
  
 <!-- ══ SIDEBAR ══ -->
 <div id="sidebar">
@@ -663,6 +720,7 @@
 <!-- ══ MAIN ══ -->
 <div id="main">
   <div class="chat-header">
+    <button class="burger" onclick="toggleSidebar()" title="Menu">☰</button>
     <div class="ch-ic" id="ch-ic">🏠</div>
     <div>
       <div class="ch-name" id="ch-name">Général</div>
@@ -959,7 +1017,11 @@ window.switchSalon = function(id, el, ic, name, desc) {
 function loadSalon(id) {
   if (firebaseOk) {
     const { db, ref, onChildAdded } = window._fb;
-    onChildAdded(ref(db, `salons/${id}/messages`), snap => renderMsg(snap.val()));
+    onChildAdded(ref(db, `salons/${id}/messages`), snap => {
+    const msg = snap.val();
+    msg.fbKey = snap.key;
+    renderMsg(msg);
+  });
   } else {
     (localMessages[id] || []).forEach(m => renderMsg(m));
     if (!(localMessages[id] || []).length) resetMessages(true);
@@ -1000,6 +1062,65 @@ window.sendMessage = async function() {
   input.value = ''; input.style.height = 'auto';
   clearFile(); cancelReply();
   btn.textContent = '➤'; btn.disabled = false;
+};
+ 
+// ── Mobile sidebar ──
+window.toggleSidebar = function() {
+  const sidebar  = document.getElementById('sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  sidebar.classList.toggle('open');
+  backdrop.classList.toggle('show');
+};
+ 
+// Fermer sidebar quand on change de salon sur mobile
+const origSwitch = window.switchSalon;
+window.switchSalon = function(id, el, ic, name, desc) {
+  origSwitch(id, el, ic, name, desc);
+  if (window.innerWidth <= 768) {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebar-backdrop').classList.remove('show');
+  }
+};
+ 
+// ── Supprimer message ──
+window.deleteMsg = function(msgId, fbKey) {
+  if (!confirm('Supprimer ce message ?')) return;
+  const el = document.getElementById(msgId);
+  if (el) el.remove();
+  if (firebaseOk && fbKey) {
+    import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js').then(({ remove }) => {
+      remove(ref(db, `salons/${currentSalon}/messages/${fbKey}`));
+    });
+  }
+};
+ 
+// ── Signaler message ──
+let reportData = null;
+let reportReason = 'inapproprie';
+ 
+window.reportMsg = function(pseudo, text) {
+  reportData = { pseudo, text };
+  openModal('modal-report');
+};
+ 
+document.querySelectorAll('#report-tags .modal-tag').forEach(t => {
+  t.onclick = () => {
+    document.querySelectorAll('#report-tags .modal-tag').forEach(x => x.classList.remove('selected'));
+    t.classList.add('selected'); reportReason = t.dataset.val;
+  };
+});
+ 
+window.submitReport = function() {
+  if (!reportData || !firebaseOk) { closeModal('modal-report'); return; }
+  const detail = document.getElementById('report-detail').value.trim();
+  push(ref(db, 'reports'), {
+    ...reportData, reason: reportReason, detail,
+    reportedBy: currentUser?.pseudo || '?',
+    salon: currentSalon, ts: Date.now()
+  });
+  document.getElementById('report-detail').value = '';
+  closeModal('modal-report');
+  alert('Signalement envoyé, merci !');
 };
  
 window.cancelReply = function() {
@@ -1059,11 +1180,13 @@ function renderMsg(msg) {
   g.id = msgId;
  
   // Actions hover
+  const safeText = (msg.text||'').substring(0,50).replace(/'/g, '&#39;');
   const actionsHtml = `<div class="msg-actions">
     <button class="msg-action-btn" onclick="addReaction('${msgId}','👍')" title="J'aime">👍</button>
     <button class="msg-action-btn" onclick="addReaction('${msgId}','❤️')" title="Amour">❤️</button>
     <button class="msg-action-btn" onclick="addReaction('${msgId}','😂')" title="Haha">😂</button>
-    <button class="msg-action-btn" onclick="startReply('${escHtml(msg.pseudo)}','${escHtml((msg.text||'').replace(/'/g,"\'"))}')">↩️</button>
+    <button class="msg-action-btn" onclick="startReply('${escHtml(msg.pseudo)}','${safeText}')">↩️</button>
+    ${isMe ? `<button class="msg-action-btn" onclick="deleteMsg('${msgId}','${msg.fbKey||''}')" title="Supprimer" style="color:#f87171">🗑️</button>` : `<button class="msg-action-btn" onclick="reportMsg('${escHtml(msg.pseudo)}','${safeText}')" title="Signaler" style="color:#fb923c">🚨</button>`}
   </div>`;
  
   g.innerHTML = `
