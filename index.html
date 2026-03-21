@@ -26,7 +26,7 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); height: 100vh; display: flex; overflow: hidden; }
-
+ 
   /* ══ AUTH ══ */
   #auth-overlay {
     position: fixed; inset: 0; z-index: 200;
@@ -96,7 +96,7 @@
     transition: background .2s, transform .1s; box-shadow: 0 4px 16px rgba(79,127,255,.35);
   }
   .login-btn:hover { background: var(--accent-h); transform: translateY(-1px); }
-
+ 
   /* ══ SIDEBAR ══ */
   #sidebar {
     width: 240px; flex-shrink: 0; background: var(--bg2);
@@ -150,7 +150,7 @@
     font-family: 'Outfit', sans-serif; font-size: 13px; cursor: pointer; transition: all .2s;
   }
   .logout-btn:hover { border-color: var(--accent); color: var(--accent); }
-
+ 
   /* ══ MAIN ══ */
   #main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
   .chat-header {
@@ -172,7 +172,7 @@
     content: ''; width: 7px; height: 7px; background: var(--green);
     border-radius: 50%; box-shadow: 0 0 6px var(--green); display: block;
   }
-
+ 
   /* ══ MESSAGES ══ */
   #messages {
     flex: 1; overflow-y: auto; padding: 20px 22px;
@@ -220,7 +220,7 @@
   }
   .empty-state .big-ic { font-size: 44px; opacity: .3; }
   .empty-state p { font-size: 14px; line-height: 1.6; max-width: 260px; font-weight: 500; }
-
+ 
   /* ══ INPUT ══ */
   .chat-input-wrap {
     padding: 16px 22px; border-top: 1px solid var(--border);
@@ -242,7 +242,7 @@
   }
   #send-btn:hover { background: var(--accent-h); transform: scale(1.05); }
   #send-btn:active { transform: scale(.95); }
-
+ 
   /* ══ MODALS ══ */
   .modal-overlay {
     position: fixed; inset: 0; z-index: 150;
@@ -286,7 +286,7 @@
     font-size: 14px; font-weight: 600; cursor: pointer; transition: all .2s;
   }
   .btn-cancel:hover { border-color: #f87171; color: #f87171; }
-
+ 
   /* fichier joint */
   .msg-file {
     display: flex; align-items: center; gap: 10px;
@@ -299,7 +299,7 @@
   .msg-file-ic { font-size: 22px; flex-shrink: 0; }
   .msg-file-name { font-size: 13px; font-weight: 600; color: var(--white); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 180px; }
   .msg-file-size { font-size: 11px; color: var(--muted); }
-
+ 
   /* input row */
   .input-row { display: flex; gap: 10px; align-items: flex-end; width: 100%; }
   .attach-btn {
@@ -309,7 +309,7 @@
     transition: background .2s, transform .1s;
   }
   .attach-btn:hover { background: var(--surface); transform: scale(1.05); }
-
+ 
   /* file preview */
   .file-preview {
     display: none; align-items: center; gap: 10px;
@@ -319,7 +319,7 @@
   .file-preview.show { display: flex; }
   .fp-name { font-size: 13px; font-weight: 600; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .fp-remove { cursor: pointer; color: #f87171; font-size: 16px; background: none; border: none; padding: 0; }
-
+ 
   .code-display {
     font-size: 36px; font-weight: 800; letter-spacing: .25em;
     color: var(--white); background: var(--bg2); border-radius: 14px;
@@ -338,7 +338,7 @@
     background: rgba(251,146,60,.15); color: #fb923c;
   }
   .salon-item.active .prive-badge { background: rgba(255,255,255,.2); color: #fff; }
-
+ 
   @keyframes popIn {
     from { opacity:0; transform: scale(.94) translateY(4px) }
     to   { opacity:1; transform: none }
@@ -346,7 +346,7 @@
 </style>
 </head>
 <body>
-
+ 
 <!-- ══ AUTH ══ -->
 <div id="auth-overlay">
   <div class="login-box">
@@ -354,13 +354,13 @@
       <div class="d-icon">D</div>
       <div><div class="d-title">DauphineGuide</div><div class="d-sub">Chat étudiant</div></div>
     </div>
-
+ 
     <!-- Tabs -->
     <div class="auth-tabs">
       <button class="auth-tab active" onclick="switchTab('login')">Connexion</button>
       <button class="auth-tab" onclick="switchTab('register')">Inscription</button>
     </div>
-
+ 
     <!-- Login -->
     <div id="tab-login">
       <label class="login-label">Email @dauphine.eu</label>
@@ -375,7 +375,7 @@
       </button>
       <div class="auth-forgot" onclick="doReset()">Mot de passe oublié ?</div>
     </div>
-
+ 
     <!-- Register -->
     <div id="tab-register" style="display:none">
       <label class="login-label">Email @dauphine.eu</label>
@@ -401,7 +401,7 @@
         Continuer avec Google
       </button>
     </div>
-
+ 
     <!-- Compléter profil (Google) -->
     <div id="tab-complete-profile" style="display:none">
       <div class="login-heading">Finalise ton profil</div>
@@ -421,7 +421,7 @@
       <div id="cp-error" class="auth-error"></div>
       <button class="login-btn" onclick="completeProfile()">Accéder au chat →</button>
     </div>
-
+ 
     <!-- Vérification email -->
     <div id="tab-verify" style="display:none;text-align:center">
       <div style="font-size:48px;margin-bottom:16px">📬</div>
@@ -430,10 +430,10 @@
       <button class="login-btn" onclick="checkVerified()" style="margin-bottom:12px">J'ai confirmé →</button>
       <button class="google-btn" onclick="resendVerif()">Renvoyer l'email</button>
     </div>
-
+ 
   </div>
 </div>
-
+ 
 <!-- ══ MODAL : Groupe privé ══ -->
 <div class="modal-overlay" id="modal-prive">
   <div class="modal">
@@ -449,7 +449,7 @@
     </div>
   </div>
 </div>
-
+ 
 <!-- ══ MODAL : Code généré ══ -->
 <div class="modal-overlay" id="modal-code">
   <div class="modal" style="text-align:center">
@@ -463,7 +463,7 @@
     </div>
   </div>
 </div>
-
+ 
 <!-- ══ MODAL : Rejoindre avec un code ══ -->
 <div class="modal-overlay" id="modal-rejoindre">
   <div class="modal">
@@ -478,7 +478,7 @@
     </div>
   </div>
 </div>
-
+ 
 <!-- ══ MODAL : Matière ══ -->
 <div class="modal-overlay" id="modal-matiere">
   <div class="modal">
@@ -499,7 +499,7 @@
     </div>
   </div>
 </div>
-
+ 
 <!-- ══ MODAL : Groupe révision ══ -->
 <div class="modal-overlay" id="modal-groupe">
   <div class="modal">
@@ -518,7 +518,7 @@
     </div>
   </div>
 </div>
-
+ 
 <!-- ══ MODAL : Ticket ══ -->
 <div class="modal-overlay" id="modal-ticket">
   <div class="modal">
@@ -541,7 +541,7 @@
     </div>
   </div>
 </div>
-
+ 
 <!-- ══ SIDEBAR ══ -->
 <div id="sidebar">
   <div class="sb-header">
@@ -549,7 +549,7 @@
     <div><div class="sb-title">Chat</div><div class="sb-user" id="user-display">—</div></div>
   </div>
   <div class="sb-body">
-
+ 
     <div class="sb-section"><span>Général</span></div>
     <div class="salon-item active" onclick="switchSalon('general',this,'🏠','Général','Salon ouvert à tous')">
       <span class="salon-ic">🏠</span><span class="salon-name">Général</span>
@@ -557,7 +557,7 @@
     <div class="salon-item" onclick="switchSalon('annonces',this,'📢','Annonces','Infos importantes & événements')">
       <span class="salon-ic">📢</span><span class="salon-name">Annonces</span>
     </div>
-
+ 
     <div class="sb-section">
       <span>Tickets & Échanges</span>
       <span class="sb-add" onclick="openModal('modal-ticket')">+</span>
@@ -568,15 +568,15 @@
     <div class="salon-item" onclick="switchSalon('echange-cours',this,'📝','Échange cours/TD','Échange de créneaux, polycopiés…')">
       <span class="salon-ic">📝</span><span class="salon-name">Échange cours/TD</span>
     </div>
-
+ 
     <div class="sb-section">
       <span>Matières</span>
       <span class="sb-add" onclick="openModal('modal-matiere')">+</span>
     </div>
     <div id="salons-matieres"></div>
-
-
-
+ 
+ 
+ 
     <div class="sb-section"><span>Ma promo</span></div>
     <div id="salon-ma-promo"></div>
     <div class="sb-section">
@@ -584,7 +584,7 @@
       <span class="sb-add" id="btn-add-subchat" onclick="openModal('modal-groupe')" style="display:none">+</span>
     </div>
     <div id="salons-groupes-promo"></div>
-
+ 
     <div class="sb-section">
       <span>Groupes privés</span>
       <span class="sb-add" onclick="openModal('modal-prive')">+</span>
@@ -593,17 +593,17 @@
     <div style="padding:4px 16px 8px">
       <button class="join-btn" onclick="openModal('modal-rejoindre')">🔑 Rejoindre avec un code</button>
     </div>
-
+ 
     <div class="sb-section"><span>Entraide</span></div>
     <div class="salon-item" onclick="switchSalon('coloc',this,'🏠','Coloc & Logement','Cherche ou propose une coloc')"><span class="salon-ic">🏠</span><span class="salon-name">Coloc & Logement</span></div>
     <div class="salon-item" onclick="switchSalon('annales',this,'📚','Annales & Fiches','Partage tes ressources')"><span class="salon-ic">📚</span><span class="salon-name">Annales & Fiches</span></div>
-
+ 
   </div>
   <div class="sb-footer">
     <button class="logout-btn" onclick="logout()">👋 Se déconnecter</button>
   </div>
 </div>
-
+ 
 <!-- ══ MAIN ══ -->
 <div id="main">
   <div class="chat-header">
@@ -614,14 +614,14 @@
     </div>
     <div class="ch-dot">En ligne</div>
   </div>
-
+ 
   <div id="messages">
     <div class="empty-state" id="empty-state">
       <div class="big-ic">💬</div>
       <p>Aucun message pour l'instant.<br>Sois le premier à écrire !</p>
     </div>
   </div>
-
+ 
   <div class="chat-input-wrap">
     <div class="file-preview" id="file-preview">
       <span id="fp-ic">📄</span>
@@ -637,7 +637,7 @@
     </div>
   </div>
 </div>
-
+ 
 <script type="module">
 const firebaseConfig = {
   apiKey: "AIzaSyA57gXb38f4ZCH3nmxgWjw0HlQIbGAEYXg",
@@ -648,14 +648,14 @@ const firebaseConfig = {
   messagingSenderId: "188304367032",
   appId: "1:188304367032:web:df48b3408a30799327034d"
 };
-
+ 
 let currentUser  = null;
 let currentSalon = 'general';
 let db = null, auth = null, firebaseOk = false;
 let localMessages = {};
 let ticketType = 'vente';
 let selectedFile = null;
-
+ 
 // ── Uploadcare ──
 const UC_KEY = '65403977ff8c3071fada';
 async function uploadFile(file) {
@@ -668,7 +668,7 @@ async function uploadFile(file) {
   if (!data.file) throw new Error('Upload échoué: ' + JSON.stringify(data));
   return { url: `https://33so06ntxg.ucarecd.net/${data.file}/${encodeURIComponent(file.name)}`, name: file.name, size: formatSize(file.size), type: file.type };
 }
-
+ 
 // ── Init Firebase ──
 const { initializeApp }   = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
 const { getDatabase, ref, push, onChildAdded, serverTimestamp, get, set, remove } =
@@ -677,13 +677,13 @@ const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   signInWithPopup, GoogleAuthProvider, onAuthStateChanged,
   sendEmailVerification, sendPasswordResetEmail, signOut } =
   await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js');
-
+ 
 const app  = initializeApp(firebaseConfig);
 db   = getDatabase(app);
 auth = getAuth(app);
 firebaseOk = true;
 window._fb = { db, ref, push, onChildAdded, serverTimestamp, get, set, remove };
-
+ 
 // ── Auth state ──
 onAuthStateChanged(auth, async fbUser => {
   if (fbUser) {
@@ -707,7 +707,7 @@ onAuthStateChanged(auth, async fbUser => {
     document.getElementById('auth-overlay').style.display = 'flex';
   }
 });
-
+ 
 // ── Salons dynamiques ──
 function loadDynamicSalons() {
   const { db, ref, onChildAdded } = window._fb;
@@ -716,7 +716,7 @@ function loadDynamicSalons() {
     addSalon('salons-matieres', snap.key, '📖', s.name, `${s.promo} · ${s.name}`, s.promo);
   });
 }
-
+ 
 function loadSubchatsPromo(promo) {
   if (!firebaseOk) return;
   const { db, ref, onChildAdded } = window._fb;
@@ -729,7 +729,7 @@ function loadSubchatsPromo(promo) {
     addSalon('salons-groupes-promo', snap.key, '👥', s.name, `${s.matiere}`, null);
   });
 }
-
+ 
 function addSalon(containerId, id, ic, name, desc, tag) {
   if (document.getElementById('sb-' + id)) return;
   const el = document.createElement('div');
@@ -738,7 +738,7 @@ function addSalon(containerId, id, ic, name, desc, tag) {
   el.onclick = () => switchSalon(id, el, ic, name, desc);
   document.getElementById(containerId).appendChild(el);
 }
-
+ 
 // ── Auth functions ──
 window.switchTab = function(tab) {
   ['login','register','verify','complete-profile'].forEach(t => {
@@ -750,30 +750,30 @@ window.switchTab = function(tab) {
     t.classList.toggle('active', (i===0 && tab==='login') || (i===1 && tab==='register'));
   });
 };
-
+ 
 function showTab(tab) { window.switchTab(tab); }
 function showAuthError(id, msg) {
   const el = document.getElementById(id);
   if (el) el.textContent = msg;
 }
-
+ 
 window.doLogin = async function() {
   const email = document.getElementById('login-email').value.trim();
   const pass  = document.getElementById('login-password').value;
-
+ 
   try {
     await signInWithEmailAndPassword(auth, email, pass);
   } catch(e) {
     showAuthError('login-error', errMsg(e.code));
   }
 };
-
+ 
 window.doRegister = async function() {
   const email  = document.getElementById('reg-email').value.trim();
   const pseudo = document.getElementById('reg-pseudo').value.trim();
   const promo  = document.getElementById('reg-promo').value;
   const pass   = document.getElementById('reg-password').value;
-
+ 
   if (!pseudo) { showAuthError('reg-error','Choisis un pseudo.'); return; }
   if (!promo)  { showAuthError('reg-error','Sélectionne ta promo.'); return; }
   if (pass.length < 6) { showAuthError('reg-error','Mot de passe trop court (6 car. min).'); return; }
@@ -786,20 +786,20 @@ window.doRegister = async function() {
     showAuthError('reg-error', errMsg(e.code));
   }
 };
-
+ 
 window.doGoogle = async function() {
   const provider = new GoogleAuthProvider();
-
+ 
   try {
     await signInWithPopup(auth, provider);
   } catch(e) {
     showAuthError('login-error', errMsg(e.code));
   }
 };
-
+ 
 window.doReset = async function() {
   const email = document.getElementById('login-email').value.trim();
-  if (!email) { showAuthError('login-error','Entre ton email d'abord.'); return; }
+  if (!email) { showAuthError('login-error','Entre ton email avant.'); return; }
   try {
     await sendPasswordResetEmail(auth, email);
     showAuthError('login-error','Email de réinitialisation envoyé !');
@@ -807,7 +807,7 @@ window.doReset = async function() {
     showAuthError('login-error', errMsg(e.code));
   }
 };
-
+ 
 window.checkVerified = async function() {
   await auth.currentUser?.reload();
   if (auth.currentUser?.emailVerified) {
@@ -817,12 +817,12 @@ window.checkVerified = async function() {
     alert('Email pas encore confirmé. Vérifie ta boîte mail.');
   }
 };
-
+ 
 window.resendVerif = async function() {
   await sendEmailVerification(auth.currentUser);
   alert('Email renvoyé !');
 };
-
+ 
 window.completeProfile = async function() {
   const pseudo = document.getElementById('cp-pseudo').value.trim();
   const promo  = document.getElementById('cp-promo').value;
@@ -833,11 +833,11 @@ window.completeProfile = async function() {
   currentUser = { uid: fbUser.uid, pseudo, promo, email: fbUser.email, photo: null };
   enterChat();
 };
-
+ 
 function enterChat() {
   document.getElementById('auth-overlay').style.display = 'none';
   document.getElementById('user-display').textContent = `${currentUser.pseudo} · ${currentUser.promo}`;
-
+ 
   const promoMeta = {
     L1:{ic:'📘',name:'Licence 1'}, L2:{ic:'📗',name:'Licence 2'},
     L3:{ic:'📙',name:'Licence 3'}, M1:{ic:'📕',name:'Master 1'}, M2:{ic:'📔',name:'Master 2'}
@@ -850,7 +850,7 @@ function enterChat() {
   el.innerHTML = `<span class="salon-ic">${pm.ic}</span><span class="salon-name">${pm.name}</span>`;
   el.onclick = () => switchSalon('promo-' + currentUser.promo, el, pm.ic, pm.name, `Salon réservé aux ${currentUser.promo}`);
   promoContainer.appendChild(el);
-
+ 
   document.getElementById('btn-add-subchat').style.display = 'flex';
   loadDynamicSalons();
   loadSubchatsPromo(currentUser.promo);
@@ -858,7 +858,7 @@ function enterChat() {
   addSystemMsg(`Bienvenue ${currentUser.pseudo} ! 👋`);
   loadSalon('general');
 }
-
+ 
 window.logout = async function() {
   await signOut(auth);
   currentUser = null;
@@ -868,7 +868,7 @@ window.logout = async function() {
   document.getElementById('salons-prives').innerHTML = '';
   document.getElementById('salons-matieres').innerHTML = '';
 };
-
+ 
 function errMsg(code) {
   const msgs = {
     'auth/user-not-found': 'Aucun compte avec cet email.',
@@ -881,7 +881,7 @@ function errMsg(code) {
   };
   return msgs[code] || 'Une erreur est survenue.';
 }
-
+ 
 // ── Switch salon ──
 window.switchSalon = function(id, el, ic, name, desc) {
   document.querySelectorAll('.salon-item').forEach(s => s.classList.remove('active'));
@@ -893,7 +893,7 @@ window.switchSalon = function(id, el, ic, name, desc) {
   resetMessages();
   loadSalon(id);
 };
-
+ 
 function loadSalon(id) {
   if (firebaseOk) {
     const { db, ref, onChildAdded } = window._fb;
@@ -903,18 +903,18 @@ function loadSalon(id) {
     if (!(localMessages[id] || []).length) resetMessages(true);
   }
 }
-
+ 
 // ── Send ──
 window.sendMessage = async function() {
   const input = document.getElementById('msg-input');
   const text  = input.value.trim();
   if (!text && !selectedFile) return;
   if (!currentUser) return;
-
+ 
   // Indicateur d'envoi
   const btn = document.getElementById('send-btn');
   btn.textContent = '⏳'; btn.disabled = true;
-
+ 
   let fileData = null;
   if (selectedFile) {
     try {
@@ -923,7 +923,7 @@ window.sendMessage = async function() {
       console.error('Upload échoué', e);
     }
   }
-
+ 
   const msg = { pseudo: currentUser.pseudo, promo: currentUser.promo, text: text || null, file: fileData || null, ts: Date.now() };
   if (firebaseOk) {
     const { db, ref, push, serverTimestamp } = window._fb;
@@ -937,7 +937,7 @@ window.sendMessage = async function() {
   clearFile();
   btn.textContent = '➤'; btn.disabled = false;
 };
-
+ 
 // ── Render ──
 function renderMsg(msg) {
   const msgs  = document.getElementById('messages');
@@ -947,7 +947,7 @@ function renderMsg(msg) {
   const time = new Date(msg.ts).toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
   const g = document.createElement('div');
   g.className = `msg-group ${isMe ? 'me' : 'other'}`;
-
+ 
   let content = '';
   if (msg.annonce) {
     const labels = { vente:'🏷️ Vente', recherche:'🔍 Recherche', echange:'🔄 Échange', cours:'📝 Cours/TD' };
@@ -966,7 +966,7 @@ function renderMsg(msg) {
       </a>`;
     }
   }
-
+ 
   g.innerHTML = `
     <div class="msg-author">${isMe ? 'Toi' : `${msg.pseudo} · ${msg.promo}`}</div>
     ${content}
@@ -974,18 +974,18 @@ function renderMsg(msg) {
   msgs.appendChild(g);
   msgs.scrollTop = msgs.scrollHeight;
 }
-
+ 
 // ── Modals ──
 window.openModal  = id => document.getElementById(id).classList.add('show');
 window.closeModal = id => document.getElementById(id).classList.remove('show');
-
+ 
 document.querySelectorAll('#ticket-tags .modal-tag').forEach(t => {
   t.onclick = () => {
     document.querySelectorAll('#ticket-tags .modal-tag').forEach(x => x.classList.remove('selected'));
     t.classList.add('selected'); ticketType = t.dataset.val;
   };
 });
-
+ 
 window.createMatiere = function() {
   const name  = document.getElementById('matiere-name').value.trim();
   const promo = document.getElementById('matiere-promo').value;
@@ -1001,7 +1001,7 @@ window.createMatiere = function() {
   document.getElementById('matiere-promo').value = '';
   closeModal('modal-matiere');
 };
-
+ 
 window.createGroupe = function() {
   const name    = document.getElementById('groupe-name').value.trim();
   const matiere = document.getElementById('groupe-matiere').value.trim();
@@ -1018,7 +1018,7 @@ window.createGroupe = function() {
   document.getElementById('groupe-matiere').value = '';
   closeModal('modal-groupe');
 };
-
+ 
 window.postTicket = function() {
   const desc = document.getElementById('ticket-desc').value.trim();
   const prix = document.getElementById('ticket-prix').value.trim();
@@ -1044,7 +1044,7 @@ window.postTicket = function() {
   document.getElementById('ticket-prix').value = '';
   closeModal('modal-ticket');
 };
-
+ 
 // ── Utils ──
 function resetMessages(showEmpty = true) {
   document.getElementById('messages').innerHTML = showEmpty ? `
@@ -1099,19 +1099,19 @@ function fileIcon(type) {
 document.querySelectorAll('.modal-overlay').forEach(o => {
   o.addEventListener('click', e => { if (e.target === o) o.classList.remove('show'); });
 });
-
+ 
 // ══ GROUPES PRIVÉS ══
 let currentCode = null;
-
+ 
 function genCode() {
   return Math.random().toString(36).substring(2, 8).toUpperCase();
 }
-
+ 
 window.createGroupePrive = function() {
   const name = document.getElementById('prive-name').value.trim();
   const desc = document.getElementById('prive-desc').value.trim();
   if (!name || !currentUser) return;
-
+ 
   const code = genCode();
   currentCode = code;
   const salonId = 'prive-' + code;
@@ -1121,7 +1121,7 @@ window.createGroupePrive = function() {
     promo: currentUser.promo,
     ts: Date.now()
   };
-
+ 
   if (firebaseOk) {
     const { db, ref, push } = window._fb;
     // Stocker le groupe avec son code comme clé
@@ -1131,23 +1131,23 @@ window.createGroupePrive = function() {
       set(ref(db, `membres-prives/${currentUser.pseudo}/${code}`), true);
     });
   }
-
+ 
   // Ajouter dans la sidebar
   addGroupePrive(code, name);
-
+ 
   document.getElementById('prive-name').value = '';
   document.getElementById('prive-desc').value = '';
   document.getElementById('code-display').textContent = code;
   closeModal('modal-prive');
   openModal('modal-code');
 };
-
+ 
 window.rejoindreGroupe = function() {
   const code = document.getElementById('code-input').value.trim().toUpperCase();
   if (!code || code.length !== 6) return;
   const errEl = document.getElementById('code-error');
   errEl.style.display = 'none';
-
+ 
   if (firebaseOk) {
     const { db, ref } = window._fb;
     import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js').then(({ get, set }) => {
@@ -1166,7 +1166,7 @@ window.rejoindreGroupe = function() {
     });
   }
 };
-
+ 
 function addGroupePrive(code, name) {
   const salonId = 'prive-' + code;
   if (document.getElementById('sb-' + salonId)) return;
@@ -1176,7 +1176,7 @@ function addGroupePrive(code, name) {
   el.onclick = () => switchSalon(salonId, el, '🔒', name, `Groupe privé · ${code}`);
   document.getElementById('salons-prives').appendChild(el);
 }
-
+ 
 // Charger les groupes privés rejoints au login
 function loadGroupesPrives() {
   if (!firebaseOk || !currentUser) return;
@@ -1193,7 +1193,7 @@ function loadGroupesPrives() {
     });
   });
 }
-
+ 
 window.copyCode = function() {
   navigator.clipboard.writeText(currentCode).then(() => {
     const btn = document.querySelector('#modal-code .btn-cancel');
@@ -1201,7 +1201,7 @@ window.copyCode = function() {
     setTimeout(() => btn.textContent = '📋 Copier le code', 2000);
   });
 };
-
+ 
 // ── Vider le salon ──
 window.clearSalon = function() {
   if (!confirm(`Vider tous les messages de ce salon ? Cette action est irréversible.`)) return;
