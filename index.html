@@ -2440,7 +2440,7 @@ function renderMsg(msg) {
     ? '<button class="msg-action-btn del-btn" data-msgid="' + msgId + '" data-fbkey="' + (msg.fbKey||'') + '" title="Supprimer" style="color:#f87171">🗑️</button>'
     : '<button class="msg-action-btn rep-btn" data-pseudo="' + escHtml(msg.pseudo) + '" data-text="' + safeText + '" title="Signaler" style="color:#fb923c">🚨</button>';
   const actionsHtml = '<div class="msg-actions">'
-    + '<button class="msg-action-btn rea-btn" data-msgid="' + msgId + '" data-emoji="👍" title="J'aime">👍</button>'
+    + '<button class="msg-action-btn rea-btn" data-msgid="' + msgId + '" data-emoji="👍" title="Like">👍</button>'
     + '<button class="msg-action-btn rea-btn" data-msgid="' + msgId + '" data-emoji="❤️" title="Amour">❤️</button>'
     + '<button class="msg-action-btn rea-btn" data-msgid="' + msgId + '" data-emoji="😂" title="Haha">😂</button>'
     + '<button class="msg-action-btn rpl-btn" data-pseudo="' + escHtml(msg.pseudo) + '" data-text="' + safeText + '">↩️</button>'
