@@ -2321,6 +2321,23 @@ function clearUnread(salonId) {
 // Tracker les salons principaux
 const MAIN_SALONS = ['general','annonces','tickets','echange-cours','coloc','annales'];
 
+// ── Event delegation pour les actions messages ──
+document.getElementById('messages').addEventListener('click', function(e) {
+  const btn = e.target.closest('button');
+  if (!btn) return;
+  if (btn.classList.contains('rea-btn')) {
+    addReaction(btn.dataset.msgid, btn.dataset.emoji);
+  } else if (btn.classList.contains('rpl-btn')) {
+    startReply(btn.dataset.pseudo, btn.dataset.text);
+  } else if (btn.classList.contains('del-btn')) {
+    deleteMsg(btn.dataset.msgid, btn.dataset.fbkey);
+  } else if (btn.classList.contains('rep-btn')) {
+    reportMsg(btn.dataset.pseudo, btn.dataset.text);
+  } else if (btn.classList.contains('pin-btn')) {
+    startPin(btn.dataset.text);
+  }
+});
+
 window.cancelReply = function() {
   replyTo = null;
   document.getElementById('reply-preview').classList.remove('show');
@@ -2351,10 +2368,12 @@ function renderMsg(msg) {
     const canDel = isMe || currentUser?.isAdmin;
     const authorP = isMe ? (currentUser?.isAdmin ? '👑 Admin · Toi' : 'Toi') : (msg.isAdmin ? '👑 Admin · ' + msg.pseudo : msg.pseudo + ' · ' + msg.promo);
     g.id = 'msg-' + msg.fbKey;
+    const delPoll = canDel
+    ? '<button class="del-btn" data-msgid="msg-' + msg.fbKey + '" data-fbkey="' + msg.fbKey + '" style="color:#f87171;font-size:13px;background:transparent;border:none;cursor:pointer">🗑️</button>'
+    : '';
     g.innerHTML = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">'
       + '<div class="msg-author" style="margin-bottom:0">' + authorP + '</div>'
-      + (canDel ? '<button onclick="deleteMsg('msg-' + msg.fbKey + '','' + msg.fbKey + '')" style="color:#f87171;font-size:13px;background:transparent;border:none;cursor:pointer;padding:2px 6px">🗑️</button>' : '')
-      + '</div>'
+      + delPoll + '</div>'
       + renderPoll(msg, isMe)
       + '<div class="msg-time">' + time + '</div>';
     msgs.appendChild(g);
@@ -2368,10 +2387,12 @@ function renderMsg(msg) {
     const authorE = msg.isAdmin ? '👑 Admin · ' + msg.pseudo : msg.pseudo + ' · ' + msg.promo;
     g.className = 'msg-group other';
     g.id = 'msg-' + msg.fbKey;
+    const delEvent = canDel
+      ? '<button class="del-btn" data-msgid="msg-' + msg.fbKey + '" data-fbkey="' + msg.fbKey + '" style="color:#f87171;font-size:13px;background:transparent;border:none;cursor:pointer">🗑️</button>'
+      : '';
     g.innerHTML = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">'
       + '<div class="msg-author" style="margin-bottom:0">' + authorE + '</div>'
-      + (canDel ? '<button onclick="deleteMsg('msg-' + msg.fbKey + '','' + msg.fbKey + '')" style="color:#f87171;font-size:13px;background:transparent;border:none;cursor:pointer;padding:2px 6px">🗑️</button>' : '')
-      + '</div>'
+      + delEvent + '</div>'
       + renderEvent(msg)
       + '<div class="msg-time">' + time + '</div>';
     msgs.appendChild(g);
@@ -2416,17 +2437,16 @@ function renderMsg(msg) {
   // Actions hover
   const safeText = (msg.text||'').substring(0,50).replace(/'/g, '&#39;');
   const delBtn = isMe
-    ? '<button class="msg-action-btn" onclick="deleteMsg('' + msgId + '','' + (msg.fbKey||'') + '')" title="Supprimer" style="color:#f87171">🗑️</button>'
-    : '<button class="msg-action-btn" onclick="reportMsg('' + escHtml(msg.pseudo) + '','' + safeText + '')" title="Signaler" style="color:#fb923c">🚨</button>';
+    ? '<button class="msg-action-btn del-btn" data-msgid="' + msgId + '" data-fbkey="' + (msg.fbKey||'') + '" title="Supprimer" style="color:#f87171">🗑️</button>'
+    : '<button class="msg-action-btn rep-btn" data-pseudo="' + escHtml(msg.pseudo) + '" data-text="' + safeText + '" title="Signaler" style="color:#fb923c">🚨</button>';
   const actionsHtml = '<div class="msg-actions">'
-    + '<button class="msg-action-btn" onclick="addReaction('' + msgId + '','👍')" title="J'aime">👍</button>'
-    + '<button class="msg-action-btn" onclick="addReaction('' + msgId + '','❤️')" title="Amour">❤️</button>'
-    + '<button class="msg-action-btn" onclick="addReaction('' + msgId + '','😂')" title="Haha">😂</button>'
-    + '<button class="msg-action-btn" onclick="startReply('' + escHtml(msg.pseudo) + '','' + safeText + '')">↩️</button>'
+    + '<button class="msg-action-btn rea-btn" data-msgid="' + msgId + '" data-emoji="👍" title="J'aime">👍</button>'
+    + '<button class="msg-action-btn rea-btn" data-msgid="' + msgId + '" data-emoji="❤️" title="Amour">❤️</button>'
+    + '<button class="msg-action-btn rea-btn" data-msgid="' + msgId + '" data-emoji="😂" title="Haha">😂</button>'
+    + '<button class="msg-action-btn rpl-btn" data-pseudo="' + escHtml(msg.pseudo) + '" data-text="' + safeText + '">↩️</button>'
     + delBtn
-    + '<button class="msg-action-btn" onclick="startPin('' + safeText + '')" title="Épingler">📌</button>'
+    + '<button class="msg-action-btn pin-btn" data-text="' + safeText + '" title="Épingler">📌</button>'
     + '</div>';
-
   const authorLabel = isMe
     ? (currentUser?.isAdmin ? '👑 Admin · Toi' : 'Toi')
     : (msg.isAdmin ? '👑 Admin · ' + msg.pseudo : msg.pseudo + ' · ' + msg.promo);
