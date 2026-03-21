@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat · DauphineGuide</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #0e1a3a;
+    --bg2:      #122044;
+    --surface:  #1a2d5a;
+    --surface2: #1f3468;
+    --border:   rgba(255,255,255,0.08);
+    --border2:  rgba(255,255,255,0.13);
+    --accent:   #4f7fff;
+    --accent-h: #6b93ff;
+    --white:    #ffffff;
+    --text:     #e8eeff;
+    --muted:    #8da0cc;
+    --muted2:   #5e78a8;
+    --green:    #34d399;
+    --orange:   #fb923c;
+    --bubble-me:    #2e4fa3;
+    --bubble-other: #1a2d5a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); height: 100vh; display: flex; overflow: hidden; }
+
+  /* ══ AUTH ══ */
+  #auth-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .login-box {
+    background: var(--surface); border: 1px solid var(--border2);
+    border-radius: 20px; padding: 40px; width: 400px;
+    box-shadow: 0 32px 80px rgba(0,0,0,.4);
+    max-height: 90vh; overflow-y: auto;
+  }
+  .login-box::-webkit-scrollbar { width: 3px; }
+  .login-box::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+  .auth-tabs {
+    display: flex; background: var(--bg2); border-radius: 10px;
+    padding: 4px; margin-bottom: 24px; gap: 4px;
+  }
+  .auth-tab {
+    flex: 1; padding: 9px; border: none; border-radius: 8px;
+    font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600;
+    cursor: pointer; background: transparent; color: var(--muted);
+    transition: all .2s;
+  }
+  .auth-tab.active { background: var(--surface2); color: var(--white); }
+  .auth-error {
+    font-size: 13px; color: #f87171; margin-top: -8px;
+    margin-bottom: 12px; min-height: 18px;
+  }
+  .google-btn {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: 10px; padding: 13px; color: var(--text);
+    font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    gap: 10px; margin-top: 10px; transition: background .2s;
+  }
+  .google-btn:hover { background: var(--surface); }
+  .auth-forgot {
+    text-align: center; font-size: 13px; color: var(--muted);
+    cursor: pointer; margin-top: 12px; transition: color .2s;
+  }
+  .auth-forgot:hover { color: var(--accent); }
+  .login-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+  .d-icon {
+    width: 44px; height: 44px; background: var(--accent); border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 800; color: #fff; font-style: italic;
+    box-shadow: 0 4px 16px rgba(79,127,255,.4);
+  }
+  .d-title { font-size: 20px; font-weight: 800; color: var(--white); }
+  .d-sub   { font-size: 12px; color: var(--muted); }
+  .login-heading { font-size: 22px; font-weight: 800; color: var(--white); margin-bottom: 6px; }
+  .login-sub { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+  .login-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 7px; display: block; }
+  .login-box input, .login-box select {
+    width: 100%; background: var(--bg2); border: 1px solid var(--border2);
+    border-radius: 10px; padding: 13px 15px; color: var(--text);
+    font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 500;
+    margin-bottom: 18px; outline: none; transition: border-color .2s; appearance: none;
+  }
+  .login-box input:focus, .login-box select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,127,255,.15); }
+  .login-box select option { background: var(--bg2); }
+  .login-btn {
+    width: 100%; background: var(--accent); border: none; border-radius: 10px;
+    padding: 14px; color: #fff; font-family: 'Outfit', sans-serif;
+    font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 4px;
+    transition: background .2s, transform .1s; box-shadow: 0 4px 16px rgba(79,127,255,.35);
+  }
+  .login-btn:hover { background: var(--accent-h); transform: translateY(-1px); }
+
+  /* ══ SIDEBAR ══ */
+  #sidebar {
+    width: 240px; flex-shrink: 0; background: var(--bg2);
+    border-right: 1px solid var(--border); display: flex; flex-direction: column;
+  }
+  .sb-header {
+    padding: 18px 16px 14px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .sb-icon {
+    width: 34px; height: 34px; background: var(--accent); border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 800; color: #fff; font-style: italic; flex-shrink: 0;
+  }
+  .sb-title { font-size: 15px; font-weight: 800; color: var(--white); }
+  .sb-user  { font-size: 11px; color: var(--muted); margin-top: 1px; }
+  .sb-body  { flex: 1; overflow-y: auto; padding-bottom: 8px; }
+  .sb-body::-webkit-scrollbar { width: 3px; }
+  .sb-body::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+  .sb-section {
+    padding: 14px 16px 5px; font-size: 10px; font-weight: 700;
+    letter-spacing: .1em; color: var(--muted2); text-transform: uppercase;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .sb-add {
+    width: 18px; height: 18px; background: var(--surface2); border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; cursor: pointer; color: var(--muted);
+    transition: background .15s, color .15s;
+  }
+  .sb-add:hover { background: var(--accent); color: #fff; }
+  .salon-item {
+    display: flex; align-items: center; gap: 9px; padding: 9px 12px;
+    margin: 1px 8px; border-radius: 9px; cursor: pointer;
+    font-size: 13.5px; font-weight: 500; color: var(--muted);
+    transition: background .15s, color .15s;
+  }
+  .salon-item:hover { background: var(--surface); color: var(--text); }
+  .salon-item.active { background: var(--accent); color: #fff; font-weight: 600; }
+  .salon-ic { font-size: 15px; flex-shrink: 0; }
+  .salon-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .salon-tag {
+    font-size: 10px; font-weight: 700; border-radius: 5px; padding: 2px 6px;
+    background: rgba(79,127,255,.2); color: var(--accent-h);
+  }
+  .salon-item.active .salon-tag { background: rgba(255,255,255,.2); color: #fff; }
+  .sb-footer { padding: 12px; border-top: 1px solid var(--border); }
+  .logout-btn {
+    width: 100%; background: transparent; border: 1px solid var(--border2);
+    border-radius: 9px; padding: 9px; color: var(--muted);
+    font-family: 'Outfit', sans-serif; font-size: 13px; cursor: pointer; transition: all .2s;
+  }
+  .logout-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ══ MAIN ══ */
+  #main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .chat-header {
+    padding: 15px 22px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px;
+    background: var(--bg2); flex-shrink: 0;
+  }
+  .ch-ic {
+    width: 38px; height: 38px; background: var(--surface2); border-radius: 10px;
+    display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
+  }
+  .ch-name { font-size: 16px; font-weight: 800; color: var(--white); }
+  .ch-desc { font-size: 12px; color: var(--muted); margin-top: 1px; }
+  .ch-dot {
+    margin-left: auto; display: flex; align-items: center; gap: 6px;
+    font-size: 12px; color: var(--green); font-weight: 600;
+  }
+  .ch-dot::before {
+    content: ''; width: 7px; height: 7px; background: var(--green);
+    border-radius: 50%; box-shadow: 0 0 6px var(--green); display: block;
+  }
+
+  /* ══ MESSAGES ══ */
+  #messages {
+    flex: 1; overflow-y: auto; padding: 20px 22px;
+    display: flex; flex-direction: column; gap: 2px;
+    scroll-behavior: smooth; background: var(--bg);
+  }
+  #messages::-webkit-scrollbar { width: 4px; }
+  #messages::-webkit-scrollbar-thumb { background: var(--surface); border-radius: 4px; }
+  .msg-group { display: flex; flex-direction: column; margin-bottom: 10px; }
+  .msg-group.me    { align-items: flex-end; }
+  .msg-group.other { align-items: flex-start; }
+  .msg-author { font-size: 11px; color: var(--muted); margin-bottom: 4px; padding: 0 4px; font-weight: 600; }
+  .msg-group.me .msg-author { text-align: right; }
+  .msg-bubble {
+    max-width: 62%; padding: 10px 14px; border-radius: 16px;
+    font-size: 14px; line-height: 1.5; animation: popIn .18s ease;
+    word-break: break-word; border: 1px solid transparent;
+  }
+  .msg-group.me .msg-bubble {
+    background: var(--bubble-me); color: #fff;
+    border-color: rgba(255,255,255,.07); border-bottom-right-radius: 4px;
+  }
+  .msg-group.other .msg-bubble {
+    background: var(--bubble-other); border-color: var(--border2); border-bottom-left-radius: 4px;
+  }
+  /* Annonce ticket */
+  .msg-annonce {
+    max-width: 62%; padding: 12px 16px; border-radius: 16px;
+    border-left: 3px solid var(--orange); background: var(--bubble-other);
+    border-top: 1px solid var(--border2); border-right: 1px solid var(--border2);
+    border-bottom: 1px solid var(--border2);
+    animation: popIn .18s ease; border-bottom-left-radius: 4px;
+  }
+  .msg-group.me .msg-annonce { border-bottom-left-radius: 16px; border-bottom-right-radius: 4px; border-left-color: var(--accent); }
+  .msg-annonce-type { font-size: 10px; font-weight: 800; color: var(--orange); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 5px; }
+  .msg-group.me .msg-annonce-type { color: var(--accent-h); }
+  .msg-annonce-desc { font-size: 14px; line-height: 1.5; }
+  .msg-annonce-prix { font-size: 12px; font-weight: 700; color: var(--green); margin-top: 6px; }
+  .msg-time { font-size: 10px; color: var(--muted2); margin-top: 4px; padding: 0 4px; font-weight: 500; }
+  .system-msg { text-align: center; font-size: 12px; color: var(--muted2); padding: 8px 0; font-weight: 500; }
+  .empty-state {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    color: var(--muted); gap: 10px; padding: 40px; text-align: center;
+  }
+  .empty-state .big-ic { font-size: 44px; opacity: .3; }
+  .empty-state p { font-size: 14px; line-height: 1.6; max-width: 260px; font-weight: 500; }
+
+  /* ══ INPUT ══ */
+  .chat-input-wrap {
+    padding: 16px 22px; border-top: 1px solid var(--border);
+    background: var(--bg2); flex-shrink: 0;
+  }
+  #msg-input {
+    flex: 1; background: var(--surface); border: 1px solid var(--border2); border-radius: 12px;
+    padding: 14px 18px; color: var(--text); font-family: 'Outfit', sans-serif;
+    font-size: 15px; resize: none; outline: none; min-height: 72px; max-height: 160px; line-height: 1.6; width: 100%;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  #msg-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,127,255,.12); }
+  #msg-input::placeholder { color: var(--muted2); }
+  #send-btn {
+    width: 42px; height: 42px; background: var(--accent); border: none; border-radius: 11px;
+    color: #fff; font-size: 17px; cursor: pointer; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s, transform .1s; box-shadow: 0 4px 12px rgba(79,127,255,.3);
+  }
+  #send-btn:hover { background: var(--accent-h); transform: scale(1.05); }
+  #send-btn:active { transform: scale(.95); }
+
+  /* ══ MODALS ══ */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 150;
+    background: rgba(0,0,0,.6); backdrop-filter: blur(4px);
+    display: none; align-items: center; justify-content: center;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: var(--surface); border: 1px solid var(--border2);
+    border-radius: 18px; padding: 36px 32px; width: 420px;
+    box-shadow: 0 24px 60px rgba(0,0,0,.5);
+  }
+  .modal h3 { font-size: 18px; font-weight: 800; color: var(--white); margin-bottom: 6px; }
+  .modal p  { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+  .modal-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 7px; display: block; }
+  .modal input, .modal select, .modal textarea {
+    width: 100%; background: var(--bg2); border: 1px solid var(--border2);
+    border-radius: 10px; padding: 12px 14px; color: var(--text);
+    font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500;
+    margin-bottom: 14px; outline: none; transition: border-color .2s; appearance: none; resize: none;
+  }
+  .modal input:focus, .modal select:focus, .modal textarea:focus { border-color: var(--accent); }
+  .modal select option { background: var(--bg2); }
+  .modal-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .modal-tag {
+    padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
+    cursor: pointer; border: 1px solid var(--border2); color: var(--muted);
+    background: var(--bg2); transition: all .15s;
+  }
+  .modal-tag.selected { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .modal-actions { display: flex; gap: 10px; margin-top: 4px; }
+  .btn-primary {
+    flex: 1; background: var(--accent); border: none; border-radius: 10px;
+    padding: 13px; color: #fff; font-family: 'Outfit', sans-serif;
+    font-size: 14px; font-weight: 700; cursor: pointer; transition: background .2s;
+  }
+  .btn-primary:hover { background: var(--accent-h); }
+  .btn-cancel {
+    flex: 1; background: transparent; border: 1px solid var(--border2); border-radius: 10px;
+    padding: 13px; color: var(--muted); font-family: 'Outfit', sans-serif;
+    font-size: 14px; font-weight: 600; cursor: pointer; transition: all .2s;
+  }
+  .btn-cancel:hover { border-color: #f87171; color: #f87171; }
+
+  /* fichier joint */
+  .msg-file {
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(255,255,255,.08); border-radius: 10px;
+    padding: 10px 13px; text-decoration: none; max-width: 280px;
+    border: 1px solid rgba(255,255,255,.12); transition: background .15s;
+    animation: popIn .18s ease;
+  }
+  .msg-file:hover { background: rgba(255,255,255,.14); }
+  .msg-file-ic { font-size: 22px; flex-shrink: 0; }
+  .msg-file-name { font-size: 13px; font-weight: 600; color: var(--white); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 180px; }
+  .msg-file-size { font-size: 11px; color: var(--muted); }
+
+  /* input row */
+  .input-row { display: flex; gap: 10px; align-items: flex-end; width: 100%; }
+  .attach-btn {
+    width: 42px; height: 42px; background: var(--surface2); border: none;
+    border-radius: 11px; font-size: 18px; cursor: pointer; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s, transform .1s;
+  }
+  .attach-btn:hover { background: var(--surface); transform: scale(1.05); }
+
+  /* file preview */
+  .file-preview {
+    display: none; align-items: center; gap: 10px;
+    background: var(--surface); border-radius: 10px; padding: 8px 12px;
+    margin-bottom: 8px; border: 1px solid var(--border2);
+  }
+  .file-preview.show { display: flex; }
+  .fp-name { font-size: 13px; font-weight: 600; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .fp-remove { cursor: pointer; color: #f87171; font-size: 16px; background: none; border: none; padding: 0; }
+
+  .code-display {
+    font-size: 36px; font-weight: 800; letter-spacing: .25em;
+    color: var(--white); background: var(--bg2); border-radius: 14px;
+    padding: 20px; margin: 8px 0; border: 2px solid var(--accent);
+    font-family: 'Outfit', sans-serif;
+  }
+  .join-btn {
+    width: 100%; background: transparent; border: 1px dashed var(--border2);
+    border-radius: 9px; padding: 9px; color: var(--muted);
+    font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 500;
+    cursor: pointer; transition: all .2s; margin-top: 2px;
+  }
+  .join-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .prive-badge {
+    font-size: 10px; font-weight: 700; border-radius: 5px; padding: 2px 6px;
+    background: rgba(251,146,60,.15); color: #fb923c;
+  }
+  .salon-item.active .prive-badge { background: rgba(255,255,255,.2); color: #fff; }
+
+  @keyframes popIn {
+    from { opacity:0; transform: scale(.94) translateY(4px) }
+    to   { opacity:1; transform: none }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ AUTH ══ -->
+<div id="auth-overlay">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="d-icon">D</div>
+      <div><div class="d-title">DauphineGuide</div><div class="d-sub">Chat étudiant</div></div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchTab('login')">Connexion</button>
+      <button class="auth-tab" onclick="switchTab('register')">Inscription</button>
+    </div>
+
+    <!-- Login -->
+    <div id="tab-login">
+      <label class="login-label">Email @dauphine.eu</label>
+      <input type="email" id="login-email" placeholder="ton@email.com" autocomplete="email">
+      <label class="login-label">Mot de passe</label>
+      <input type="password" id="login-password" placeholder="••••••••">
+      <div id="login-error" class="auth-error"></div>
+      <button class="login-btn" onclick="doLogin()">Se connecter →</button>
+      <button class="google-btn" onclick="doGoogle()">
+        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        Continuer avec Google
+      </button>
+      <div class="auth-forgot" onclick="doReset()">Mot de passe oublié ?</div>
+    </div>
+
+    <!-- Register -->
+    <div id="tab-register" style="display:none">
+      <label class="login-label">Email @dauphine.eu</label>
+      <input type="email" id="reg-email" placeholder="ton@email.com">
+      <label class="login-label">Pseudo</label>
+      <input type="text" id="reg-pseudo" placeholder="Ex : Théo, Marie22…" maxlength="20">
+      <label class="login-label">Ta promo</label>
+      <select id="reg-promo">
+        <option value="">— Sélectionne ta promo —</option>
+        <optgroup label="Licence">
+          <option value="L1">L1</option><option value="L2">L2</option><option value="L3">L3</option>
+        </optgroup>
+        <optgroup label="Master">
+          <option value="M1">M1</option><option value="M2">M2</option>
+        </optgroup>
+      </select>
+      <label class="login-label">Mot de passe</label>
+      <input type="password" id="reg-password" placeholder="Min. 6 caractères">
+      <div id="reg-error" class="auth-error"></div>
+      <button class="login-btn" onclick="doRegister()">Créer mon compte →</button>
+      <button class="google-btn" onclick="doGoogle()">
+        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        Continuer avec Google
+      </button>
+    </div>
+
+    <!-- Compléter profil (Google) -->
+    <div id="tab-complete-profile" style="display:none">
+      <div class="login-heading">Finalise ton profil</div>
+      <div class="login-sub" style="margin-bottom:20px">Dernière étape avant d'accéder au chat !</div>
+      <label class="login-label">Pseudo</label>
+      <input type="text" id="cp-pseudo" placeholder="Ex : Théo, Marie22…" maxlength="20">
+      <label class="login-label">Ta promo</label>
+      <select id="cp-promo">
+        <option value="">— Sélectionne ta promo —</option>
+        <optgroup label="Licence">
+          <option value="L1">L1</option><option value="L2">L2</option><option value="L3">L3</option>
+        </optgroup>
+        <optgroup label="Master">
+          <option value="M1">M1</option><option value="M2">M2</option>
+        </optgroup>
+      </select>
+      <div id="cp-error" class="auth-error"></div>
+      <button class="login-btn" onclick="completeProfile()">Accéder au chat →</button>
+    </div>
+
+    <!-- Vérification email -->
+    <div id="tab-verify" style="display:none;text-align:center">
+      <div style="font-size:48px;margin-bottom:16px">📬</div>
+      <div class="login-heading">Vérifie ton email</div>
+      <div class="login-sub">On a envoyé un lien de confirmation à ton adresse @dauphine.eu. Clique dessus puis reviens ici.</div>
+      <button class="login-btn" onclick="checkVerified()" style="margin-bottom:12px">J'ai confirmé →</button>
+      <button class="google-btn" onclick="resendVerif()">Renvoyer l'email</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ MODAL : Groupe privé ══ -->
+<div class="modal-overlay" id="modal-prive">
+  <div class="modal">
+    <h3>🔒 Nouveau groupe privé</h3>
+    <p>Un code unique sera généré — partagez-le pour inviter des membres</p>
+    <label class="modal-label">Nom du groupe</label>
+    <input type="text" id="prive-name" placeholder="Ex : Révisions droit des affaires…" maxlength="50">
+    <label class="modal-label">Description (optionnel)</label>
+    <input type="text" id="prive-desc" placeholder="Ex : Groupe M2 pour les partiels de janvier…" maxlength="80">
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-prive')">Annuler</button>
+      <button class="btn-primary" onclick="createGroupePrive()">Créer & obtenir le code</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL : Code généré ══ -->
+<div class="modal-overlay" id="modal-code">
+  <div class="modal" style="text-align:center">
+    <h3>✅ Groupe créé !</h3>
+    <p>Partage ce code à tes camarades pour qu'ils rejoignent le groupe</p>
+    <div class="code-display" id="code-display">——</div>
+    <p style="font-size:12px;color:var(--muted);margin-top:12px;margin-bottom:24px;">Ce code est valable indéfiniment</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="copyCode()">📋 Copier le code</button>
+      <button class="btn-primary" onclick="closeModal('modal-code')">Accéder au groupe →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL : Rejoindre avec un code ══ -->
+<div class="modal-overlay" id="modal-rejoindre">
+  <div class="modal">
+    <h3>🔑 Rejoindre un groupe</h3>
+    <p>Entre le code partagé par le créateur du groupe</p>
+    <label class="modal-label">Code d'accès</label>
+    <input type="text" id="code-input" placeholder="Ex : X7K2QP" maxlength="6" style="text-transform:uppercase;letter-spacing:.2em;font-size:20px;font-weight:700;text-align:center">
+    <div id="code-error" style="color:#f87171;font-size:13px;margin-top:-8px;margin-bottom:12px;display:none">Code introuvable, vérifie et réessaie.</div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-rejoindre')">Annuler</button>
+      <button class="btn-primary" onclick="rejoindreGroupe()">Rejoindre</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL : Matière ══ -->
+<div class="modal-overlay" id="modal-matiere">
+  <div class="modal">
+    <h3>➕ Nouveau salon matière</h3>
+    <p>Crée un salon de discussion pour une matière</p>
+    <label class="modal-label">Nom de la matière</label>
+    <input type="text" id="matiere-name" placeholder="Ex : Droit civil, Maths L1…" maxlength="40">
+    <label class="modal-label">Promo concernée</label>
+    <select id="matiere-promo">
+      <option value="">— Choisir —</option>
+      <option value="L1">L1</option><option value="L2">L2</option><option value="L3">L3</option>
+      <option value="M1">M1</option><option value="M2">M2</option>
+      <option value="Toutes">Toutes les promos</option>
+    </select>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-matiere')">Annuler</button>
+      <button class="btn-primary" onclick="createMatiere()">Créer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL : Groupe révision ══ -->
+<div class="modal-overlay" id="modal-groupe">
+  <div class="modal">
+    <h3>📖 Nouveau groupe de révision</h3>
+    <p>Crée un espace de discussion pour réviser ensemble</p>
+    <label class="modal-label">Nom du groupe</label>
+    <input type="text" id="groupe-name" placeholder="Ex : Révisions partiels droit S2…" maxlength="50">
+    <label class="modal-label">Matière / Sujet</label>
+    <input type="text" id="groupe-matiere" placeholder="Ex : Droit civil, Maths…" maxlength="40">
+    <p style="font-size:12px;color:var(--accent-h);background:rgba(79,127,255,.1);border-radius:8px;padding:8px 12px;margin-bottom:14px;">
+      📌 Ce sous-chat sera visible uniquement par les étudiants de ta promo
+    </p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-groupe')">Annuler</button>
+      <button class="btn-primary" onclick="createGroupe()">Créer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL : Ticket ══ -->
+<div class="modal-overlay" id="modal-ticket">
+  <div class="modal">
+    <h3>🎟️ Poster une annonce</h3>
+    <p>Vente, échange ou recherche de ticket / cours</p>
+    <label class="modal-label">Type</label>
+    <div class="modal-tags" id="ticket-tags">
+      <span class="modal-tag selected" data-val="vente">🏷️ Vente</span>
+      <span class="modal-tag" data-val="recherche">🔍 Recherche</span>
+      <span class="modal-tag" data-val="echange">🔄 Échange</span>
+      <span class="modal-tag" data-val="cours">📝 Cours/TD</span>
+    </div>
+    <label class="modal-label">Description</label>
+    <textarea id="ticket-desc" rows="3" placeholder="Ex : Vends 1 ticket soirée BDE samedi 15€…"></textarea>
+    <label class="modal-label">Prix (optionnel)</label>
+    <input type="text" id="ticket-prix" placeholder="Ex : 15€, gratuit, à négocier…">
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-ticket')">Annuler</button>
+      <button class="btn-primary" onclick="postTicket()">Publier</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SIDEBAR ══ -->
+<div id="sidebar">
+  <div class="sb-header">
+    <div class="sb-icon">D</div>
+    <div><div class="sb-title">Chat</div><div class="sb-user" id="user-display">—</div></div>
+  </div>
+  <div class="sb-body">
+
+    <div class="sb-section"><span>Général</span></div>
+    <div class="salon-item active" onclick="switchSalon('general',this,'🏠','Général','Salon ouvert à tous')">
+      <span class="salon-ic">🏠</span><span class="salon-name">Général</span>
+    </div>
+    <div class="salon-item" onclick="switchSalon('annonces',this,'📢','Annonces','Infos importantes & événements')">
+      <span class="salon-ic">📢</span><span class="salon-name">Annonces</span>
+    </div>
+
+    <div class="sb-section">
+      <span>Tickets & Échanges</span>
+      <span class="sb-add" onclick="openModal('modal-ticket')">+</span>
+    </div>
+    <div class="salon-item" onclick="switchSalon('tickets',this,'🎟️','Vente de tickets','Vends, achète, échange des tickets')">
+      <span class="salon-ic">🎟️</span><span class="salon-name">Vente de tickets</span>
+    </div>
+    <div class="salon-item" onclick="switchSalon('echange-cours',this,'📝','Échange cours/TD','Échange de créneaux, polycopiés…')">
+      <span class="salon-ic">📝</span><span class="salon-name">Échange cours/TD</span>
+    </div>
+
+    <div class="sb-section">
+      <span>Matières</span>
+      <span class="sb-add" onclick="openModal('modal-matiere')">+</span>
+    </div>
+    <div id="salons-matieres"></div>
+
+
+
+    <div class="sb-section"><span>Ma promo</span></div>
+    <div id="salon-ma-promo"></div>
+    <div class="sb-section">
+      <span>Sous-chats promo</span>
+      <span class="sb-add" id="btn-add-subchat" onclick="openModal('modal-groupe')" style="display:none">+</span>
+    </div>
+    <div id="salons-groupes-promo"></div>
+
+    <div class="sb-section">
+      <span>Groupes privés</span>
+      <span class="sb-add" onclick="openModal('modal-prive')">+</span>
+    </div>
+    <div id="salons-prives"></div>
+    <div style="padding:4px 16px 8px">
+      <button class="join-btn" onclick="openModal('modal-rejoindre')">🔑 Rejoindre avec un code</button>
+    </div>
+
+    <div class="sb-section"><span>Entraide</span></div>
+    <div class="salon-item" onclick="switchSalon('coloc',this,'🏠','Coloc & Logement','Cherche ou propose une coloc')"><span class="salon-ic">🏠</span><span class="salon-name">Coloc & Logement</span></div>
+    <div class="salon-item" onclick="switchSalon('annales',this,'📚','Annales & Fiches','Partage tes ressources')"><span class="salon-ic">📚</span><span class="salon-name">Annales & Fiches</span></div>
+
+  </div>
+  <div class="sb-footer">
+    <button class="logout-btn" onclick="logout()">👋 Se déconnecter</button>
+  </div>
+</div>
+
+<!-- ══ MAIN ══ -->
+<div id="main">
+  <div class="chat-header">
+    <div class="ch-ic" id="ch-ic">🏠</div>
+    <div>
+      <div class="ch-name" id="ch-name">Général</div>
+      <div class="ch-desc" id="ch-desc">Salon ouvert à tous les étudiants</div>
+    </div>
+    <div class="ch-dot">En ligne</div>
+  </div>
+
+  <div id="messages">
+    <div class="empty-state" id="empty-state">
+      <div class="big-ic">💬</div>
+      <p>Aucun message pour l'instant.<br>Sois le premier à écrire !</p>
+    </div>
+  </div>
+
+  <div class="chat-input-wrap">
+    <div class="file-preview" id="file-preview">
+      <span id="fp-ic">📄</span>
+      <span class="fp-name" id="fp-name">—</span>
+      <button class="fp-remove" onclick="clearFile()">✕</button>
+    </div>
+    <div class="input-row">
+      <button class="attach-btn" onclick="document.getElementById('file-input').click()" title="Joindre un fichier">📎</button>
+      <input type="file" id="file-input" style="display:none" onchange="onFileSelected(this)">
+      <textarea id="msg-input" placeholder="Écris un message…" rows="1"
+        onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+      <button id="send-btn" onclick="sendMessage()">➤</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+const firebaseConfig = {
+  apiKey: "AIzaSyA57gXb38f4ZCH3nmxgWjw0HlQIbGAEYXg",
+  authDomain: "dauphineguide-5306e.firebaseapp.com",
+  databaseURL: "https://dauphineguide-5306e-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "dauphineguide-5306e",
+  storageBucket: "dauphineguide-5306e.firebasestorage.app",
+  messagingSenderId: "188304367032",
+  appId: "1:188304367032:web:df48b3408a30799327034d"
+};
+
+let currentUser  = null;
+let currentSalon = 'general';
+let db = null, auth = null, firebaseOk = false;
+let localMessages = {};
+let ticketType = 'vente';
+let selectedFile = null;
+
+// ── Uploadcare ──
+const UC_KEY = '65403977ff8c3071fada';
+async function uploadFile(file) {
+  const form = new FormData();
+  form.append('UPLOADCARE_PUB_KEY', UC_KEY);
+  form.append('UPLOADCARE_STORE', '1');
+  form.append('file', file);
+  const res  = await fetch('https://upload.uploadcare.com/base/', { method: 'POST', body: form });
+  const data = await res.json();
+  if (!data.file) throw new Error('Upload échoué: ' + JSON.stringify(data));
+  return { url: `https://33so06ntxg.ucarecd.net/${data.file}/${encodeURIComponent(file.name)}`, name: file.name, size: formatSize(file.size), type: file.type };
+}
+
+// ── Init Firebase ──
+const { initializeApp }   = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
+const { getDatabase, ref, push, onChildAdded, serverTimestamp, get, set, remove } =
+  await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js');
+const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  signInWithPopup, GoogleAuthProvider, onAuthStateChanged,
+  sendEmailVerification, sendPasswordResetEmail, signOut } =
+  await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js');
+
+const app  = initializeApp(firebaseConfig);
+db   = getDatabase(app);
+auth = getAuth(app);
+firebaseOk = true;
+window._fb = { db, ref, push, onChildAdded, serverTimestamp, get, set, remove };
+
+// ── Auth state ──
+onAuthStateChanged(auth, async fbUser => {
+  if (fbUser) {
+    // Vérifie email confirmé
+    if (!fbUser.emailVerified) {
+      showTab('verify');
+      return;
+    }
+    // Charge le profil Firebase
+    const snap = await get(ref(db, `users/${fbUser.uid}`));
+    if (snap.exists()) {
+      const profile = snap.val();
+      currentUser = { uid: fbUser.uid, pseudo: profile.pseudo, promo: profile.promo, email: fbUser.email, photo: profile.photo || null };
+      enterChat();
+    } else {
+      // Nouveau compte Google sans profil → demande promo
+      showTab('complete-profile');
+      window._pendingUser = fbUser;
+    }
+  } else {
+    document.getElementById('auth-overlay').style.display = 'flex';
+  }
+});
+
+// ── Salons dynamiques ──
+function loadDynamicSalons() {
+  const { db, ref, onChildAdded } = window._fb;
+  onChildAdded(ref(db, 'salons-meta/matieres'), snap => {
+    const s = snap.val();
+    addSalon('salons-matieres', snap.key, '📖', s.name, `${s.promo} · ${s.name}`, s.promo);
+  });
+}
+
+function loadSubchatsPromo(promo) {
+  if (!firebaseOk) return;
+  const { db, ref, onChildAdded } = window._fb;
+  const container = document.getElementById('salons-groupes-promo');
+  container.innerHTML = '';
+  onChildAdded(ref(db, 'salons-meta/groupes'), snap => {
+    const s = snap.val();
+    // Afficher seulement si promo correspond ou Mixte
+    if (s.promo !== promo && s.promo !== 'Mixte') return;
+    addSalon('salons-groupes-promo', snap.key, '👥', s.name, `${s.matiere}`, null);
+  });
+}
+
+function addSalon(containerId, id, ic, name, desc, tag) {
+  if (document.getElementById('sb-' + id)) return;
+  const el = document.createElement('div');
+  el.className = 'salon-item'; el.id = 'sb-' + id;
+  el.innerHTML = `<span class="salon-ic">${ic}</span><span class="salon-name">${name}</span>${tag ? `<span class="salon-tag">${tag}</span>` : ''}`;
+  el.onclick = () => switchSalon(id, el, ic, name, desc);
+  document.getElementById(containerId).appendChild(el);
+}
+
+// ── Auth functions ──
+window.switchTab = function(tab) {
+  ['login','register','verify','complete-profile'].forEach(t => {
+    const el = document.getElementById('tab-' + t);
+    if (el) el.style.display = 'none';
+  });
+  document.getElementById('tab-' + tab).style.display = 'block';
+  document.querySelectorAll('.auth-tab').forEach((t,i) => {
+    t.classList.toggle('active', (i===0 && tab==='login') || (i===1 && tab==='register'));
+  });
+};
+
+function showTab(tab) { window.switchTab(tab); }
+function showAuthError(id, msg) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = msg;
+}
+
+window.doLogin = async function() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-password').value;
+
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+  } catch(e) {
+    showAuthError('login-error', errMsg(e.code));
+  }
+};
+
+window.doRegister = async function() {
+  const email  = document.getElementById('reg-email').value.trim();
+  const pseudo = document.getElementById('reg-pseudo').value.trim();
+  const promo  = document.getElementById('reg-promo').value;
+  const pass   = document.getElementById('reg-password').value;
+
+  if (!pseudo) { showAuthError('reg-error','Choisis un pseudo.'); return; }
+  if (!promo)  { showAuthError('reg-error','Sélectionne ta promo.'); return; }
+  if (pass.length < 6) { showAuthError('reg-error','Mot de passe trop court (6 car. min).'); return; }
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    await set(ref(db, `users/${cred.user.uid}`), { pseudo, promo, email, photo: null, createdAt: Date.now() });
+    await sendEmailVerification(cred.user);
+    showTab('verify');
+  } catch(e) {
+    showAuthError('reg-error', errMsg(e.code));
+  }
+};
+
+window.doGoogle = async function() {
+  const provider = new GoogleAuthProvider();
+
+  try {
+    await signInWithPopup(auth, provider);
+  } catch(e) {
+    showAuthError('login-error', errMsg(e.code));
+  }
+};
+
+window.doReset = async function() {
+  const email = document.getElementById('login-email').value.trim();
+  if (!email) { showAuthError('login-error','Entre ton email d'abord.'); return; }
+  try {
+    await sendPasswordResetEmail(auth, email);
+    showAuthError('login-error','Email de réinitialisation envoyé !');
+  } catch(e) {
+    showAuthError('login-error', errMsg(e.code));
+  }
+};
+
+window.checkVerified = async function() {
+  await auth.currentUser?.reload();
+  if (auth.currentUser?.emailVerified) {
+    onAuthStateChanged(auth, () => {});
+    window.location.reload();
+  } else {
+    alert('Email pas encore confirmé. Vérifie ta boîte mail.');
+  }
+};
+
+window.resendVerif = async function() {
+  await sendEmailVerification(auth.currentUser);
+  alert('Email renvoyé !');
+};
+
+window.completeProfile = async function() {
+  const pseudo = document.getElementById('cp-pseudo').value.trim();
+  const promo  = document.getElementById('cp-promo').value;
+  if (!pseudo) { showAuthError('cp-error','Choisis un pseudo.'); return; }
+  if (!promo)  { showAuthError('cp-error','Sélectionne ta promo.'); return; }
+  const fbUser = window._pendingUser;
+  await set(ref(db, `users/${fbUser.uid}`), { pseudo, promo, email: fbUser.email, photo: null, createdAt: Date.now() });
+  currentUser = { uid: fbUser.uid, pseudo, promo, email: fbUser.email, photo: null };
+  enterChat();
+};
+
+function enterChat() {
+  document.getElementById('auth-overlay').style.display = 'none';
+  document.getElementById('user-display').textContent = `${currentUser.pseudo} · ${currentUser.promo}`;
+
+  const promoMeta = {
+    L1:{ic:'📘',name:'Licence 1'}, L2:{ic:'📗',name:'Licence 2'},
+    L3:{ic:'📙',name:'Licence 3'}, M1:{ic:'📕',name:'Master 1'}, M2:{ic:'📔',name:'Master 2'}
+  };
+  const pm = promoMeta[currentUser.promo];
+  const promoContainer = document.getElementById('salon-ma-promo');
+  promoContainer.innerHTML = '';
+  const el = document.createElement('div');
+  el.className = 'salon-item'; el.id = 'sb-promo-' + currentUser.promo;
+  el.innerHTML = `<span class="salon-ic">${pm.ic}</span><span class="salon-name">${pm.name}</span>`;
+  el.onclick = () => switchSalon('promo-' + currentUser.promo, el, pm.ic, pm.name, `Salon réservé aux ${currentUser.promo}`);
+  promoContainer.appendChild(el);
+
+  document.getElementById('btn-add-subchat').style.display = 'flex';
+  loadDynamicSalons();
+  loadSubchatsPromo(currentUser.promo);
+  loadGroupesPrives();
+  addSystemMsg(`Bienvenue ${currentUser.pseudo} ! 👋`);
+  loadSalon('general');
+}
+
+window.logout = async function() {
+  await signOut(auth);
+  currentUser = null;
+  resetMessages();
+  document.getElementById('salon-ma-promo').innerHTML = '';
+  document.getElementById('salons-groupes-promo').innerHTML = '';
+  document.getElementById('salons-prives').innerHTML = '';
+  document.getElementById('salons-matieres').innerHTML = '';
+};
+
+function errMsg(code) {
+  const msgs = {
+    'auth/user-not-found': 'Aucun compte avec cet email.',
+    'auth/wrong-password': 'Mot de passe incorrect.',
+    'auth/email-already-in-use': 'Cet email est déjà utilisé.',
+    'auth/invalid-email': 'Email invalide.',
+    'auth/weak-password': 'Mot de passe trop faible.',
+    'auth/popup-closed-by-user': 'Connexion annulée.',
+    'auth/invalid-credential': 'Email ou mot de passe incorrect.',
+  };
+  return msgs[code] || 'Une erreur est survenue.';
+}
+
+// ── Switch salon ──
+window.switchSalon = function(id, el, ic, name, desc) {
+  document.querySelectorAll('.salon-item').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+  currentSalon = id;
+  document.getElementById('ch-ic').textContent   = ic;
+  document.getElementById('ch-name').textContent = name;
+  document.getElementById('ch-desc').textContent = desc;
+  resetMessages();
+  loadSalon(id);
+};
+
+function loadSalon(id) {
+  if (firebaseOk) {
+    const { db, ref, onChildAdded } = window._fb;
+    onChildAdded(ref(db, `salons/${id}/messages`), snap => renderMsg(snap.val()));
+  } else {
+    (localMessages[id] || []).forEach(m => renderMsg(m));
+    if (!(localMessages[id] || []).length) resetMessages(true);
+  }
+}
+
+// ── Send ──
+window.sendMessage = async function() {
+  const input = document.getElementById('msg-input');
+  const text  = input.value.trim();
+  if (!text && !selectedFile) return;
+  if (!currentUser) return;
+
+  // Indicateur d'envoi
+  const btn = document.getElementById('send-btn');
+  btn.textContent = '⏳'; btn.disabled = true;
+
+  let fileData = null;
+  if (selectedFile) {
+    try {
+      fileData = await uploadFile(selectedFile);
+    } catch(e) {
+      console.error('Upload échoué', e);
+    }
+  }
+
+  const msg = { pseudo: currentUser.pseudo, promo: currentUser.promo, text: text || null, file: fileData || null, ts: Date.now() };
+  if (firebaseOk) {
+    const { db, ref, push, serverTimestamp } = window._fb;
+    push(ref(db, `salons/${currentSalon}/messages`), { ...msg, ts: serverTimestamp() });
+  } else {
+    if (!localMessages[currentSalon]) localMessages[currentSalon] = [];
+    localMessages[currentSalon].push(msg);
+    renderMsg(msg);
+  }
+  input.value = ''; input.style.height = 'auto';
+  clearFile();
+  btn.textContent = '➤'; btn.disabled = false;
+};
+
+// ── Render ──
+function renderMsg(msg) {
+  const msgs  = document.getElementById('messages');
+  const empty = document.getElementById('empty-state');
+  if (empty) empty.remove();
+  const isMe = currentUser && msg.pseudo === currentUser.pseudo;
+  const time = new Date(msg.ts).toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
+  const g = document.createElement('div');
+  g.className = `msg-group ${isMe ? 'me' : 'other'}`;
+
+  let content = '';
+  if (msg.annonce) {
+    const labels = { vente:'🏷️ Vente', recherche:'🔍 Recherche', echange:'🔄 Échange', cours:'📝 Cours/TD' };
+    content = `<div class="msg-annonce">
+      <div class="msg-annonce-type">${labels[msg.annonce.type] || '📢'}</div>
+      <div class="msg-annonce-desc">${escHtml(msg.annonce.desc)}</div>
+      ${msg.annonce.prix ? `<div class="msg-annonce-prix">💰 ${escHtml(msg.annonce.prix)}</div>` : ''}
+    </div>`;
+  } else {
+    if (msg.text) content += `<div class="msg-bubble">${escHtml(msg.text)}</div>`;
+    if (msg.file) {
+      const ic = fileIcon(msg.file.type || '');
+      content += `<a class="msg-file" href="${msg.file.url}" target="_blank" rel="noopener noreferrer" onclick="event.preventDefault();window.open('${msg.file.url}','_blank','noopener,noreferrer')">
+        <span class="msg-file-ic">${ic}</span>
+        <div><div class="msg-file-name">${escHtml(msg.file.name)}</div><div class="msg-file-size">${msg.file.size}</div></div>
+      </a>`;
+    }
+  }
+
+  g.innerHTML = `
+    <div class="msg-author">${isMe ? 'Toi' : `${msg.pseudo} · ${msg.promo}`}</div>
+    ${content}
+    <div class="msg-time">${time}</div>`;
+  msgs.appendChild(g);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+// ── Modals ──
+window.openModal  = id => document.getElementById(id).classList.add('show');
+window.closeModal = id => document.getElementById(id).classList.remove('show');
+
+document.querySelectorAll('#ticket-tags .modal-tag').forEach(t => {
+  t.onclick = () => {
+    document.querySelectorAll('#ticket-tags .modal-tag').forEach(x => x.classList.remove('selected'));
+    t.classList.add('selected'); ticketType = t.dataset.val;
+  };
+});
+
+window.createMatiere = function() {
+  const name  = document.getElementById('matiere-name').value.trim();
+  const promo = document.getElementById('matiere-promo').value;
+  if (!name || !promo) return;
+  const data = { name, promo, by: currentUser?.pseudo || '?' };
+  if (firebaseOk) {
+    const { db, ref, push } = window._fb;
+    push(ref(db, 'salons-meta/matieres'), data);
+  } else {
+    addSalon('salons-matieres', 'local-' + Date.now(), '📖', name, `${promo} · ${name}`, promo);
+  }
+  document.getElementById('matiere-name').value = '';
+  document.getElementById('matiere-promo').value = '';
+  closeModal('modal-matiere');
+};
+
+window.createGroupe = function() {
+  const name    = document.getElementById('groupe-name').value.trim();
+  const matiere = document.getElementById('groupe-matiere').value.trim();
+  const promo   = currentUser?.promo || '?'; // Automatiquement la promo de l'utilisateur
+  if (!name) return;
+  const data = { name, matiere: matiere || '?', promo, by: currentUser?.pseudo || '?' };
+  if (firebaseOk) {
+    const { db, ref, push } = window._fb;
+    push(ref(db, 'salons-meta/groupes'), data);
+  } else {
+    addSalon('salons-groupes-promo', 'local-' + Date.now(), '👥', name, matiere, null);
+  }
+  document.getElementById('groupe-name').value = '';
+  document.getElementById('groupe-matiere').value = '';
+  closeModal('modal-groupe');
+};
+
+window.postTicket = function() {
+  const desc = document.getElementById('ticket-desc').value.trim();
+  const prix = document.getElementById('ticket-prix').value.trim();
+  if (!desc || !currentUser) return;
+  const targetSalon = ticketType === 'cours' ? 'echange-cours' : 'tickets';
+  const msg = {
+    pseudo: currentUser.pseudo, promo: currentUser.promo,
+    annonce: { type: ticketType, desc, prix },
+    ts: Date.now()
+  };
+  // Switch vers le bon salon
+  const el = document.querySelector(`[onclick*="'${targetSalon}'"]`);
+  if (el) el.click();
+  if (firebaseOk) {
+    const { db, ref, push, serverTimestamp } = window._fb;
+    push(ref(db, `salons/${targetSalon}/messages`), { ...msg, ts: serverTimestamp() });
+  } else {
+    if (!localMessages[targetSalon]) localMessages[targetSalon] = [];
+    localMessages[targetSalon].push(msg);
+    if (currentSalon === targetSalon) renderMsg(msg);
+  }
+  document.getElementById('ticket-desc').value = '';
+  document.getElementById('ticket-prix').value = '';
+  closeModal('modal-ticket');
+};
+
+// ── Utils ──
+function resetMessages(showEmpty = true) {
+  document.getElementById('messages').innerHTML = showEmpty ? `
+    <div class="empty-state" id="empty-state">
+      <div class="big-ic">💬</div>
+      <p>Aucun message pour l'instant.<br>Sois le premier à écrire !</p>
+    </div>` : '';
+}
+function addSystemMsg(text) {
+  const el = document.createElement('div');
+  el.className = 'system-msg'; el.textContent = text;
+  document.getElementById('messages').appendChild(el);
+}
+window.handleKey = function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+};
+window.autoResize = function(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+};
+function escHtml(s) {
+  if (!s) return '';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+window.onFileSelected = function(input) {
+  if (!input.files[0]) return;
+  selectedFile = input.files[0];
+  document.getElementById('fp-ic').textContent = fileIcon(selectedFile.type);
+  document.getElementById('fp-name').textContent = selectedFile.name;
+  document.getElementById('file-preview').classList.add('show');
+};
+window.clearFile = function() {
+  selectedFile = null;
+  document.getElementById('file-input').value = '';
+  document.getElementById('file-preview').classList.remove('show');
+};
+function formatSize(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1048576) return (bytes/1024).toFixed(1) + ' KB';
+  return (bytes/1048576).toFixed(1) + ' MB';
+}
+function fileIcon(type) {
+  if (!type) return '📎';
+  if (type.includes('pdf'))   return '📄';
+  if (type.includes('image')) return '🖼️';
+  if (type.includes('word') || type.includes('document')) return '📝';
+  if (type.includes('sheet') || type.includes('excel'))   return '📊';
+  if (type.includes('presentation') || type.includes('powerpoint')) return '📑';
+  if (type.includes('zip') || type.includes('rar')) return '🗜️';
+  return '📎';
+}
+document.querySelectorAll('.modal-overlay').forEach(o => {
+  o.addEventListener('click', e => { if (e.target === o) o.classList.remove('show'); });
+});
+
+// ══ GROUPES PRIVÉS ══
+let currentCode = null;
+
+function genCode() {
+  return Math.random().toString(36).substring(2, 8).toUpperCase();
+}
+
+window.createGroupePrive = function() {
+  const name = document.getElementById('prive-name').value.trim();
+  const desc = document.getElementById('prive-desc').value.trim();
+  if (!name || !currentUser) return;
+
+  const code = genCode();
+  currentCode = code;
+  const salonId = 'prive-' + code;
+  const data = {
+    name, desc: desc || '',
+    code, createdBy: currentUser.pseudo,
+    promo: currentUser.promo,
+    ts: Date.now()
+  };
+
+  if (firebaseOk) {
+    const { db, ref, push } = window._fb;
+    // Stocker le groupe avec son code comme clé
+    import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js').then(({ set }) => {
+      set(ref(db, `groupes-prives/${code}`), data);
+      // Rejoindre automatiquement
+      set(ref(db, `membres-prives/${currentUser.pseudo}/${code}`), true);
+    });
+  }
+
+  // Ajouter dans la sidebar
+  addGroupePrive(code, name);
+
+  document.getElementById('prive-name').value = '';
+  document.getElementById('prive-desc').value = '';
+  document.getElementById('code-display').textContent = code;
+  closeModal('modal-prive');
+  openModal('modal-code');
+};
+
+window.rejoindreGroupe = function() {
+  const code = document.getElementById('code-input').value.trim().toUpperCase();
+  if (!code || code.length !== 6) return;
+  const errEl = document.getElementById('code-error');
+  errEl.style.display = 'none';
+
+  if (firebaseOk) {
+    const { db, ref } = window._fb;
+    import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js').then(({ get, set }) => {
+      get(ref(db, `groupes-prives/${code}`)).then(snap => {
+        if (!snap.exists()) {
+          errEl.style.display = 'block'; return;
+        }
+        const data = snap.val();
+        // Enregistrer le membre
+        set(ref(db, `membres-prives/${currentUser.pseudo}/${code}`), true);
+        // Ajouter dans la sidebar
+        addGroupePrive(code, data.name);
+        document.getElementById('code-input').value = '';
+        closeModal('modal-rejoindre');
+      });
+    });
+  }
+};
+
+function addGroupePrive(code, name) {
+  const salonId = 'prive-' + code;
+  if (document.getElementById('sb-' + salonId)) return;
+  const el = document.createElement('div');
+  el.className = 'salon-item'; el.id = 'sb-' + salonId;
+  el.innerHTML = `<span class="salon-ic">🔒</span><span class="salon-name">${name}</span><span class="prive-badge">Privé</span>`;
+  el.onclick = () => switchSalon(salonId, el, '🔒', name, `Groupe privé · ${code}`);
+  document.getElementById('salons-prives').appendChild(el);
+}
+
+// Charger les groupes privés rejoints au login
+function loadGroupesPrives() {
+  if (!firebaseOk || !currentUser) return;
+  const { db, ref } = window._fb;
+  import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js').then(({ get }) => {
+    get(ref(db, `membres-prives/${currentUser.pseudo}`)).then(snap => {
+      if (!snap.exists()) return;
+      const codes = Object.keys(snap.val());
+      codes.forEach(code => {
+        get(ref(db, `groupes-prives/${code}`)).then(gSnap => {
+          if (gSnap.exists()) addGroupePrive(code, gSnap.val().name);
+        });
+      });
+    });
+  });
+}
+
+window.copyCode = function() {
+  navigator.clipboard.writeText(currentCode).then(() => {
+    const btn = document.querySelector('#modal-code .btn-cancel');
+    btn.textContent = '✅ Copié !';
+    setTimeout(() => btn.textContent = '📋 Copier le code', 2000);
+  });
+};
+
+// ── Vider le salon ──
+window.clearSalon = function() {
+  if (!confirm(`Vider tous les messages de ce salon ? Cette action est irréversible.`)) return;
+  if (firebaseOk) {
+    const { db, ref } = window._fb;
+    import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js').then(({ remove }) => {
+      remove(ref(db, `salons/${currentSalon}/messages`));
+      resetMessages(true);
+    });
+  } else {
+    localMessages[currentSalon] = [];
+    resetMessages(true);
+  }
+};
+</script>
+</body>
+</html>
