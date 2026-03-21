@@ -478,6 +478,220 @@
   }
   .ch-action-btn:hover { background:var(--surface2); color:var(--text); }
  
+  /* ══ SONDAGE ══ */
+  .msg-poll {
+    background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: 14px; padding: 14px 16px; max-width: 320px;
+    animation: popIn .18s ease;
+  }
+  .poll-question { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 12px; }
+  .poll-option {
+    position: relative; margin-bottom: 8px; cursor: pointer;
+    border-radius: 10px; overflow: hidden;
+    border: 1px solid var(--border2); transition: border-color .2s;
+  }
+  .poll-option:hover { border-color: var(--accent); }
+  .poll-option.voted { border-color: var(--accent); }
+  .poll-bar {
+    position: absolute; inset: 0; background: rgba(79,127,255,.2);
+    border-radius: 10px; transition: width .4s ease; width: 0%;
+  }
+  .poll-option-inner {
+    position: relative; display: flex; align-items: center;
+    justify-content: space-between; padding: 9px 12px; z-index: 1;
+  }
+  .poll-option-text { font-size: 13px; font-weight: 500; }
+  .poll-option-pct  { font-size: 12px; font-weight: 700; color: var(--accent-h); }
+  .poll-meta { font-size: 11px; color: var(--muted); margin-top: 10px; }
+ 
+  /* ══ ÉVÉNEMENT ══ */
+  .msg-event {
+    background: linear-gradient(135deg, rgba(79,127,255,.15), rgba(52,211,153,.08));
+    border: 1px solid rgba(79,127,255,.3);
+    border-radius: 14px; padding: 16px; max-width: 320px;
+    animation: popIn .18s ease;
+  }
+  .event-title { font-size: 15px; font-weight: 800; color: var(--white); margin-bottom: 10px; }
+  .event-info { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+  .event-row { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .event-row strong { color: var(--text); }
+  .event-join-btn {
+    width: 100%; background: var(--accent); border: none; border-radius: 9px;
+    padding: 10px; color: #fff; font-family: 'Outfit', sans-serif;
+    font-size: 13px; font-weight: 700; cursor: pointer; transition: background .2s;
+  }
+  .event-join-btn:hover { background: var(--accent-h); }
+  .event-join-btn.joined { background: var(--green); cursor: default; }
+  .event-participants { font-size: 11px; color: var(--muted); margin-top: 8px; text-align: center; }
+ 
+  /* ══ WIKI ══ */
+  #wiki-panel {
+    display: none; position: fixed; inset: 0; z-index: 180;
+    background: var(--bg); flex-direction: column;
+  }
+  #wiki-panel.show { display: flex; }
+  .wiki-header {
+    padding: 16px 24px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px; background: var(--bg2);
+  }
+  .wiki-title { font-size: 18px; font-weight: 800; color: var(--white); flex: 1; }
+  .wiki-close {
+    background: transparent; border: none; color: var(--muted);
+    font-size: 22px; cursor: pointer; border-radius: 8px; padding: 4px 8px;
+    transition: all .15s;
+  }
+  .wiki-close:hover { background: var(--surface2); color: var(--text); }
+  .wiki-tabs { display: flex; gap: 4px; padding: 12px 24px; border-bottom: 1px solid var(--border); overflow-x: auto; }
+  .wiki-tab {
+    padding: 7px 14px; border-radius: 8px; font-size: 13px; font-weight: 600;
+    cursor: pointer; background: transparent; border: 1px solid var(--border2);
+    color: var(--muted); transition: all .15s; white-space: nowrap;
+  }
+  .wiki-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .wiki-add-tab {
+    padding: 7px 12px; border-radius: 8px; font-size: 13px;
+    cursor: pointer; background: transparent; border: 1px dashed var(--border2);
+    color: var(--muted); transition: all .15s; white-space: nowrap;
+  }
+  .wiki-add-tab:hover { border-color: var(--accent); color: var(--accent); }
+  .wiki-content { flex: 1; display: flex; flex-direction: column; padding: 20px 24px; gap: 12px; }
+  .wiki-editor {
+    flex: 1; background: var(--surface); border: 1px solid var(--border2);
+    border-radius: 12px; padding: 16px; color: var(--text);
+    font-family: 'Outfit', sans-serif; font-size: 14px; line-height: 1.7;
+    resize: none; outline: none; transition: border-color .2s;
+  }
+  .wiki-editor:focus { border-color: var(--accent); }
+  .wiki-save-btn {
+    background: var(--accent); border: none; border-radius: 10px;
+    padding: 12px 24px; color: #fff; font-family: 'Outfit', sans-serif;
+    font-size: 14px; font-weight: 700; cursor: pointer; transition: background .2s;
+    align-self: flex-end;
+  }
+  .wiki-save-btn:hover { background: var(--accent-h); }
+  .wiki-last-edit { font-size: 11px; color: var(--muted); text-align: right; }
+ 
+  /* ══ ADMIN ══ */
+  #admin-panel {
+    display: none; position: fixed; inset: 0; z-index: 180;
+    background: var(--bg); flex-direction: column;
+  }
+  #admin-panel.show { display: flex; }
+  .admin-header {
+    padding: 16px 24px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px; background: var(--bg2);
+  }
+  .admin-title { font-size: 18px; font-weight: 800; color: var(--white); flex: 1; }
+  .admin-close { background: transparent; border: none; color: var(--muted); font-size: 22px; cursor: pointer; border-radius: 8px; padding: 4px 8px; }
+  .admin-close:hover { background: var(--surface2); color: var(--text); }
+  .admin-body { flex: 1; overflow-y: auto; padding: 20px 24px; display: flex; flex-direction: column; gap: 12px; }
+  .report-card {
+    background: var(--surface); border: 1px solid var(--border2);
+    border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px;
+  }
+  .report-card-header { display: flex; align-items: center; gap: 8px; }
+  .report-badge {
+    font-size: 10px; font-weight: 700; border-radius: 5px; padding: 3px 8px;
+    background: rgba(251,146,60,.2); color: var(--orange);
+  }
+  .report-reason { font-size: 13px; font-weight: 700; color: var(--white); }
+  .report-msg { font-size: 13px; color: var(--muted); font-style: italic; }
+  .report-actions { display: flex; gap: 8px; margin-top: 4px; }
+  .report-btn {
+    padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 700;
+    cursor: pointer; border: none; font-family: 'Outfit', sans-serif;
+    transition: opacity .2s;
+  }
+  .report-btn:hover { opacity: .8; }
+  .report-btn.dismiss { background: var(--surface2); color: var(--muted); }
+  .report-btn.ban { background: rgba(248,113,113,.2); color: #f87171; }
+  .banned-list { margin-top: 20px; }
+  .banned-title { font-size: 13px; font-weight: 700; color: var(--muted2); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px; }
+  .banned-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--surface); border-radius: 10px; margin-bottom: 6px; }
+  .banned-name { flex: 1; font-size: 14px; font-weight: 600; }
+  .unban-btn { background: transparent; border: 1px solid var(--border2); border-radius: 7px; padding: 5px 10px; color: var(--muted); font-size: 12px; cursor: pointer; }
+  .unban-btn:hover { border-color: var(--green); color: var(--green); }
+ 
+  /* ══ COMPTE ══ */
+  #compte-panel {
+    display: none; position: fixed; inset: 0; z-index: 180;
+    background: var(--bg); flex-direction: column;
+  }
+  #compte-panel.show { display: flex; }
+  .compte-header {
+    padding: 16px 24px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px; background: var(--bg2);
+  }
+  .compte-title { font-size: 18px; font-weight: 800; color: var(--white); flex: 1; }
+  .compte-close { background: transparent; border: none; color: var(--muted); font-size: 22px; cursor: pointer; border-radius: 8px; padding: 4px 8px; transition: all .15s; }
+  .compte-close:hover { background: var(--surface2); color: var(--text); }
+  .compte-body { flex: 1; overflow-y: auto; padding: 32px 24px; max-width: 500px; width: 100%; margin: 0 auto; }
+  .compte-avatar {
+    width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 24px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px; font-weight: 800; color: #fff;
+    cursor: pointer; position: relative; transition: opacity .2s;
+  }
+  .compte-avatar:hover { opacity: .8; }
+  .compte-avatar-edit {
+    position: absolute; bottom: 0; right: 0;
+    width: 24px; height: 24px; background: var(--accent);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+  }
+  .compte-section { margin-bottom: 28px; }
+  .compte-section-title {
+    font-size: 11px; font-weight: 700; color: var(--muted2);
+    text-transform: uppercase; letter-spacing: .1em; margin-bottom: 12px;
+  }
+  .compte-field { margin-bottom: 14px; }
+  .compte-field label { font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 6px; display: block; }
+  .compte-input {
+    width: 100%; background: var(--surface); border: 1px solid var(--border2);
+    border-radius: 10px; padding: 12px 14px; color: var(--text);
+    font-family: 'Outfit', sans-serif; font-size: 14px; outline: none;
+    transition: border-color .2s; appearance: none;
+  }
+  .compte-input:focus { border-color: var(--accent); }
+  .compte-input[readonly] { opacity: .5; cursor: not-allowed; }
+  .compte-select {
+    width: 100%; background: var(--surface); border: 1px solid var(--border2);
+    border-radius: 10px; padding: 12px 14px; color: var(--text);
+    font-family: 'Outfit', sans-serif; font-size: 14px; outline: none;
+    appearance: none; cursor: pointer;
+  }
+  .compte-save-btn {
+    width: 100%; background: var(--accent); border: none; border-radius: 10px;
+    padding: 13px; color: #fff; font-family: 'Outfit', sans-serif;
+    font-size: 15px; font-weight: 700; cursor: pointer; transition: background .2s;
+    margin-bottom: 12px;
+  }
+  .compte-save-btn:hover { background: var(--accent-h); }
+  .compte-danger-btn {
+    width: 100%; background: transparent; border: 1px solid rgba(248,113,113,.4);
+    border-radius: 10px; padding: 13px; color: #f87171;
+    font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all .2s;
+  }
+  .compte-danger-btn:hover { background: rgba(248,113,113,.1); }
+  .compte-success { font-size: 13px; color: var(--green); text-align: center; margin-top: 8px; min-height: 20px; }
+ 
+  /* ══ NOTIF ══ */
+  .notif-toast {
+    position: fixed; bottom: 24px; right: 24px; z-index: 300;
+    background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: 14px; padding: 14px 18px; max-width: 300px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.4);
+    animation: slideInRight .3s ease;
+    cursor: pointer;
+  }
+  .notif-toast-title { font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 3px; }
+  .notif-toast-msg   { font-size: 12px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  @keyframes slideInRight {
+    from { opacity:0; transform: translateX(20px) }
+    to   { opacity:1; transform: none }
+  }
+ 
   /* ── Mobile ── */
   .burger {
     display: none; background: transparent; border: none;
@@ -652,6 +866,132 @@
   </div>
 </div>
  
+<!-- ══ COMPTE PANEL ══ -->
+<div id="compte-panel">
+  <div class="compte-header">
+    <span style="font-size:22px">👤</span>
+    <div class="compte-title">Mon compte</div>
+    <button class="compte-close" onclick="closeCompte()">✕</button>
+  </div>
+  <div class="compte-body">
+ 
+    <!-- Avatar -->
+    <div class="compte-avatar" id="compte-avatar" onclick="changeAvatar()">
+      <span id="compte-avatar-letter">T</span>
+      <div class="compte-avatar-edit">✏️</div>
+    </div>
+    <input type="file" id="avatar-input" accept="image/*" style="display:none" onchange="uploadAvatar(this)">
+ 
+    <!-- Infos -->
+    <div class="compte-section">
+      <div class="compte-section-title">Informations</div>
+      <div class="compte-field">
+        <label>Pseudo</label>
+        <input class="compte-input" id="cp-pseudo-edit" type="text" maxlength="20" placeholder="Ton pseudo">
+      </div>
+      <div class="compte-field">
+        <label>Promo</label>
+        <select class="compte-select" id="cp-promo-edit">
+          <option value="L1">L1</option>
+          <option value="L2">L2</option>
+          <option value="L3">L3</option>
+          <option value="M1">M1</option>
+          <option value="M2">M2</option>
+        </select>
+      </div>
+      <div class="compte-field">
+        <label>Bio (optionnel)</label>
+        <input class="compte-input" id="cp-bio-edit" type="text" maxlength="80" placeholder="Ex : L1 Droit-Éco, fan de café ☕">
+      </div>
+      <div class="compte-field">
+        <label>Email</label>
+        <input class="compte-input" id="cp-email-display" type="text" readonly>
+      </div>
+    </div>
+ 
+    <button class="compte-save-btn" onclick="saveCompte()">💾 Sauvegarder</button>
+    <div class="compte-success" id="compte-success"></div>
+ 
+    <!-- Danger zone -->
+    <div class="compte-section" style="margin-top:32px">
+      <div class="compte-section-title" style="color:#f87171">Zone danger</div>
+      <button class="compte-danger-btn" onclick="deconnexion()">👋 Se déconnecter</button>
+    </div>
+ 
+  </div>
+</div>
+ 
+<!-- ══ WIKI PANEL ══ -->
+<div id="wiki-panel">
+  <div class="wiki-header">
+    <span style="font-size:22px">📚</span>
+    <div class="wiki-title">Wiki · <span id="wiki-promo-title">Ma promo</span></div>
+    <button class="wiki-close" onclick="closeWiki()">✕</button>
+  </div>
+  <div class="wiki-tabs" id="wiki-tabs">
+    <button class="wiki-add-tab" onclick="addWikiPage()">+ Nouvelle page</button>
+  </div>
+  <div class="wiki-content">
+    <textarea class="wiki-editor" id="wiki-editor" placeholder="Écris tes notes ici… (Markdown supporté)"></textarea>
+    <div class="wiki-last-edit" id="wiki-last-edit"></div>
+    <button class="wiki-save-btn" onclick="saveWikiPage()">💾 Sauvegarder</button>
+  </div>
+</div>
+ 
+<!-- ══ ADMIN PANEL ══ -->
+<div id="admin-panel">
+  <div class="admin-header">
+    <span style="font-size:22px">🛡️</span>
+    <div class="admin-title">Tableau de bord modérateur</div>
+    <button class="admin-close" onclick="closeAdmin()">✕</button>
+  </div>
+  <div class="admin-body" id="admin-body">
+    <div style="font-size:13px;color:var(--muted);text-align:center;padding:20px">Chargement des signalements…</div>
+  </div>
+</div>
+ 
+<!-- ══ MODAL : Sondage ══ -->
+<div class="modal-overlay" id="modal-poll">
+  <div class="modal">
+    <h3>📊 Créer un sondage</h3>
+    <p>Pose une question à tes camarades</p>
+    <label class="modal-label">Question</label>
+    <input type="text" id="poll-question" placeholder="Ex : Qui est dispo samedi pour réviser ?" maxlength="100">
+    <label class="modal-label">Options (2 minimum)</label>
+    <div id="poll-options">
+      <input type="text" class="poll-opt-input" placeholder="Option 1" maxlength="50" style="margin-bottom:8px">
+      <input type="text" class="poll-opt-input" placeholder="Option 2" maxlength="50" style="margin-bottom:8px">
+    </div>
+    <button class="btn-cancel" onclick="addPollOption()" style="width:100%;margin-bottom:14px">+ Ajouter une option</button>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-poll')">Annuler</button>
+      <button class="btn-primary" onclick="createPoll()">Publier le sondage</button>
+    </div>
+  </div>
+</div>
+ 
+<!-- ══ MODAL : Événement ══ -->
+<div class="modal-overlay" id="modal-event">
+  <div class="modal">
+    <h3>📅 Créer un événement</h3>
+    <p>Sera publié dans le salon Annonces</p>
+    <label class="modal-label">Titre</label>
+    <input type="text" id="event-title" placeholder="Ex : Soirée BDE, Révisions droit…" maxlength="60">
+    <label class="modal-label">Date & heure</label>
+    <input type="datetime-local" id="event-date">
+    <label class="modal-label">Lieu</label>
+    <input type="text" id="event-lieu" placeholder="Ex : Amphi A, BU Dauphine…" maxlength="60">
+    <label class="modal-label">Nombre de places (optionnel)</label>
+    <input type="number" id="event-places" placeholder="Ex : 30" min="1">
+    <label class="modal-label">Description</label>
+    <textarea id="event-desc" rows="2" placeholder="Détails supplémentaires…"></textarea>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-event')">Annuler</button>
+      <button class="btn-primary" onclick="createEvent()">Publier l'événement</button>
+    </div>
+  </div>
+</div>
+ 
 <!-- ══ MODAL : Signalement ══ -->
 <div class="modal-overlay" id="modal-report">
   <div class="modal">
@@ -798,6 +1138,7 @@
  
   </div>
   <div class="sb-footer">
+    <button class="logout-btn" onclick="openCompte()" style="margin-bottom:8px;border-color:var(--accent);color:var(--accent)">👤 Mon compte</button>
     <button class="logout-btn" onclick="logout()">👋 Se déconnecter</button>
   </div>
 </div>
@@ -812,8 +1153,12 @@
       <div class="ch-desc" id="ch-desc">Salon ouvert à tous les étudiants</div>
     </div>
     <div class="ch-actions">
-      <span class="online-count" id="online-count">0</span>
+      <span class="online-count" id="online-count">0 en ligne</span>
       <button class="ch-action-btn" onclick="toggleSearch()" title="Rechercher">🔍</button>
+      <button class="ch-action-btn" onclick="openModal('modal-poll')" title="Sondage">📊</button>
+      <button class="ch-action-btn" onclick="openModal('modal-event')" title="Événement">📅</button>
+      <button class="ch-action-btn" onclick="openWiki()" title="Wiki promo">📚</button>
+      <button class="ch-action-btn" id="admin-btn" onclick="openAdmin()" title="Admin" style="display:none">🛡️</button>
       <button class="ch-action-btn" id="pin-btn" onclick="pinCurrentMsg()" title="Épingler" style="display:none">📌</button>
     </div>
   </div>
@@ -1081,8 +1426,13 @@ function enterChat() {
   setInterval(updatePresence, 30000);
   watchOnline();
   watchTyping();
-  // Tracker les non lus pour les salons principaux
   MAIN_SALONS.forEach(id => trackUnread(id));
+  initNotifications();
+  // Afficher bouton admin si c'est l'admin
+  if (currentUser.pseudo === ADMIN_PSEUDO) {
+    document.getElementById('admin-btn').style.display = 'block';
+    currentUser.isAdmin = true;
+  }
   addSystemMsg(`Bienvenue ${currentUser.pseudo} ! 👋`);
   loadSalon('general');
 }
@@ -1124,12 +1474,19 @@ window.switchSalon = function(id, el, ic, name, desc) {
  
 function loadSalon(id) {
   if (firebaseOk) {
-    const { db, ref, onChildAdded } = window._fb;
-    onChildAdded(ref(db, `salons/${id}/messages`), snap => {
-    const msg = snap.val();
-    msg.fbKey = snap.key;
-    renderMsg(msg);
-  });
+    import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js').then(({ query, limitToLast, onChildAdded: oCA }) => {
+      const msgsQuery = query(ref(db, `salons/${id}/messages`), limitToLast(50));
+      oCA(msgsQuery, snap => {
+        const msg = snap.val();
+        msg.fbKey = snap.key;
+        renderMsg(msg);
+        // Notif si message d'un autre dans salon non actif
+        if (msg.pseudo !== currentUser?.pseudo && id !== currentSalon) {
+          const salonName = document.querySelector(`[id="sb-${id}"] .salon-name`)?.textContent || id;
+          showNotif(salonName, msg.pseudo, msg.text || '📎 Fichier');
+        }
+      });
+    });
   } else {
     (localMessages[id] || []).forEach(m => renderMsg(m));
     if (!(localMessages[id] || []).length) resetMessages(true);
@@ -1142,6 +1499,12 @@ window.sendMessage = async function() {
   const text  = input.value.trim();
   if (!text && !selectedFile) return;
   if (!currentUser) return;
+ 
+  // Vérif banni
+  if (await isBanned()) {
+    alert('Ton compte a été suspendu. Contacte un modérateur.');
+    return;
+  }
  
   const btn = document.getElementById('send-btn');
   btn.textContent = '⏳'; btn.disabled = true;
@@ -1156,6 +1519,8 @@ window.sendMessage = async function() {
     pseudo: currentUser.pseudo, promo: currentUser.promo,
     text: text || null, file: fileData || null,
     reply: replyTo || null,
+    isAdmin: currentUser.isAdmin || false,
+    photo: currentUser.photo || null,
     ts: Date.now()
   };
  
@@ -1235,6 +1600,428 @@ window.submitReport = function() {
   closeModal('modal-report');
   alert('Signalement envoyé, merci !');
 };
+ 
+// ══ SONDAGE ══
+window.addPollOption = function() {
+  const opts = document.getElementById('poll-options');
+  const inp = document.createElement('input');
+  inp.type = 'text'; inp.className = 'poll-opt-input';
+  inp.placeholder = `Option ${opts.children.length + 1}`;
+  inp.maxLength = 50;
+  inp.style.marginBottom = '8px';
+  opts.appendChild(inp);
+};
+ 
+window.createPoll = function() {
+  const question = document.getElementById('poll-question').value.trim();
+  const opts = [...document.querySelectorAll('.poll-opt-input')]
+    .map(i => i.value.trim()).filter(v => v);
+  if (!question || opts.length < 2 || !currentUser) return;
+  const poll = {
+    type: 'poll', question, options: opts,
+    votes: {}, pseudo: currentUser.pseudo, promo: currentUser.promo, ts: Date.now()
+  };
+  if (firebaseOk) {
+    const { db, ref, push, serverTimestamp } = window._fb;
+    push(ref(db, `salons/${currentSalon}/messages`), { ...poll, ts: serverTimestamp() });
+  }
+  document.getElementById('poll-question').value = '';
+  document.querySelectorAll('.poll-opt-input').forEach(i => i.value = '');
+  closeModal('modal-poll');
+};
+ 
+window.votePoll = function(fbKey, optIdx) {
+  if (!currentUser || !firebaseOk) return;
+  set(ref(db, `salons/${currentSalon}/messages/${fbKey}/votes/${currentUser.pseudo}`), optIdx);
+};
+ 
+function renderPoll(msg, isMe) {
+  const total = msg.votes ? Object.keys(msg.votes).length : 0;
+  const myVote = msg.votes?.[currentUser?.pseudo];
+  const hasVoted = myVote !== undefined;
+ 
+  const optionsHtml = (msg.options || []).map((opt, i) => {
+    const count = msg.votes ? Object.values(msg.votes).filter(v => v === i).length : 0;
+    const pct = total > 0 ? Math.round(count / total * 100) : 0;
+    return `<div class="poll-option ${hasVoted && myVote === i ? 'voted' : ''}"
+      onclick="${hasVoted ? '' : `votePoll('${msg.fbKey}',${i})`}">
+      <div class="poll-bar" style="width:${hasVoted ? pct : 0}%"></div>
+      <div class="poll-option-inner">
+        <span class="poll-option-text">${escHtml(opt)} ${myVote === i ? '✓' : ''}</span>
+        ${hasVoted ? `<span class="poll-option-pct">${pct}%</span>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+ 
+  return `<div class="msg-poll">
+    <div class="poll-question">📊 ${escHtml(msg.question)}</div>
+    ${optionsHtml}
+    <div class="poll-meta">${total} vote${total > 1 ? 's' : ''} · ${hasVoted ? 'Tu as voté' : 'Clique pour voter'}</div>
+  </div>`;
+}
+ 
+// ══ ÉVÉNEMENT ══
+window.createEvent = function() {
+  const title  = document.getElementById('event-title').value.trim();
+  const date   = document.getElementById('event-date').value;
+  const lieu   = document.getElementById('event-lieu').value.trim();
+  const places = document.getElementById('event-places').value;
+  const desc   = document.getElementById('event-desc').value.trim();
+  if (!title || !date || !currentUser) return;
+ 
+  const event = {
+    type: 'event', title, date, lieu, places: places || null, desc,
+    participants: {}, pseudo: currentUser.pseudo, promo: currentUser.promo, ts: Date.now()
+  };
+ 
+  if (firebaseOk) {
+    const { db, ref, push, serverTimestamp } = window._fb;
+    // Toujours dans le salon annonces
+    push(ref(db, `salons/annonces/messages`), { ...event, ts: serverTimestamp() });
+  }
+  ['event-title','event-date','event-lieu','event-places','event-desc'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  closeModal('modal-event');
+  // Switcher vers annonces
+  const annEl = document.querySelector('[onclick*="annonces"]');
+  if (annEl) annEl.click();
+};
+ 
+window.joinEvent = function(fbKey) {
+  if (!currentUser || !firebaseOk) return;
+  set(ref(db, `salons/annonces/messages/${fbKey}/participants/${currentUser.pseudo}`), true);
+};
+ 
+function renderEvent(msg) {
+  const pCount = msg.participants ? Object.keys(msg.participants).length : 0;
+  const joined = msg.participants?.[currentUser?.pseudo];
+  const dateStr = msg.date ? new Date(msg.date).toLocaleString('fr-FR', {
+    weekday:'long', day:'numeric', month:'long', hour:'2-digit', minute:'2-digit'
+  }) : '';
+  return `<div class="msg-event">
+    <div class="event-title">📅 ${escHtml(msg.title)}</div>
+    <div class="event-info">
+      ${dateStr ? `<div class="event-row">🗓️ <strong>${dateStr}</strong></div>` : ''}
+      ${msg.lieu ? `<div class="event-row">📍 <strong>${escHtml(msg.lieu)}</strong></div>` : ''}
+      ${msg.places ? `<div class="event-row">👥 <strong>${msg.places} places max</strong></div>` : ''}
+      ${msg.desc ? `<div class="event-row">💬 ${escHtml(msg.desc)}</div>` : ''}
+    </div>
+    <button class="event-join-btn ${joined ? 'joined' : ''}"
+      onclick="${joined ? '' : `joinEvent('${msg.fbKey}')`}">
+      ${joined ? '✅ Tu participes !' : '🙋 Je participe'}
+    </button>
+    <div class="event-participants">${pCount} participant${pCount > 1 ? 's' : ''}</div>
+  </div>`;
+}
+ 
+// ══ WIKI ══
+let currentWikiPage = null;
+ 
+window.openWiki = function() {
+  document.getElementById('wiki-panel').classList.add('show');
+  document.getElementById('wiki-promo-title').textContent = currentUser?.promo || 'Ma promo';
+  loadWikiPages();
+};
+window.closeWiki = function() {
+  document.getElementById('wiki-panel').classList.remove('show');
+};
+ 
+function loadWikiPages() {
+  if (!firebaseOk || !currentUser) return;
+  get(ref(db, `wiki/${currentUser.promo}`)).then(snap => {
+    const tabsEl = document.getElementById('wiki-tabs');
+    tabsEl.innerHTML = '<button class="wiki-add-tab" onclick="addWikiPage()">+ Nouvelle page</button>';
+    if (snap.exists()) {
+      Object.entries(snap.val()).forEach(([key, page]) => {
+        addWikiTabEl(key, page.title);
+      });
+      // Charger la première page
+      const first = Object.keys(snap.val())[0];
+      loadWikiPage(first, snap.val()[first]);
+    }
+  });
+}
+ 
+function addWikiTabEl(key, title) {
+  const tabsEl = document.getElementById('wiki-tabs');
+  const btn = document.createElement('button');
+  btn.className = 'wiki-tab';
+  btn.textContent = title;
+  btn.onclick = () => {
+    document.querySelectorAll('.wiki-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    get(ref(db, `wiki/${currentUser.promo}/${key}`)).then(s => {
+      if (s.exists()) loadWikiPage(key, s.val());
+    });
+  };
+  tabsEl.insertBefore(btn, tabsEl.lastChild);
+}
+ 
+function loadWikiPage(key, page) {
+  currentWikiPage = key;
+  document.getElementById('wiki-editor').value = page.content || '';
+  document.getElementById('wiki-last-edit').textContent =
+    page.editedBy ? `Dernière modif : ${page.editedBy} · ${new Date(page.editedAt||0).toLocaleString('fr-FR')}` : '';
+  document.querySelectorAll('.wiki-tab').forEach(t => {
+    t.classList.toggle('active', t.textContent === page.title);
+  });
+}
+ 
+window.addWikiPage = function() {
+  const title = prompt('Nom de la page :');
+  if (!title || !currentUser || !firebaseOk) return;
+  const key = 'page-' + Date.now();
+  const page = { title, content: '', editedBy: currentUser.pseudo, editedAt: Date.now() };
+  set(ref(db, `wiki/${currentUser.promo}/${key}`), page);
+  addWikiTabEl(key, title);
+  loadWikiPage(key, page);
+};
+ 
+window.saveWikiPage = function() {
+  if (!currentWikiPage || !currentUser || !firebaseOk) return;
+  const content = document.getElementById('wiki-editor').value;
+  set(ref(db, `wiki/${currentUser.promo}/${currentWikiPage}/content`), content);
+  set(ref(db, `wiki/${currentUser.promo}/${currentWikiPage}/editedBy`), currentUser.pseudo);
+  set(ref(db, `wiki/${currentUser.promo}/${currentWikiPage}/editedAt`), Date.now());
+  document.getElementById('wiki-last-edit').textContent =
+    `Dernière modif : ${currentUser.pseudo} · maintenant`;
+};
+ 
+// ══ ADMIN ══
+const ADMIN_PSEUDO = 'Théo91140';
+ 
+window.openAdmin = function() {
+  document.getElementById('admin-panel').classList.add('show');
+  loadReports();
+};
+window.closeAdmin = function() {
+  document.getElementById('admin-panel').classList.remove('show');
+};
+ 
+function loadReports() {
+  if (!firebaseOk) return;
+  const body = document.getElementById('admin-body');
+  get(ref(db, 'reports')).then(snap => {
+    body.innerHTML = '';
+    if (!snap.exists()) {
+      body.innerHTML = '<div style="text-align:center;color:var(--muted);padding:20px">Aucun signalement 🎉</div>';
+      return;
+    }
+    Object.entries(snap.val()).forEach(([key, r]) => {
+      const reasons = { inapproprie:'🤬 Inapproprié', spam:'📢 Spam', harcelement:'😰 Harcèlement', autre:'❓ Autre' };
+      const card = document.createElement('div');
+      card.className = 'report-card'; card.id = 'report-' + key;
+      card.innerHTML = `
+        <div class="report-card-header">
+          <span class="report-badge">${reasons[r.reason] || r.reason}</span>
+          <span style="font-size:12px;color:var(--muted)">Signalé par ${r.reportedBy} · #${r.salon}</span>
+        </div>
+        <div class="report-reason">Message de <strong>${r.pseudo}</strong></div>
+        <div class="report-msg">"${r.text || '(fichier)'}"</div>
+        ${r.detail ? `<div style="font-size:12px;color:var(--muted)">${r.detail}</div>` : ''}
+        <div class="report-actions">
+          <button class="report-btn dismiss" onclick="dismissReport('${key}')">✓ Ignorer</button>
+          <button class="report-btn ban" onclick="banUser('${r.pseudo}','${key}')">🚫 Bannir ${r.pseudo}</button>
+        </div>`;
+      body.appendChild(card);
+    });
+    // Liste des bannis
+    get(ref(db, 'banned')).then(bSnap => {
+      if (!bSnap.exists()) return;
+      const section = document.createElement('div');
+      section.className = 'banned-list';
+      section.innerHTML = '<div class="banned-title">Utilisateurs bannis</div>';
+      Object.keys(bSnap.val()).forEach(pseudo => {
+        section.innerHTML += `<div class="banned-item">
+          <span class="banned-name">🚫 ${pseudo}</span>
+          <button class="unban-btn" onclick="unbanUser('${pseudo}')">Débannir</button>
+        </div>`;
+      });
+      body.appendChild(section);
+    });
+  });
+}
+ 
+window.dismissReport = function(key) {
+  remove(ref(db, `reports/${key}`));
+  document.getElementById('report-' + key)?.remove();
+};
+ 
+window.banUser = function(pseudo, reportKey) {
+  if (!confirm(`Bannir ${pseudo} ? Il ne pourra plus envoyer de messages.`)) return;
+  set(ref(db, `banned/${pseudo}`), { bannedBy: currentUser.pseudo, ts: Date.now() });
+  if (reportKey) remove(ref(db, `reports/${reportKey}`));
+  loadReports();
+};
+ 
+window.unbanUser = function(pseudo) {
+  remove(ref(db, `banned/${pseudo}`));
+  loadReports();
+};
+ 
+// Vérifier si banni avant d'envoyer
+async function isBanned() {
+  if (!currentUser || !firebaseOk) return false;
+  const snap = await get(ref(db, `banned/${currentUser.pseudo}`));
+  return snap.exists();
+}
+ 
+// ══ NOTIFICATIONS ══
+let notifEnabled = false;
+let notifSound = null;
+ 
+async function initNotifications() {
+  if (!('Notification' in window)) return;
+  if (Notification.permission === 'granted') {
+    notifEnabled = true;
+  } else if (Notification.permission !== 'denied') {
+    const perm = await Notification.requestPermission();
+    notifEnabled = perm === 'granted';
+  }
+  // Son discret (bip généré)
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    notifSound = () => {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value = 880; g.gain.value = 0.1;
+      o.start(); g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+      o.stop(ctx.currentTime + 0.3);
+    };
+  } catch(e) {}
+}
+ 
+function showNotif(salonName, pseudo, text) {
+  // Toast in-app
+  const old = document.querySelector('.notif-toast');
+  if (old) old.remove();
+  const toast = document.createElement('div');
+  toast.className = 'notif-toast';
+  toast.innerHTML = `<div class="notif-toast-title">💬 ${salonName}</div>
+    <div class="notif-toast-msg">${pseudo} : ${text}</div>`;
+  toast.onclick = () => toast.remove();
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 4000);
+ 
+  // Notif navigateur
+  if (notifEnabled && document.hidden) {
+    new Notification(`DauphineGuide · ${salonName}`, {
+      body: `${pseudo} : ${text}`,
+      icon: '/favicon.ico'
+    });
+  }
+  // Son
+  if (notifSound) try { notifSound(); } catch(e) {}
+}
+ 
+// ══ COMPTE ══
+const AVATAR_COLORS = ['#4f7fff','#34d399','#fb923c','#f472b6','#a78bfa','#60a5fa','#facc15','#f87171'];
+ 
+function getAvatarColor(pseudo) {
+  let hash = 0;
+  for (let c of (pseudo||'')) hash = c.charCodeAt(0) + ((hash << 5) - hash);
+  return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length];
+}
+ 
+function updateAvatarDisplay() {
+  const el = document.getElementById('compte-avatar');
+  const letter = document.getElementById('compte-avatar-letter');
+  if (!el || !currentUser) return;
+  const color = getAvatarColor(currentUser.pseudo);
+  el.style.background = color;
+  if (currentUser.photo) {
+    el.style.backgroundImage = `url(${currentUser.photo})`;
+    el.style.backgroundSize = 'cover';
+    letter.style.display = 'none';
+  } else {
+    el.style.backgroundImage = '';
+    letter.style.display = 'block';
+    letter.textContent = (currentUser.pseudo || '?')[0].toUpperCase();
+  }
+}
+ 
+window.openCompte = function() {
+  if (!currentUser) return;
+  document.getElementById('cp-pseudo-edit').value = currentUser.pseudo || '';
+  document.getElementById('cp-promo-edit').value  = currentUser.promo  || 'L1';
+  document.getElementById('cp-bio-edit').value    = currentUser.bio    || '';
+  document.getElementById('cp-email-display').value = currentUser.email || '';
+  document.getElementById('compte-success').textContent = '';
+  updateAvatarDisplay();
+  document.getElementById('compte-panel').classList.add('show');
+};
+ 
+window.closeCompte = function() {
+  document.getElementById('compte-panel').classList.remove('show');
+};
+ 
+window.saveCompte = async function() {
+  const pseudo = document.getElementById('cp-pseudo-edit').value.trim();
+  const promo  = document.getElementById('cp-promo-edit').value;
+  const bio    = document.getElementById('cp-bio-edit').value.trim();
+  if (!pseudo) return;
+ 
+  currentUser.pseudo = pseudo;
+  currentUser.promo  = promo;
+  currentUser.bio    = bio;
+  currentUser.isAdmin = pseudo === ADMIN_PSEUDO;
+ 
+  if (firebaseOk) {
+    await set(ref(db, `users/${currentUser.uid}`), {
+      pseudo, promo, bio, email: currentUser.email,
+      photo: currentUser.photo || null, updatedAt: Date.now()
+    });
+  }
+ 
+  // Mettre à jour la sidebar
+  document.getElementById('user-display').textContent = `${pseudo} · ${promo}`;
+  // Mettre à jour bouton admin
+  const adminBtn = document.getElementById('admin-btn');
+  if (adminBtn) adminBtn.style.display = currentUser.isAdmin ? 'block' : 'none';
+ 
+  document.getElementById('compte-success').textContent = '✅ Profil mis à jour !';
+  setTimeout(() => document.getElementById('compte-success').textContent = '', 3000);
+};
+ 
+window.changeAvatar = function() {
+  document.getElementById('avatar-input').click();
+};
+ 
+window.uploadAvatar = async function(input) {
+  if (!input.files[0]) return;
+  const file = input.files[0];
+  try {
+    const form = new FormData();
+    form.append('UPLOADCARE_PUB_KEY', UC_KEY);
+    form.append('UPLOADCARE_STORE', '1');
+    form.append('file', file);
+    const res  = await fetch('https://upload.uploadcare.com/base/', { method:'POST', body:form });
+    const data = await res.json();
+    if (data.file) {
+      const url = `https://33so06ntxg.ucarecd.net/${data.file}/`;
+      currentUser.photo = url;
+      if (firebaseOk) set(ref(db, `users/${currentUser.uid}/photo`), url);
+      updateAvatarDisplay();
+    }
+  } catch(e) { console.error('Avatar upload failed', e); }
+};
+ 
+window.deconnexion = function() {
+  closeCompte();
+  logout();
+};
+ 
+// Avatar inline dans les messages
+function getAvatarHtml(pseudo, photo, size = 28) {
+  const color = getAvatarColor(pseudo);
+  const letter = (pseudo||'?')[0].toUpperCase();
+  if (photo) {
+    return `<div style="width:${size}px;height:${size}px;border-radius:50%;background:url(${photo}) center/cover;flex-shrink:0"></div>`;
+  }
+  return `<div style="width:${size}px;height:${size}px;border-radius:50%;background:${color};display:flex;align-items:center;justify-content:center;font-size:${size*0.45}px;font-weight:800;color:#fff;flex-shrink:0">${letter}</div>`;
+}
  
 // ══ STATUT EN LIGNE ══
 function updatePresence() {
@@ -1449,6 +2236,31 @@ function renderMsg(msg) {
   const g = document.createElement('div');
   g.className = `msg-group ${isMe ? 'me' : 'other'}`;
  
+  // Types spéciaux
+  if (msg.type === 'poll') {
+    msg.fbKey = msg.fbKey || '';
+    const time = new Date(msg.ts).toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
+    g.innerHTML = `
+      <div class="msg-author">${isMe ? (currentUser?.isAdmin ? '👑 Admin · Toi' : 'Toi') : (msg.isAdmin ? `👑 Admin · ${msg.pseudo}` : `${msg.pseudo} · ${msg.promo}`)}</div>
+      ${renderPoll(msg, isMe)}
+      <div class="msg-time">${time}</div>`;
+    msgs.appendChild(g);
+    msgs.scrollTop = msgs.scrollHeight;
+    return;
+  }
+  if (msg.type === 'event') {
+    msg.fbKey = msg.fbKey || '';
+    const time = new Date(msg.ts).toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
+    g.className = 'msg-group other';
+    g.innerHTML = `
+      <div class="msg-author">${msg.isAdmin ? `👑 Admin · ${msg.pseudo}` : `${msg.pseudo} · ${msg.promo}`}</div>
+      ${renderEvent(msg)}
+      <div class="msg-time">${time}</div>`;
+    msgs.appendChild(g);
+    msgs.scrollTop = msgs.scrollHeight;
+    return;
+  }
+ 
   // Highlight mentions
   const processText = t => {
     if (!t) return '';
@@ -1493,9 +2305,18 @@ function renderMsg(msg) {
     <button class="msg-action-btn" onclick="startPin('${safeText}')" title="Épingler">📌</button>
   </div>`;
  
+  const authorLabel = isMe
+    ? (currentUser?.isAdmin ? '👑 Admin · Toi' : 'Toi')
+    : (msg.isAdmin ? `👑 Admin · ${msg.pseudo}` : `${msg.pseudo} · ${msg.promo}`);
+ 
+  const avatarHtml = !isMe ? getAvatarHtml(msg.pseudo, msg.photo || null) : '';
+ 
   g.innerHTML = `
     ${actionsHtml}
-    <div class="msg-author">${isMe ? 'Toi' : `${msg.pseudo} · ${msg.promo}`}</div>
+    <div style="display:flex;align-items:center;gap:7px;margin-bottom:4px">
+      ${avatarHtml}
+      <div class="msg-author" style="margin-bottom:0">${authorLabel}</div>
+    </div>
     ${replyHtml}
     ${contentFinal}
     <div class="msg-reactions" id="reactions-${msgId}"></div>
@@ -1769,3 +2590,4 @@ window.clearSalon = function() {
 </script>
 </body>
 </html>
+ 
