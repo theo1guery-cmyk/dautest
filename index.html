@@ -2165,7 +2165,7 @@ window.searchMessages = function(query) {
   document.querySelectorAll('#messages .msg-bubble').forEach(el => {
     if (el.textContent.toLowerCase().includes(q)) {
       el.innerHTML = el.textContent.replace(
-        new RegExp(query.replace(/[.*+?^${}()|[\]\]/g,'\$&'), 'gi'),
+        new RegExp(query.replace(/[.*+?^${}()|\[\]\\]/g,'\\$&'), 'gi'),
         m => `<span class="msg-highlight">${m}</span>`
       );
       found++;
@@ -2590,4 +2590,3 @@ window.clearSalon = function() {
 </script>
 </body>
 </html>
- 
