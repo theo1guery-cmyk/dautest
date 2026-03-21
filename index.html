@@ -1337,7 +1337,7 @@ function addSalon(containerId, id, ic, name, desc, tag) {
   if (document.getElementById('sb-' + id)) return;
   const el = document.createElement('div');
   el.className = 'salon-item'; el.id = 'sb-' + id;
-  el.innerHTML = `<span class="salon-ic">${ic}</span><span class="salon-name">${name}</span>${tag ? `<span class="salon-tag">${tag}</span>` : ''}`;
+  el.innerHTML = '<span class="salon-ic">' + ic + '</span><span class="salon-name">' + name + '</span>' + (tag ? '<span class="salon-tag">' + tag + '</span>' : '');
   el.onclick = () => switchSalon(id, el, ic, name, desc);
   document.getElementById(containerId).appendChild(el);
 }
@@ -2386,8 +2386,9 @@ function renderMsg(msg) {
   };
 
   // Reply ref
-  const replyHtml = msg.reply ? `
-    <div class="msg-reply-ref">↩️ <strong>${escHtml(msg.reply.pseudo)}</strong> : ${escHtml(msg.reply.text?.substring(0,60) || '')}${msg.reply.text?.length > 60 ? '…' : ''}</div>` : '';
+  const replyHtml = msg.reply
+    ? '<div class="msg-reply-ref">↩️ <strong>' + escHtml(msg.reply.pseudo) + '</strong> : ' + escHtml((msg.reply.text||'').substring(0,60)) + ((msg.reply.text||'').length > 60 ? '…' : '') + '</div>'
+    : '';
 
   // Recalcul content avec mentions
   let contentFinal = '';
@@ -2396,7 +2397,7 @@ function renderMsg(msg) {
     contentFinal = `<div class="msg-annonce">
       <div class="msg-annonce-type">${labels[msg.annonce.type] || '📢'}</div>
       <div class="msg-annonce-desc">${processText(msg.annonce.desc)}</div>
-      ${msg.annonce.prix ? `<div class="msg-annonce-prix">💰 ${escHtml(msg.annonce.prix)}</div>` : ''}
+      ${msg.annonce.prix ? '<div class="msg-annonce-prix">💰 ' + escHtml(msg.annonce.prix) + '</div>' : ''}
     </div>`;
   } else {
     if (msg.text) contentFinal += `<div class="msg-bubble">${processText(msg.text)}</div>`;
@@ -2428,7 +2429,7 @@ function renderMsg(msg) {
 
   const authorLabel = isMe
     ? (currentUser?.isAdmin ? '👑 Admin · Toi' : 'Toi')
-    : (msg.isAdmin ? `👑 Admin · ${msg.pseudo}` : `${msg.pseudo} · ${msg.promo}`);
+    : (msg.isAdmin ? '👑 Admin · ' + msg.pseudo : msg.pseudo + ' · ' + msg.promo);
 
   const avatarHtml = getAvatarHtml(msg.pseudo, msg.photo || null, 26);
 
