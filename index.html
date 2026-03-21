@@ -395,6 +395,89 @@
   /* ── Mention ── */
   .mention { color: var(--accent-h); font-weight: 700; }
  
+  /* ── Statut en ligne ── */
+  .online-count {
+    font-size: 11px; color: var(--green); font-weight: 600;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .online-count::before {
+    content:''; width:6px; height:6px; background:var(--green);
+    border-radius:50%; box-shadow:0 0 5px var(--green); display:block;
+  }
+  .msg-author-wrap { display:flex; align-items:center; gap:6px; }
+  .online-dot-small {
+    width:6px; height:6px; background:var(--green);
+    border-radius:50%; display:inline-block;
+  }
+ 
+  /* ── Typing ── */
+  .typing-bar {
+    padding: 6px 22px; font-size: 12px; color: var(--muted);
+    min-height: 28px; font-style: italic;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .typing-dots span {
+    display:inline-block; width:5px; height:5px; background:var(--muted);
+    border-radius:50%; animation:typingBounce 1.2s infinite;
+  }
+  .typing-dots span:nth-child(2) { animation-delay:.2s; }
+  .typing-dots span:nth-child(3) { animation-delay:.4s; }
+  @keyframes typingBounce {
+    0%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-5px)}
+  }
+ 
+  /* ── Message épinglé ── */
+  .pinned-bar {
+    display:none; padding:10px 22px; background:rgba(79,127,255,.1);
+    border-bottom:1px solid rgba(79,127,255,.2);
+    font-size:13px; color:var(--accent-h);
+    align-items:center; gap:8px; cursor:pointer;
+    transition:background .15s;
+  }
+  .pinned-bar:hover { background:rgba(79,127,255,.15); }
+  .pinned-bar.show { display:flex; }
+  .pinned-text { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .pin-action-btn {
+    background: transparent; border: none; color: var(--accent);
+    font-size: 13px; cursor: pointer; padding: 4px 8px;
+    border-radius: 6px; transition: background .15s; white-space: nowrap;
+  }
+  .pin-action-btn:hover { background: rgba(79,127,255,.2); }
+ 
+  /* ── Recherche ── */
+  .search-bar {
+    display:none; padding:10px 22px; background:var(--bg2);
+    border-bottom:1px solid var(--border);
+  }
+  .search-bar.show { display:block; }
+  .search-input {
+    width:100%; background:var(--surface); border:1px solid var(--border2);
+    border-radius:10px; padding:10px 14px; color:var(--text);
+    font-family:'Outfit',sans-serif; font-size:14px; outline:none;
+    transition:border-color .2s;
+  }
+  .search-input:focus { border-color:var(--accent); }
+  .search-input::placeholder { color:var(--muted2); }
+  .msg-highlight { background:rgba(255,200,0,.25); border-radius:3px; }
+ 
+  /* ── Badge non lus ── */
+  .unread-badge {
+    background:var(--accent); color:#fff;
+    font-size:10px; font-weight:700;
+    border-radius:20px; padding:2px 7px; display:none;
+  }
+  .unread-badge.show { display:block; }
+  .salon-item.active .unread-badge { background:rgba(255,255,255,.3); }
+ 
+  /* ── Header actions ── */
+  .ch-actions { margin-left:auto; display:flex; align-items:center; gap:8px; }
+  .ch-action-btn {
+    background:transparent; border:none; border-radius:8px;
+    padding:6px 9px; color:var(--muted); font-size:16px;
+    cursor:pointer; transition:all .15s;
+  }
+  .ch-action-btn:hover { background:var(--surface2); color:var(--text); }
+ 
   /* ── Mobile ── */
   .burger {
     display: none; background: transparent; border: none;
@@ -666,9 +749,11 @@
     <div class="sb-section"><span>Général</span></div>
     <div class="salon-item active" onclick="switchSalon('general',this,'🏠','Général','Salon ouvert à tous')">
       <span class="salon-ic">🏠</span><span class="salon-name">Général</span>
+      <span class="unread-badge" id="unread-general"></span>
     </div>
     <div class="salon-item" onclick="switchSalon('annonces',this,'📢','Annonces','Infos importantes & événements')">
       <span class="salon-ic">📢</span><span class="salon-name">Annonces</span>
+      <span class="unread-badge" id="unread-annonces"></span>
     </div>
  
     <div class="sb-section">
@@ -726,8 +811,25 @@
       <div class="ch-name" id="ch-name">Général</div>
       <div class="ch-desc" id="ch-desc">Salon ouvert à tous les étudiants</div>
     </div>
-    <div class="ch-dot">En ligne</div>
+    <div class="ch-actions">
+      <span class="online-count" id="online-count">0</span>
+      <button class="ch-action-btn" onclick="toggleSearch()" title="Rechercher">🔍</button>
+      <button class="ch-action-btn" id="pin-btn" onclick="pinCurrentMsg()" title="Épingler" style="display:none">📌</button>
+    </div>
   </div>
+ 
+  <div class="pinned-bar" id="pinned-bar" onclick="scrollToPinned()">
+    <span>📌</span>
+    <span class="pinned-text" id="pinned-text">—</span>
+    <button class="pin-action-btn" onclick="event.stopPropagation();unpin()">✕</button>
+  </div>
+ 
+  <div class="search-bar" id="search-bar">
+    <input class="search-input" id="search-input" placeholder="Rechercher dans les messages…"
+      oninput="searchMessages(this.value)">
+  </div>
+ 
+  <div class="typing-bar" id="typing-bar"></div>
  
   <div id="messages">
     <div class="empty-state" id="empty-state">
@@ -975,6 +1077,12 @@ function enterChat() {
   loadDynamicSalons();
   loadSubchatsPromo(currentUser.promo);
   loadGroupesPrives();
+  updatePresence();
+  setInterval(updatePresence, 30000);
+  watchOnline();
+  watchTyping();
+  // Tracker les non lus pour les salons principaux
+  MAIN_SALONS.forEach(id => trackUnread(id));
   addSystemMsg(`Bienvenue ${currentUser.pseudo} ! 👋`);
   loadSalon('general');
 }
@@ -1076,6 +1184,11 @@ window.toggleSidebar = function() {
 const origSwitch = window.switchSalon;
 window.switchSalon = function(id, el, ic, name, desc) {
   origSwitch(id, el, ic, name, desc);
+  clearUnread(id);
+  loadPinned(id);
+  watchTyping();
+  // Afficher/cacher bouton épingler
+  document.getElementById('pin-btn').style.display = 'block';
   if (window.innerWidth <= 768) {
     document.getElementById('sidebar').classList.remove('open');
     document.getElementById('sidebar-backdrop').classList.remove('show');
@@ -1122,6 +1235,196 @@ window.submitReport = function() {
   closeModal('modal-report');
   alert('Signalement envoyé, merci !');
 };
+ 
+// ══ STATUT EN LIGNE ══
+function updatePresence() {
+  if (!currentUser || !firebaseOk) return;
+  const presRef = ref(db, `presence/${currentUser.pseudo}`);
+  set(presRef, { pseudo: currentUser.pseudo, promo: currentUser.promo, ts: Date.now() });
+  // Nettoyage auto à la fermeture
+  import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js').then(({ onDisconnect }) => {
+    onDisconnect(presRef).remove();
+  });
+}
+ 
+function watchOnline() {
+  if (!firebaseOk) return;
+  onChildAdded(ref(db, 'presence'), snap => updateOnlineCount());
+  import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js').then(({ onChildRemoved, onValue }) => {
+    onChildRemoved(ref(db, 'presence'), () => updateOnlineCount());
+    onValue(ref(db, 'presence'), snap => {
+      const count = snap.exists() ? Object.keys(snap.val()).length : 0;
+      const el = document.getElementById('online-count');
+      if (el) el.textContent = `${count} en ligne`;
+    });
+  });
+}
+ 
+function updateOnlineCount() {
+  if (!firebaseOk) return;
+  get(ref(db, 'presence')).then(snap => {
+    const count = snap.exists() ? Object.keys(snap.val()).length : 0;
+    const el = document.getElementById('online-count');
+    if (el) el.textContent = `${count} en ligne`;
+  });
+}
+ 
+// ══ TYPING ══
+let typingTimeout = null;
+function watchTyping() {
+  if (!firebaseOk) return;
+  import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js').then(({ onValue }) => {
+    onValue(ref(db, `typing/${currentSalon}`), snap => {
+      const bar = document.getElementById('typing-bar');
+      if (!snap.exists()) { bar.innerHTML = ''; return; }
+      const typers = Object.values(snap.val())
+        .filter(t => t.pseudo !== currentUser?.pseudo && Date.now() - t.ts < 5000);
+      if (!typers.length) { bar.innerHTML = ''; return; }
+      const names = typers.map(t => t.pseudo).join(', ');
+      bar.innerHTML = `<div class="typing-dots"><span></span><span></span><span></span></div> <span>${names} ${typers.length > 1 ? 'écrivent' : 'écrit'}…</span>`;
+    });
+  });
+}
+ 
+document.getElementById('msg-input').addEventListener('input', () => {
+  if (!currentUser || !firebaseOk) return;
+  set(ref(db, `typing/${currentSalon}/${currentUser.pseudo}`), { pseudo: currentUser.pseudo, ts: Date.now() });
+  clearTimeout(typingTimeout);
+  typingTimeout = setTimeout(() => {
+    import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js').then(({ remove }) => {
+      remove(ref(db, `typing/${currentSalon}/${currentUser.pseudo}`));
+    });
+  }, 3000);
+});
+ 
+// ══ ÉPINGLER ══
+let pinnedMsg = null;
+ 
+window.pinCurrentMsg = function() {
+  // Épingler le dernier message du salon
+  const lastMsg = document.querySelector('#messages .msg-group:last-child');
+  if (!lastMsg) return;
+  const bubble = lastMsg.querySelector('.msg-bubble');
+  if (!bubble) return;
+  const text = bubble.textContent.trim().substring(0, 80);
+  pinnedMsg = { text, salonId: currentSalon };
+  if (firebaseOk) set(ref(db, `pinned/${currentSalon}`), pinnedMsg);
+  showPinned(text);
+};
+ 
+function showPinned(text) {
+  const bar = document.getElementById('pinned-bar');
+  const textEl = document.getElementById('pinned-text');
+  textEl.textContent = text;
+  bar.classList.add('show');
+}
+ 
+window.unpin = function() {
+  document.getElementById('pinned-bar').classList.remove('show');
+  if (firebaseOk) {
+    import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js').then(({ remove }) => {
+      remove(ref(db, `pinned/${currentSalon}`));
+    });
+  }
+};
+ 
+window.scrollToPinned = function() {
+  // Scroller vers le premier message visible qui correspond
+  const bar = document.getElementById('pinned-bar');
+  bar.style.opacity = '.6';
+  setTimeout(() => bar.style.opacity = '1', 500);
+};
+ 
+function loadPinned(salonId) {
+  if (!firebaseOk) return;
+  get(ref(db, `pinned/${salonId}`)).then(snap => {
+    if (snap.exists()) showPinned(snap.val().text);
+    else document.getElementById('pinned-bar').classList.remove('show');
+  });
+}
+ 
+// Bouton épingler dans les actions message
+window.startPin = function(text) {
+  if (!currentUser || !firebaseOk) return;
+  set(ref(db, `pinned/${currentSalon}`), { text, salonId: currentSalon });
+  showPinned(text);
+};
+ 
+// ══ RECHERCHE ══
+let searchOpen = false;
+window.toggleSearch = function() {
+  const bar = document.getElementById('search-bar');
+  searchOpen = !searchOpen;
+  bar.classList.toggle('show', searchOpen);
+  if (searchOpen) {
+    document.getElementById('search-input').focus();
+  } else {
+    // Enlever les highlights
+    document.querySelectorAll('.msg-highlight').forEach(el => {
+      el.outerHTML = el.textContent;
+    });
+    document.getElementById('search-input').value = '';
+  }
+};
+ 
+window.searchMessages = function(query) {
+  // Enlever anciens highlights
+  document.querySelectorAll('#messages .msg-bubble, #messages .msg-file-name').forEach(el => {
+    el.innerHTML = el.textContent;
+  });
+  if (!query.trim()) return;
+  const q = query.toLowerCase();
+  let found = 0;
+  document.querySelectorAll('#messages .msg-bubble').forEach(el => {
+    if (el.textContent.toLowerCase().includes(q)) {
+      el.innerHTML = el.textContent.replace(
+        new RegExp(query.replace(/[.*+?^${}()|[\]\]/g,'\$&'), 'gi'),
+        m => `<span class="msg-highlight">${m}</span>`
+      );
+      found++;
+    }
+  });
+  const input = document.getElementById('search-input');
+  input.style.borderColor = found > 0 ? 'var(--green)' : 'var(--red, #f87171)';
+};
+ 
+// ══ MESSAGES NON LUS ══
+const unreadCounts = {};
+const lastSeenTs = {};
+ 
+function trackUnread(salonId) {
+  if (!firebaseOk) return;
+  onChildAdded(ref(db, `salons/${salonId}/messages`), snap => {
+    if (salonId === currentSalon) return; // Salon actif = pas de badge
+    const msg = snap.val();
+    if (!lastSeenTs[salonId]) lastSeenTs[salonId] = 0;
+    if (msg.ts > lastSeenTs[salonId]) {
+      unreadCounts[salonId] = (unreadCounts[salonId] || 0) + 1;
+      updateUnreadBadge(salonId);
+    }
+  });
+}
+ 
+function updateUnreadBadge(salonId) {
+  const badge = document.getElementById('unread-' + salonId);
+  if (!badge) return;
+  const count = unreadCounts[salonId] || 0;
+  if (count > 0) {
+    badge.textContent = count > 99 ? '99+' : count;
+    badge.classList.add('show');
+  } else {
+    badge.classList.remove('show');
+  }
+}
+ 
+function clearUnread(salonId) {
+  unreadCounts[salonId] = 0;
+  lastSeenTs[salonId] = Date.now();
+  updateUnreadBadge(salonId);
+}
+ 
+// Tracker les salons principaux
+const MAIN_SALONS = ['general','annonces','tickets','echange-cours','coloc','annales'];
  
 window.cancelReply = function() {
   replyTo = null;
@@ -1187,6 +1490,7 @@ function renderMsg(msg) {
     <button class="msg-action-btn" onclick="addReaction('${msgId}','😂')" title="Haha">😂</button>
     <button class="msg-action-btn" onclick="startReply('${escHtml(msg.pseudo)}','${safeText}')">↩️</button>
     ${isMe ? `<button class="msg-action-btn" onclick="deleteMsg('${msgId}','${msg.fbKey||''}')" title="Supprimer" style="color:#f87171">🗑️</button>` : `<button class="msg-action-btn" onclick="reportMsg('${escHtml(msg.pseudo)}','${safeText}')" title="Signaler" style="color:#fb923c">🚨</button>`}
+    <button class="msg-action-btn" onclick="startPin('${safeText}')" title="Épingler">📌</button>
   </div>`;
  
   g.innerHTML = `
