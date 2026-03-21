@@ -339,6 +339,62 @@
   }
   .salon-item.active .prive-badge { background: rgba(255,255,255,.2); color: #fff; }
  
+  /* ── Réactions ── */
+  .msg-reactions {
+    display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px;
+  }
+  .reaction-btn {
+    background: rgba(255,255,255,.08); border: 1px solid var(--border2);
+    border-radius: 20px; padding: 3px 9px; font-size: 13px;
+    cursor: pointer; transition: all .15s; display: flex; align-items: center; gap: 4px;
+    color: var(--text);
+  }
+  .reaction-btn:hover { background: rgba(255,255,255,.15); }
+  .reaction-btn.mine { background: rgba(79,127,255,.2); border-color: var(--accent); }
+  .reaction-count { font-size: 11px; font-weight: 700; color: var(--muted); }
+ 
+  /* ── Actions message (hover) ── */
+  .msg-group { position: relative; }
+  .msg-actions {
+    display: none; position: absolute; top: 0; right: 0;
+    background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: 10px; padding: 4px; gap: 2px;
+    flex-direction: row; box-shadow: 0 4px 16px rgba(0,0,0,.3);
+    z-index: 10;
+  }
+  .msg-group.me .msg-actions { right: auto; left: 0; }
+  .msg-group:hover .msg-actions { display: flex; }
+  .msg-action-btn {
+    background: transparent; border: none; border-radius: 7px;
+    padding: 5px 8px; cursor: pointer; font-size: 14px;
+    color: var(--muted); transition: all .15s;
+  }
+  .msg-action-btn:hover { background: var(--surface); color: var(--text); }
+ 
+  /* ── Reply preview ── */
+  .reply-preview {
+    display: none; align-items: center; gap: 10px;
+    background: var(--surface); border-left: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0; padding: 8px 12px;
+    margin-bottom: 8px;
+  }
+  .reply-preview.show { display: flex; }
+  .reply-preview-text { font-size: 13px; color: var(--muted); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .reply-preview-close { cursor: pointer; color: var(--muted); background: none; border: none; font-size: 16px; }
+ 
+  /* ── Message répondu ── */
+  .msg-reply-ref {
+    background: rgba(255,255,255,.05); border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0; padding: 6px 10px; margin-bottom: 6px;
+    font-size: 12px; color: var(--muted); max-width: 62%;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    cursor: pointer;
+  }
+  .msg-group.me .msg-reply-ref { border-left-color: rgba(255,255,255,.4); }
+ 
+  /* ── Mention ── */
+  .mention { color: var(--accent-h); font-weight: 700; }
+ 
   @keyframes popIn {
     from { opacity:0; transform: scale(.94) translateY(4px) }
     to   { opacity:1; transform: none }
@@ -623,6 +679,11 @@
   </div>
  
   <div class="chat-input-wrap">
+    <div class="reply-preview" id="reply-preview">
+      <span style="font-size:12px;color:var(--accent)">↩️ Réponse à</span>
+      <span class="reply-preview-text" id="reply-preview-text">—</span>
+      <button class="reply-preview-close" onclick="cancelReply()">✕</button>
+    </div>
     <div class="file-preview" id="file-preview">
       <span id="fp-ic">📄</span>
       <span class="fp-name" id="fp-name">—</span>
@@ -631,7 +692,7 @@
     <div class="input-row">
       <button class="attach-btn" onclick="document.getElementById('file-input').click()" title="Joindre un fichier">📎</button>
       <input type="file" id="file-input" style="display:none" onchange="onFileSelected(this)">
-      <textarea id="msg-input" placeholder="Écris un message…" rows="1"
+      <textarea id="msg-input" placeholder="Écris un message… (@pseudo pour mentionner)" rows="1"
         onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
       <button id="send-btn" onclick="sendMessage()">➤</button>
     </div>
@@ -655,6 +716,7 @@ let db = null, auth = null, firebaseOk = false;
 let localMessages = {};
 let ticketType = 'vente';
 let selectedFile = null;
+let replyTo = null; // { pseudo, text, msgId }
  
 // ── Uploadcare ──
 const UC_KEY = '65403977ff8c3071fada';
@@ -911,20 +973,22 @@ window.sendMessage = async function() {
   if (!text && !selectedFile) return;
   if (!currentUser) return;
  
-  // Indicateur d'envoi
   const btn = document.getElementById('send-btn');
   btn.textContent = '⏳'; btn.disabled = true;
  
   let fileData = null;
   if (selectedFile) {
-    try {
-      fileData = await uploadFile(selectedFile);
-    } catch(e) {
-      console.error('Upload échoué', e);
-    }
+    try { fileData = await uploadFile(selectedFile); }
+    catch(e) { console.error('Upload échoué', e); }
   }
  
-  const msg = { pseudo: currentUser.pseudo, promo: currentUser.promo, text: text || null, file: fileData || null, ts: Date.now() };
+  const msg = {
+    pseudo: currentUser.pseudo, promo: currentUser.promo,
+    text: text || null, file: fileData || null,
+    reply: replyTo || null,
+    ts: Date.now()
+  };
+ 
   if (firebaseOk) {
     const { db, ref, push, serverTimestamp } = window._fb;
     push(ref(db, `salons/${currentSalon}/messages`), { ...msg, ts: serverTimestamp() });
@@ -934,8 +998,21 @@ window.sendMessage = async function() {
     renderMsg(msg);
   }
   input.value = ''; input.style.height = 'auto';
-  clearFile();
+  clearFile(); cancelReply();
   btn.textContent = '➤'; btn.disabled = false;
+};
+ 
+window.cancelReply = function() {
+  replyTo = null;
+  document.getElementById('reply-preview').classList.remove('show');
+  document.getElementById('reply-preview-text').textContent = '—';
+};
+ 
+window.startReply = function(pseudo, text) {
+  replyTo = { pseudo, text };
+  document.getElementById('reply-preview-text').textContent = `${pseudo} : ${text}`;
+  document.getElementById('reply-preview').classList.add('show');
+  document.getElementById('msg-input').focus();
 };
  
 // ── Render ──
@@ -948,31 +1025,77 @@ function renderMsg(msg) {
   const g = document.createElement('div');
   g.className = `msg-group ${isMe ? 'me' : 'other'}`;
  
-  let content = '';
+  // Highlight mentions
+  const processText = t => {
+    if (!t) return '';
+    return escHtml(t).replace(/@(\w+)/g, '<span class="mention">@$1</span>');
+  };
+ 
+  // Reply ref
+  const replyHtml = msg.reply ? `
+    <div class="msg-reply-ref">↩️ <strong>${escHtml(msg.reply.pseudo)}</strong> : ${escHtml(msg.reply.text?.substring(0,60) || '')}${msg.reply.text?.length > 60 ? '…' : ''}</div>` : '';
+ 
+  // Recalcul content avec mentions
+  let contentFinal = '';
   if (msg.annonce) {
     const labels = { vente:'🏷️ Vente', recherche:'🔍 Recherche', echange:'🔄 Échange', cours:'📝 Cours/TD' };
-    content = `<div class="msg-annonce">
+    contentFinal = `<div class="msg-annonce">
       <div class="msg-annonce-type">${labels[msg.annonce.type] || '📢'}</div>
-      <div class="msg-annonce-desc">${escHtml(msg.annonce.desc)}</div>
+      <div class="msg-annonce-desc">${processText(msg.annonce.desc)}</div>
       ${msg.annonce.prix ? `<div class="msg-annonce-prix">💰 ${escHtml(msg.annonce.prix)}</div>` : ''}
     </div>`;
   } else {
-    if (msg.text) content += `<div class="msg-bubble">${escHtml(msg.text)}</div>`;
+    if (msg.text) contentFinal += `<div class="msg-bubble">${processText(msg.text)}</div>`;
     if (msg.file) {
       const ic = fileIcon(msg.file.type || '');
-      content += `<a class="msg-file" href="${msg.file.url}" target="_blank" rel="noopener noreferrer" onclick="event.preventDefault();window.open('${msg.file.url}','_blank','noopener,noreferrer')">
+      contentFinal += `<a class="msg-file" href="${msg.file.url}" target="_blank" rel="noopener noreferrer" onclick="event.preventDefault();window.open('${msg.file.url}','_blank','noopener,noreferrer')">
         <span class="msg-file-ic">${ic}</span>
         <div><div class="msg-file-name">${escHtml(msg.file.name)}</div><div class="msg-file-size">${msg.file.size}</div></div>
       </a>`;
     }
   }
  
+  const msgId = 'msg-' + msg.ts + '-' + Math.random().toString(36).substr(2,5);
+  g.id = msgId;
+ 
+  // Actions hover
+  const actionsHtml = `<div class="msg-actions">
+    <button class="msg-action-btn" onclick="addReaction('${msgId}','👍')" title="J'aime">👍</button>
+    <button class="msg-action-btn" onclick="addReaction('${msgId}','❤️')" title="Amour">❤️</button>
+    <button class="msg-action-btn" onclick="addReaction('${msgId}','😂')" title="Haha">😂</button>
+    <button class="msg-action-btn" onclick="startReply('${escHtml(msg.pseudo)}','${escHtml((msg.text||'').replace(/'/g,"\'"))}')">↩️</button>
+  </div>`;
+ 
   g.innerHTML = `
+    ${actionsHtml}
     <div class="msg-author">${isMe ? 'Toi' : `${msg.pseudo} · ${msg.promo}`}</div>
-    ${content}
+    ${replyHtml}
+    ${contentFinal}
+    <div class="msg-reactions" id="reactions-${msgId}"></div>
     <div class="msg-time">${time}</div>`;
   msgs.appendChild(g);
   msgs.scrollTop = msgs.scrollHeight;
+}
+ 
+// ── Réactions ──
+const localReactions = {}; // msgId -> { emoji: count }
+window.addReaction = function(msgId, emoji) {
+  const container = document.getElementById('reactions-' + msgId);
+  if (!container) return;
+  if (!localReactions[msgId]) localReactions[msgId] = {};
+  if (!localReactions[msgId][emoji]) localReactions[msgId][emoji] = 0;
+  localReactions[msgId][emoji]++;
+  renderReactions(msgId, container);
+};
+ 
+function renderReactions(msgId, container) {
+  const reactions = localReactions[msgId] || {};
+  container.innerHTML = Object.entries(reactions)
+    .filter(([,c]) => c > 0)
+    .map(([emoji, count]) => `
+      <button class="reaction-btn" onclick="addReaction('${msgId}','${emoji}')">
+        ${emoji} <span class="reaction-count">${count}</span>
+      </button>`).join('');
 }
  
 // ── Modals ──
