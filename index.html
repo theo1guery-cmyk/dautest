@@ -2610,14 +2610,14 @@ function loadAdminStats() {
     const logs    = logsSnap.exists()  ? Object.values(logsSnap.val()) : [];
     const groupes = groupesSnap.exists() ? Object.keys(groupesSnap.val()).length : 0;
 
-    // Messages aujourd'hui
+    // Messages aujourd&#39;hui
     const today = new Date().setHours(0,0,0,0);
     const msgsToday = logs.filter(l => l.ts > today && l.type === 'message').length;
 
     body.innerHTML = '<div class="stats-grid">'
       + '<div class="stat-card"><div class="stat-icon">🟢</div><div class="stat-value">' + online + '</div><div class="stat-label">En ligne maintenant</div></div>'
       + '<div class="stat-card"><div class="stat-icon">👥</div><div class="stat-value">' + users + '</div><div class="stat-label">Comptes créés</div></div>'
-      + '<div class="stat-card"><div class="stat-icon">💬</div><div class="stat-value">' + msgsToday + '</div><div class="stat-label">Messages aujourd'hui</div></div>'
+      + '<div class="stat-card"><div class="stat-icon">💬</div><div class="stat-value">' + msgsToday + '</div><div class="stat-label">Messages aujourd&#39;hui</div></div>'
       + '<div class="stat-card"><div class="stat-icon">🔒</div><div class="stat-value">' + groupes + '</div><div class="stat-label">Groupes privés</div></div>'
       + '</div>';
   });
