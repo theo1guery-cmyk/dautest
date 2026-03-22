@@ -2649,7 +2649,7 @@ function loadBans() {
     if (!snap.exists()) { body.innerHTML = '<div style="text-align:center;color:var(--muted);padding:20px">Aucun utilisateur banni 🎉</div>'; return; }
     body.innerHTML = Object.keys(snap.val()).map(pseudo =>
       '<div class="banned-item"><span class="banned-name">🚫 ' + pseudo + '</span>'
-      + '<button class="unban-btn" onclick="unbanUser('' + pseudo + '')">Débannir</button></div>'
+      + '<button class="unban-btn" onclick="unbanUser(\'' + pseudo + '\')">Débannir</button></div>'
     ).join('');
   });
 }
