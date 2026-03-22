@@ -1,8 +1,33 @@
 <!DOCTYPE html>
+<!--
+╔══════════════════════════════════════════════════════╗
+║           DAUPHINE GUIDE — MODULE CHAT               ║
+║                                                      ║
+║  INTÉGRATION DANS LA GROSSE APPLI :                  ║
+║                                                      ║
+║  1. Ajoute dans ton <head> :                         ║
+║     <link href="https://fonts.googleapis.com/css2?   ║
+║       family=Outfit:wght@400;500;600;700;800&        ║
+║       display=swap" rel="stylesheet">                ║
+║                                                      ║
+║  2. Copie le bloc <style> dans ton CSS global        ║
+║                                                      ║
+║  3. Copie le HTML entre CHAT START et CHAT END       ║
+║     dans la section de ta page                       ║
+║                                                      ║
+║  4. Copie le <script type="module"> en bas de page   ║
+║                                                      ║
+║  5. Dans ton CSS, remplace :                         ║
+║     body { height:100vh }                            ║
+║     par la hauteur de ta section chat                ║
+║     ex: #page-chat { height: calc(100vh - 60px) }    ║
+╚══════════════════════════════════════════════════════╝
+-->
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Chat · DauphineGuide</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -26,6 +51,18 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); height: 100vh; display: flex; overflow: hidden; }
+
+  /* ══ INTÉGRATION DANS L'APPLI PRINCIPALE ══
+     Pour intégrer dans ta grosse appli :
+     1. Copie tout le contenu entre les balises <style> dans ton CSS global
+     2. Copie le HTML entre <!-- CHAT START --> et <!-- CHAT END --> dans ta page
+     3. Copie le <!-- ════════════════════════════════════════
+     CHAT END
+     ════════════════════════════════════════ -->
+
+<script type="module"> dans ton JS
+     4. Remplace "height:100vh" par la hauteur de ta section chat
+     ══════════════════════════════════════════ */
 
   /* ══ AUTH ══ */
   #auth-overlay {
@@ -612,6 +649,59 @@
   .unban-btn { background: transparent; border: 1px solid var(--border2); border-radius: 7px; padding: 5px 10px; color: var(--muted); font-size: 12px; cursor: pointer; }
   .unban-btn:hover { border-color: var(--green); color: var(--green); }
 
+  /* ══ SWIPE ══ */
+  .msg-group { touch-action: pan-y; user-select: none; }
+  .msg-group.swiping { transition: none !important; }
+  .msg-group.swipe-anim { transition: transform .2s ease; }
+  .swipe-hint {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    font-size: 18px; opacity: 0; transition: opacity .2s; pointer-events: none;
+  }
+  .msg-group.me    .swipe-hint { left: -30px; }
+  .msg-group.other .swipe-hint { right: -30px; }
+
+  /* ══ STATUT VU ══ */
+  .msg-status {
+    font-size: 10px; color: var(--muted2); margin-top: 2px;
+    padding: 0 4px; display: flex; align-items: center; gap: 4px;
+  }
+  .msg-group.me .msg-status { justify-content: flex-end; }
+  .status-seen { color: var(--accent-h); }
+
+  /* ══ EDIT MESSAGE ══ */
+  .msg-bubble.editing {
+    border-color: var(--accent) !important;
+    outline: 2px solid rgba(79,127,255,.3);
+  }
+  .edit-bar {
+    display: none; align-items: center; gap: 10px;
+    background: rgba(79,127,255,.1); border-left: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0; padding: 8px 12px; margin-bottom: 8px;
+  }
+  .edit-bar.show { display: flex; }
+  .edit-bar-text { font-size: 13px; color: var(--accent-h); flex: 1; }
+  .edit-bar-close { cursor: pointer; color: var(--muted); background: none; border: none; font-size: 16px; }
+
+  /* ══ ADMIN STATS ══ */
+  .stats-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px;
+  }
+  .stat-card {
+    background: var(--surface2); border-radius: 12px; padding: 16px;
+    border: 1px solid var(--border2);
+  }
+  .stat-value { font-size: 28px; font-weight: 800; color: var(--white); }
+  .stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .stat-icon  { font-size: 20px; margin-bottom: 8px; }
+
+  .log-item {
+    display: flex; gap: 10px; padding: 10px 0;
+    border-bottom: 1px solid var(--border); font-size: 13px;
+  }
+  .log-time  { color: var(--muted2); font-size: 11px; white-space: nowrap; }
+  .log-text  { color: var(--text); flex: 1; }
+  .log-salon { color: var(--accent-h); font-weight: 600; }
+
   /* ══ ONGLET FICHIERS ══ */
   .chat-tabs {
     display: flex; border-bottom: 1px solid var(--border);
@@ -768,6 +858,10 @@
 </style>
 </head>
 <body>
+
+<!-- ════════════════════════════════════════
+     CHAT START — Colle tout jusqu'à CHAT END
+     ════════════════════════════════════════ -->
 
 <!-- ══ AUTH ══ -->
 <div id="auth-overlay">
@@ -977,11 +1071,17 @@
 <div id="admin-panel">
   <div class="admin-header">
     <span style="font-size:22px">🛡️</span>
-    <div class="admin-title">Tableau de bord modérateur</div>
+    <div class="admin-title">Tableau de bord</div>
     <button class="admin-close" onclick="closeAdmin()">✕</button>
   </div>
+  <div class="chat-tabs" style="background:var(--bg2);border-bottom:1px solid var(--border)">
+    <div class="chat-tab active" onclick="switchAdminTab('stats',this)">📊 Stats</div>
+    <div class="chat-tab" onclick="switchAdminTab('logs',this)">📋 Logs</div>
+    <div class="chat-tab" onclick="switchAdminTab('reports',this)">🚨 Signalements</div>
+    <div class="chat-tab" onclick="switchAdminTab('bans',this)">🚫 Bannis</div>
+  </div>
   <div class="admin-body" id="admin-body">
-    <div style="font-size:13px;color:var(--muted);text-align:center;padding:20px">Chargement des signalements…</div>
+    <div style="font-size:13px;color:var(--muted);text-align:center;padding:20px">Chargement…</div>
   </div>
 </div>
 
@@ -1220,6 +1320,10 @@
   </div>
 
   <div class="chat-input-wrap">
+    <div class="edit-bar" id="edit-bar">
+      <span class="edit-bar-text">✏️ Modification du message…</span>
+      <button class="edit-bar-close" onclick="cancelEdit()">✕</button>
+    </div>
     <div class="reply-preview" id="reply-preview">
       <span style="font-size:12px;color:var(--accent)">↩️ Réponse à</span>
       <span class="reply-preview-text" id="reply-preview-text">—</span>
@@ -1481,7 +1585,8 @@ function enterChat() {
   watchTyping();
   MAIN_SALONS.forEach(id => trackUnread(id));
   initNotifications();
-    addSystemMsg(`Bienvenue ${currentUser.pseudo} ! 👋`);
+    logAction('login', 'Connexion au chat');
+  addSystemMsg(`Bienvenue ${currentUser.pseudo} ! 👋`);
   loadSalon('general');
 }
 
@@ -1580,6 +1685,20 @@ window.sendMessage = async function() {
     return;
   }
 
+  // Mode édition
+  if (editingMsg) {
+    if (firebaseOk) {
+      set(ref(db, 'salons/' + currentSalon + '/messages/' + editingMsg.fbKey + '/text'), text);
+      set(ref(db, 'salons/' + currentSalon + '/messages/' + editingMsg.fbKey + '/edited'), true);
+      // Mettre à jour l'affichage
+      const bubble = document.querySelector('#' + editingMsg.msgId + ' .msg-bubble');
+      if (bubble) bubble.innerHTML = text + ' <span style="font-size:10px;color:rgba(255,255,255,.5)">(modifié)</span>';
+    }
+    cancelEdit();
+    input.value = ''; input.style.height = 'auto';
+    return;
+  }
+
   const btn = document.getElementById('send-btn');
   btn.textContent = '⏳'; btn.disabled = true;
 
@@ -1601,6 +1720,7 @@ window.sendMessage = async function() {
   if (firebaseOk) {
     const { db, ref, push, serverTimestamp } = window._fb;
     push(ref(db, `salons/${currentSalon}/messages`), { ...msg, ts: serverTimestamp() });
+    logAction('message', (text||'📎 fichier').substring(0,50), currentSalon);
   } else {
     if (!localMessages[currentSalon]) localMessages[currentSalon] = [];
     localMessages[currentSalon].push(msg);
@@ -1626,6 +1746,7 @@ window.switchSalon = function(id, el, ic, name, desc) {
   clearUnread(id);
   loadPinned(id);
   watchTyping();
+  markAllAsSeen(id);
   // Reset vers onglet messages
   currentTab = 'messages';
   document.getElementById('messages').classList.remove('hide');
@@ -1872,7 +1993,7 @@ const ADMIN_PSEUDO = 'Théo91140';
 
 window.openAdmin = function() {
   document.getElementById('admin-panel').classList.add('show');
-  loadReports();
+  loadAdminStats();
 };
 window.closeAdmin = function() {
   document.getElementById('admin-panel').classList.remove('show');
@@ -2359,6 +2480,189 @@ function clearUnread(salonId) {
 // Tracker les salons principaux
 const MAIN_SALONS = ['general','annonces','tickets','echange-cours','coloc','annales'];
 
+// ══ SWIPE POUR RÉPONDRE ══
+function initSwipe(el, msg) {
+  let startX = 0, currentX = 0, swiping = false;
+  const threshold = 60;
+
+  el.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    swiping = true;
+    el.classList.add('swiping');
+  }, { passive: true });
+
+  el.addEventListener('touchmove', e => {
+    if (!swiping) return;
+    currentX = e.touches[0].clientX - startX;
+    const isMe = el.classList.contains('me');
+    // Swipe gauche pour mes messages, droite pour les autres
+    const delta = isMe ? Math.min(0, currentX) : Math.max(0, currentX);
+    if (Math.abs(delta) < threshold) {
+      el.style.transform = 'translateX(' + delta * 0.4 + 'px)';
+      const hint = el.querySelector('.swipe-hint');
+      if (hint) hint.style.opacity = Math.abs(delta) / threshold;
+    }
+  }, { passive: true });
+
+  el.addEventListener('touchend', () => {
+    swiping = false;
+    el.classList.remove('swiping');
+    el.classList.add('swipe-anim');
+    el.style.transform = '';
+    const hint = el.querySelector('.swipe-hint');
+    if (hint) hint.style.opacity = 0;
+    const isMe = el.classList.contains('me');
+    const delta = isMe ? Math.min(0, currentX) : Math.max(0, currentX);
+    if (Math.abs(delta) >= threshold) {
+      startReply(msg.pseudo, msg.text || '');
+    }
+    setTimeout(() => el.classList.remove('swipe-anim'), 200);
+    currentX = 0;
+  });
+}
+
+// ══ EDIT MESSAGE ══
+let editingMsg = null; // { msgId, fbKey, originalText }
+
+window.startEdit = function(msgId, fbKey, text) {
+  editingMsg = { msgId, fbKey, originalText: text };
+  const input = document.getElementById('msg-input');
+  input.value = text;
+  input.focus();
+  document.getElementById('edit-bar').classList.add('show');
+  // Highlight la bubble
+  const bubble = document.querySelector('#' + msgId + ' .msg-bubble');
+  if (bubble) bubble.classList.add('editing');
+};
+
+window.cancelEdit = function() {
+  if (editingMsg) {
+    const bubble = document.querySelector('#' + editingMsg.msgId + ' .msg-bubble');
+    if (bubble) bubble.classList.remove('editing');
+  }
+  editingMsg = null;
+  document.getElementById('msg-input').value = '';
+  document.getElementById('edit-bar').classList.remove('show');
+};
+
+// ══ STATUT VU ══
+function markAsSeen(salonId, fbKey) {
+  if (!firebaseOk || !currentUser) return;
+  set(ref(db, 'salons/' + salonId + '/messages/' + fbKey + '/seen/' + currentUser.pseudo), true);
+}
+
+function watchSeen(salonId, fbKey, msgId) {
+  if (!firebaseOk) return;
+  import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js').then(({ onValue }) => {
+    onValue(ref(db, 'salons/' + salonId + '/messages/' + fbKey + '/seen'), snap => {
+      const statusEl = document.getElementById('status-' + msgId);
+      if (!statusEl) return;
+      if (snap.exists()) {
+        const seenBy = Object.keys(snap.val()).filter(p => p !== currentUser?.pseudo);
+        if (seenBy.length > 0) {
+          statusEl.innerHTML = '<span class="status-seen">✓✓ Vu</span>';
+        }
+      }
+    });
+  });
+}
+
+// Marquer les messages comme vus quand on est dans le salon
+function markAllAsSeen(salonId) {
+  if (!firebaseOk || !currentUser) return;
+  import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js').then(({ query, limitToLast, get: fbGet }) => {
+    fbGet(query(ref(db, 'salons/' + salonId + '/messages'), limitToLast(10))).then(snap => {
+      if (!snap.exists()) return;
+      Object.entries(snap.val()).forEach(([key, msg]) => {
+        if (msg.pseudo !== currentUser.pseudo) {
+          markAsSeen(salonId, key);
+        }
+      });
+    });
+  });
+}
+
+// ══ ADMIN STATS & LOGS ══
+window.switchAdminTab = function(tab, el) {
+  document.querySelectorAll('#admin-panel .chat-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const body = document.getElementById('admin-body');
+  body.innerHTML = '<div style="text-align:center;color:var(--muted);padding:20px">Chargement…</div>';
+
+  if (tab === 'stats') loadAdminStats();
+  else if (tab === 'logs') loadAdminLogs();
+  else if (tab === 'reports') loadReports();
+  else if (tab === 'bans') loadBans();
+};
+
+function loadAdminStats() {
+  if (!firebaseOk) return;
+  const body = document.getElementById('admin-body');
+
+  Promise.all([
+    get(ref(db, 'presence')),
+    get(ref(db, 'users')),
+    get(ref(db, 'logs')),
+    get(ref(db, 'groupes-prives'))
+  ]).then(([presSnap, usersSnap, logsSnap, groupesSnap]) => {
+    const online  = presSnap.exists()  ? Object.keys(presSnap.val()).length  : 0;
+    const users   = usersSnap.exists() ? Object.keys(usersSnap.val()).length : 0;
+    const logs    = logsSnap.exists()  ? Object.values(logsSnap.val()) : [];
+    const groupes = groupesSnap.exists() ? Object.keys(groupesSnap.val()).length : 0;
+
+    // Messages aujourd'hui
+    const today = new Date().setHours(0,0,0,0);
+    const msgsToday = logs.filter(l => l.ts > today && l.type === 'message').length;
+
+    body.innerHTML = '<div class="stats-grid">'
+      + '<div class="stat-card"><div class="stat-icon">🟢</div><div class="stat-value">' + online + '</div><div class="stat-label">En ligne maintenant</div></div>'
+      + '<div class="stat-card"><div class="stat-icon">👥</div><div class="stat-value">' + users + '</div><div class="stat-label">Comptes créés</div></div>'
+      + '<div class="stat-card"><div class="stat-icon">💬</div><div class="stat-value">' + msgsToday + '</div><div class="stat-label">Messages aujourd'hui</div></div>'
+      + '<div class="stat-card"><div class="stat-icon">🔒</div><div class="stat-value">' + groupes + '</div><div class="stat-label">Groupes privés</div></div>'
+      + '</div>';
+  });
+}
+
+function loadAdminLogs() {
+  if (!firebaseOk) return;
+  const body = document.getElementById('admin-body');
+  import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js').then(({ query, limitToLast }) => {
+    get(query(ref(db, 'logs'), limitToLast(100))).then(snap => {
+      if (!snap.exists()) { body.innerHTML = '<div style="text-align:center;color:var(--muted);padding:20px">Aucun log</div>'; return; }
+      const logs = Object.values(snap.val()).reverse();
+      body.innerHTML = logs.map(l => {
+        const time = new Date(l.ts).toLocaleString('fr-FR', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' });
+        const icons = { message:'💬', login:'🔑', logout:'👋', join:'➕', create:'✨' };
+        return '<div class="log-item">'
+          + '<span class="log-time">' + time + '</span>'
+          + '<span class="log-text">' + (icons[l.type]||'📌') + ' <strong>' + (l.pseudo||'?') + '</strong> · ' + (l.detail||l.type) + (l.salon ? ' dans <span class="log-salon">#' + l.salon + '</span>' : '') + '</span>'
+          + '</div>';
+      }).join('');
+    });
+  });
+}
+
+function loadBans() {
+  if (!firebaseOk) return;
+  const body = document.getElementById('admin-body');
+  get(ref(db, 'banned')).then(snap => {
+    if (!snap.exists()) { body.innerHTML = '<div style="text-align:center;color:var(--muted);padding:20px">Aucun utilisateur banni 🎉</div>'; return; }
+    body.innerHTML = Object.keys(snap.val()).map(pseudo =>
+      '<div class="banned-item"><span class="banned-name">🚫 ' + pseudo + '</span>'
+      + '<button class="unban-btn" onclick="unbanUser('' + pseudo + '')">Débannir</button></div>'
+    ).join('');
+  });
+}
+
+// Logger les actions importantes
+function logAction(type, detail, salon) {
+  if (!firebaseOk || !currentUser) return;
+  push(ref(db, 'logs'), {
+    pseudo: currentUser.pseudo, type, detail: detail || '',
+    salon: salon || currentSalon, ts: Date.now()
+  });
+}
+
 // ── Event delegation pour les actions messages ──
 document.getElementById('messages').addEventListener('click', function(e) {
   const btn = e.target.closest('button');
@@ -2373,6 +2677,8 @@ document.getElementById('messages').addEventListener('click', function(e) {
     reportMsg(btn.dataset.pseudo, btn.dataset.text);
   } else if (btn.classList.contains('pin-btn')) {
     startPin(btn.dataset.text);
+  } else if (btn.classList.contains('edt-btn')) {
+    startEdit(btn.dataset.msgid, btn.dataset.fbkey, btn.dataset.text);
   }
 });
 
@@ -2475,15 +2781,20 @@ function renderMsg(msg) {
   // Actions hover
   const safeText = (msg.text||'').substring(0,50).replace(/'/g, '&#39;');
   const canDelMsg = isMe || currentUser?.isAdmin;
+  const canDelMsg = isMe || currentUser?.isAdmin;
   const delBtn = canDelMsg
     ? '<button class="msg-action-btn del-btn" data-msgid="' + msgId + '" data-fbkey="' + (msg.fbKey||'') + '" title="Supprimer" style="color:#f87171">🗑️</button>'
     : '<button class="msg-action-btn rep-btn" data-pseudo="' + escHtml(msg.pseudo) + '" data-text="' + safeText + '" title="Signaler" style="color:#fb923c">🚨</button>';
+  const editBtn = isMe && msg.text
+    ? '<button class="msg-action-btn edt-btn" data-msgid="' + msgId + '" data-fbkey="' + (msg.fbKey||'') + '" data-text="' + safeText + '" title="Modifier">✏️</button>'
+    : '';
   const actionsHtml = '<div class="msg-actions">'
     + '<button class="msg-action-btn rea-btn" data-msgid="' + msgId + '" data-emoji="👍" title="Like">👍</button>'
     + '<button class="msg-action-btn rea-btn" data-msgid="' + msgId + '" data-emoji="❤️" title="Amour">❤️</button>'
     + '<button class="msg-action-btn rea-btn" data-msgid="' + msgId + '" data-emoji="😂" title="Haha">😂</button>'
     + '<button class="msg-action-btn rpl-btn" data-pseudo="' + escHtml(msg.pseudo) + '" data-text="' + safeText + '">↩️</button>'
     + delBtn
+    + editBtn
     + '<button class="msg-action-btn pin-btn" data-text="' + safeText + '" title="Épingler">📌</button>'
     + '</div>';
   const authorLabel = isMe
@@ -2501,9 +2812,23 @@ function renderMsg(msg) {
     ${replyHtml}
     ${contentFinal}
     <div class="msg-reactions" id="reactions-${msgId}"></div>
-    <div class="msg-time">${time}</div>`;
+    <div class="msg-time">${time}</div>
+    ${isMe ? '<div class="msg-status" id="status-' + msgId + '"><span>✓ Envoyé</span></div>' : ''}`;
+  // Swipe pour répondre
+  initSwipe(g, msg);
+  // Hint swipe
+  const swipeHint = document.createElement('div');
+  swipeHint.className = 'swipe-hint';
+  swipeHint.textContent = '↩️';
+  g.appendChild(swipeHint);
+
   msgs.appendChild(g);
   msgs.scrollTop = msgs.scrollHeight;
+
+  // Statut vu si mon message
+  if (isMe && msg.fbKey) watchSeen(currentSalon, msg.fbKey, msgId);
+  // Marquer comme vu si message d'un autre
+  if (!isMe && msg.fbKey) markAsSeen(currentSalon, msg.fbKey);
 
   // Tracker les fichiers pour l'historique
   trackFile(currentSalon, msg);
@@ -2654,6 +2979,8 @@ function fileIcon(type) {
 document.querySelectorAll('.modal-overlay').forEach(o => {
   o.addEventListener('click', e => { if (e.target === o) o.classList.remove('show'); });
 });
+
+
 
 // ══ GROUPES PRIVÉS ══
 let currentCode = null;
