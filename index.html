@@ -2781,7 +2781,6 @@ function renderMsg(msg) {
   // Actions hover
   const safeText = (msg.text||'').substring(0,50).replace(/'/g, '&#39;');
   const canDelMsg = isMe || currentUser?.isAdmin;
-  const canDelMsg = isMe || currentUser?.isAdmin;
   const delBtn = canDelMsg
     ? '<button class="msg-action-btn del-btn" data-msgid="' + msgId + '" data-fbkey="' + (msg.fbKey||'') + '" title="Supprimer" style="color:#f87171">🗑️</button>'
     : '<button class="msg-action-btn rep-btn" data-pseudo="' + escHtml(msg.pseudo) + '" data-text="' + safeText + '" title="Signaler" style="color:#fb923c">🚨</button>';
